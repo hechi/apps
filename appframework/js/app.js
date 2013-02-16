@@ -1122,6 +1122,12 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
         if (config == null) {
           config = {};
         }
+        /*
+        			Wrapper to do a normal request to the server. This needs to
+        			be done to hook the publisher into the requests and to handle
+        			requests, that come in before routes have been loaded
+        */
+
         if (!this._initialized) {
           this._shelveRequest(route, routeParams, data, onSuccess, onFailure, config);
           return;
@@ -1167,6 +1173,10 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
         if (config == null) {
           config = {};
         }
+        /*
+        			Request shortcut which sets the method to POST
+        */
+
         config.method = 'POST';
         return this.request(route, routeParams, data, onSuccess, onFailure, config);
       };
@@ -1187,11 +1197,19 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
         if (config == null) {
           config = {};
         }
+        /*
+        			Request shortcut which sets the method to GET
+        */
+
         config.method = 'GET';
         return this.request(route, routeParams, data, onSuccess, onFailure, config);
       };
 
       Request.prototype._shelveRequest = function(route, routeParams, data, onSuccess, onFailure, config) {
+        /*
+        			Saves requests for later if the routes have not been loaded
+        */
+
         var request;
         request = {
           route: route,
@@ -1205,6 +1223,9 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
       };
 
       Request.prototype._executeShelvedRequests = function() {
+        /*
+        */
+
         var r, _i, _len, _ref, _results;
         _ref = this._shelvedRequests;
         _results = [];

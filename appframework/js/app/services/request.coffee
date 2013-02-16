@@ -37,6 +37,11 @@ angular.module('OC').factory '_Request', ->
 
 		request: (route, routeParams={}, data={}, onSuccess=null, 
 			onFailure=null, config={}) ->
+			###
+			Wrapper to do a normal request to the server. This needs to
+			be done to hook the publisher into the requests and to handle
+			requests, that come in before routes have been loaded
+			###
 			# if routes are not ready yet, save the request
 			if not @_initialized
 				@_shelveRequest(route, routeParams, data, onSuccess, onFailure,
@@ -68,18 +73,27 @@ angular.module('OC').factory '_Request', ->
 
 		post: (route, routeParams={}, data={}, onSuccess=null, 
 			onFailure=null, config={}) ->
+			###
+			Request shortcut which sets the method to POST
+			###
 			config.method = 'POST'
 			@request(route, routeParams, data, onSuccess, onFailure, config)
 
 
 		get: (route, routeParams={}, data={}, onSuccess=null, 
 			onFailure=null, config={}) ->
+			###
+			Request shortcut which sets the method to GET
+			###
 			config.method = 'GET'
 			@request(route, routeParams, data, onSuccess, onFailure, config)
 
 
 		_shelveRequest: (route, routeParams, data, onSuccess, onFailure, 
 			config) ->
+			###
+			Saves requests for later if the routes have not been loaded
+			###
 			request =
 				route: route
 				routeParams: routeParams
@@ -92,6 +106,10 @@ angular.module('OC').factory '_Request', ->
 
 
 		_executeShelvedRequests: ->
+			###
+			Run all saved requests that were done before routes were fully
+			loaded
+			###
 			for r in @_shelvedRequests
 				@request(r.route, r.routeParams, r.data, r.onSuccess, 
 					r.onFailure, r.config)
