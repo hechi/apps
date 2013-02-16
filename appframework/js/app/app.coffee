@@ -35,8 +35,8 @@ angular.module('OC', []).config ['$httpProvider', ($httpProvider) ->
 		'application/x-www-form-urlencoded'
 
 	$httpProvider.defaults.transformRequest = (data) ->
-		if angular.isDefined(data)
-			return data
+		if angular.isUndefined(data)
+			return {}
 		else
 			return $.param(data)
 ]

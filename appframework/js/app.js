@@ -43,8 +43,8 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
       $httpProvider.defaults.post['Content-Type'] = 'application/x-www-form-urlencoded';
       $httpProvider.defaults.get['Content-Type'] = 'application/x-www-form-urlencoded';
       return $httpProvider.defaults.transformRequest = function(data) {
-        if (angular.isDefined(data)) {
-          return data;
+        if (angular.isUndefined(data)) {
+          return {};
         } else {
           return $.param(data);
         }
