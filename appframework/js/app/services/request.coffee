@@ -25,21 +25,22 @@ angular.module('OC').factory '_Request', ->
 
 	class Request
 
-		constructor: (@_$http, @_$rootScope, @_publisher, @_router) ->
+		constructor: (@_$http, @_publisher, @_router) ->
 			@_initialized = false
 			@_shelvedRequests = []
 
-			@_$rootScope.$on 'ocRoutesLoaded', =>
-				@_executeShelvedRequests()
+			@_router.registerLoadedCallback =>
 				@_initialized = true
+				@_executeShelvedRequests()
 				@_shelvedRequests = []
 
 
-		request: (route, routeParams={}, data={}, onSuccess=null,
-					onFailure=null, config={}) ->
+		request: (route, routeParams={}, data={}, onSuccess=null, 
+			onFailure=null, config={}) ->
 			# if routes are not ready yet, save the request
 			if not @_initialized
-				@_shelveRequest(route, routeParams, data, method, config)
+				@_shelveRequest(route, routeParams, data, onSuccess, onFailure,
+					config)
 				return
 
 			url = @_router.generate(route, routeParams)
@@ -53,7 +54,7 @@ angular.module('OC').factory '_Request', ->
 
 			@_$http(defaultConfig)
 				.success (data, status, headers, config) =>
-					if onSuccess
+					if onSuccess != null
 						onSuccess(data, status, headers, config)
 
 					# publish data to models
@@ -61,24 +62,27 @@ angular.module('OC').factory '_Request', ->
 						@publisher.publishDataTo(name, value)
 
 				.error (data, status, headers, config) ->
-					if onFailure
+					if onFailure != null
 						onFailure(data, status, headers, config)
 
 
-		_shelveRequest: (route, routeParams, data, method, config) ->
+		_shelveRequest: (route, routeParams, data, onSuccess, onFailure, 
+			config) ->
 			request =
 				route: route
 				routeParams: routeParams
 				data: data
+				onSuccess: onSuccess
+				onFailure: onFailure
 				config: config
-				method: method
 
 			@_shelvedRequests.push(request)
 
 
 		_executeShelvedRequests: ->
-			for req in @_shelvedRequests
-				@post(req.route, req.routeParams, req.data, req.method, req.config)
+			for r in @_shelvedRequests
+				@request(r.route, r.routeParams, r.data, r.onSuccess, 
+					r.onFailure, r.config)
 
 
 

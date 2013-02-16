@@ -24,10 +24,101 @@ describe '_Request', ->
 
 	beforeEach module 'OC'
 
-	beforeEach inject (_Request, $httpBackend) =>
-			@request = _Request
-			@http = $httpBackend
+	beforeEach inject (_Request, $injector, _Publisher) =>
+		@$httpBackend = $injector.get('$httpBackend');
+		@router = 
+			generate: (route, values) ->
+				return 'url'
+			registerLoadedCallback: (callback) ->
+				callback()
+		@publisher = new _Publisher()
+		@request = _Request
+		
 
 
-	it 'test', ->
-		# TBD
+	it 'should not send requests if not initialized', =>
+		http = jasmine.createSpy('http')
+		@router.registerLoadedCallback = ->
+		req = new @request(http, @publisher, @router)
+
+		req.request('route')
+
+		expect(http).not.toHaveBeenCalled()
+
+
+	it 'should send requests if initialized', =>
+		success =
+			success: ->
+				error: ->
+
+		@router.registerLoadedCallback = (callback) ->
+			@callback = callback
+		@router.call = ->
+			@callback()
+
+		http = jasmine.createSpy('http').andReturn(success)
+
+		config =
+			route: 'route'
+			params:
+				test: 'test'
+			data:
+				abc: 'test'
+
+		called =
+			url: 'url'
+			data: config.data
+
+		req = new @request(http, @publisher, @router)
+		req.request(config.route, config.params, config.data)
+
+		@router.call()
+
+		expect(http).toHaveBeenCalledWith(called)
+		expect(http.callCount).toBe(1)
+
+
+	it 'should should call router', =>
+		success =
+			success: ->
+				error: ->
+
+		http = jasmine.createSpy('http').andReturn(success)
+		router = 
+			generate: jasmine.createSpy('router').andReturn('url')
+			registerLoadedCallback: @router.registerLoadedCallback
+
+		config =
+			route: 'route'
+			params:
+				test: 'test'
+
+		req = new @request(http, @publisher, router)
+		req.request(config.route, config.params)
+
+		expect(router.generate).toHaveBeenCalledWith(config.route, config.params)
+
+
+	it 'should should call callbacks', =>
+		error = 
+			error: (callback) ->
+				callback({})
+		success =
+			success: (callback) ->
+				callback({})
+				return error
+
+		http = jasmine.createSpy('http').andReturn(success)
+		onSuccess = jasmine.createSpy('onSucces')
+		onFailure = jasmine.createSpy('onFailure')
+
+		req = new @request(http, @publisher, @router)
+		req.request(null, null, null, onSuccess, onFailure)
+
+		expect(onSuccess).toHaveBeenCalled()
+		expect(onFailure).toHaveBeenCalled()
+
+
+	afterEach =>
+		@$httpBackend.verifyNoOutstandingExpectation();
+		@$httpBackend.verifyNoOutstandingRequest();
