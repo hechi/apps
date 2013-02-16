@@ -48,7 +48,7 @@ module.exports = (grunt) ->
 				' */\n\n' +
 				' /* Generated with Coffee-Script */\n'
 			build: 'build/'
-			production: './'
+			production: 'public/'
 
 		concat:
 			app: 
