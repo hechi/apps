@@ -40,6 +40,8 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
     '$httpProvider', function($httpProvider) {
       $httpProvider.defaults.get['requesttoken'] = oc_requesttoken;
       $httpProvider.defaults.post['requesttoken'] = oc_requesttoken;
+      $httpProvider.defaults.put['requesttoken'] = oc_requesttoken;
+      $httpProvider.defaults["delete"]['requesttoken'] = oc_requesttoken;
       $httpProvider.defaults.post['Content-Type'] = 'application/x-www-form-urlencoded';
       $httpProvider.defaults.get['Content-Type'] = 'application/x-www-form-urlencoded';
       return $httpProvider.defaults.transformRequest = function(data) {
@@ -1224,6 +1226,8 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
       Request.prototype._executeShelvedRequests = function() {
         /*
+        			Run all saved requests that were done before routes were fully
+        			loaded
         */
 
         var r, _i, _len, _ref, _results;
