@@ -181,3 +181,44 @@ describe '_Request', ->
 			{url: defaultConfig.url})
 
 		expect(http).toHaveBeenCalledWith(defaultConfig)
+
+
+	it 'should have a post shortcut', =>
+		success =
+			success: ->
+				error: ->
+
+		http = jasmine.createSpy('http').andReturn(success)
+		req = new @request(http, @publisher, @router)
+
+		defaultConfig =
+			url: 'wonderurl'
+			method: 'POST'
+			data:
+				test: 2
+
+		req.post('test', null, defaultConfig.data, null, null, 
+			{url: defaultConfig.url})
+
+		expect(http).toHaveBeenCalledWith(defaultConfig)
+
+
+
+	it 'should have a get shortcut', =>
+		success =
+			success: ->
+				error: ->
+
+		http = jasmine.createSpy('http').andReturn(success)
+		req = new @request(http, @publisher, @router)
+
+		defaultConfig =
+			url: 'wonderurl'
+			method: 'GET'
+			data:
+				test: 2
+
+		req.get('test', null, defaultConfig.data, null, null, 
+			{url: defaultConfig.url})
+
+		expect(http).toHaveBeenCalledWith(defaultConfig)

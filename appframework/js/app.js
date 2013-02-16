@@ -1151,6 +1151,46 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
         });
       };
 
+      Request.prototype.post = function(route, routeParams, data, onSuccess, onFailure, config) {
+        if (routeParams == null) {
+          routeParams = {};
+        }
+        if (data == null) {
+          data = {};
+        }
+        if (onSuccess == null) {
+          onSuccess = null;
+        }
+        if (onFailure == null) {
+          onFailure = null;
+        }
+        if (config == null) {
+          config = {};
+        }
+        config.method = 'POST';
+        return this.request(route, routeParams, data, onSuccess, onFailure, config);
+      };
+
+      Request.prototype.get = function(route, routeParams, data, onSuccess, onFailure, config) {
+        if (routeParams == null) {
+          routeParams = {};
+        }
+        if (data == null) {
+          data = {};
+        }
+        if (onSuccess == null) {
+          onSuccess = null;
+        }
+        if (onFailure == null) {
+          onFailure = null;
+        }
+        if (config == null) {
+          config = {};
+        }
+        config.method = 'GET';
+        return this.request(route, routeParams, data, onSuccess, onFailure, config);
+      };
+
       Request.prototype._shelveRequest = function(route, routeParams, data, onSuccess, onFailure, config) {
         var request;
         request = {

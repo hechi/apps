@@ -66,6 +66,18 @@ angular.module('OC').factory '_Request', ->
 						onFailure(data, status, headers, config)
 
 
+		post: (route, routeParams={}, data={}, onSuccess=null, 
+			onFailure=null, config={}) ->
+			config.method = 'POST'
+			@request(route, routeParams, data, onSuccess, onFailure, config)
+
+
+		get: (route, routeParams={}, data={}, onSuccess=null, 
+			onFailure=null, config={}) ->
+			config.method = 'GET'
+			@request(route, routeParams, data, onSuccess, onFailure, config)
+
+
 		_shelveRequest: (route, routeParams, data, onSuccess, onFailure, 
 			config) ->
 			request =
