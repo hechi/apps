@@ -1141,7 +1141,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
           _results = [];
           for (name in _ref) {
             value = _ref[name];
-            _results.push(_this.publisher.publishDataTo(name, value));
+            _results.push(_this._publisher.publishDataTo(name, value));
           }
           return _results;
         }).error(function(data, status, headers, config) {

@@ -24,8 +24,7 @@ describe '_Request', ->
 
 	beforeEach module 'OC'
 
-	beforeEach inject (_Request, $injector, _Publisher) =>
-		@$httpBackend = $injector.get('$httpBackend');
+	beforeEach inject (_Request, _Publisher) =>
 		@router = 
 			generate: (route, values) ->
 				return 'url'
@@ -99,7 +98,7 @@ describe '_Request', ->
 		expect(router.generate).toHaveBeenCalledWith(config.route, config.params)
 
 
-	it 'should should call callbacks', =>
+	it 'should call callbacks', =>
 		error = 
 			error: (callback) ->
 				callback({})
@@ -119,6 +118,66 @@ describe '_Request', ->
 		expect(onFailure).toHaveBeenCalled()
 
 
-	afterEach =>
-		@$httpBackend.verifyNoOutstandingExpectation();
-		@$httpBackend.verifyNoOutstandingRequest();
+	it 'should call publisher', =>
+		fromServer = 
+			data: 
+				files: ['data']
+
+		publisher =
+			publishDataTo: jasmine.createSpy('publisher')
+
+		error = 
+			error: (callback) ->
+				callback({})
+		success =
+			success: (callback) ->
+				callback(fromServer)
+				return error
+
+		http = jasmine.createSpy('http').andReturn(success)
+
+		req = new @request(http, publisher, @router)
+		req.request(null)
+
+		expect(publisher.publishDataTo).toHaveBeenCalledWith(
+			'files', 
+			fromServer.data.files
+		)
+
+
+	it 'should use default config', =>
+		success =
+			success: ->
+				error: ->
+
+		http = jasmine.createSpy('http').andReturn(success)
+		req = new @request(http, @publisher, @router)
+
+		defaultConfig =
+			url: 'url'
+			data: 
+				test: 2
+
+		req.request('test', null, defaultConfig.data)
+
+		expect(http).toHaveBeenCalledWith(defaultConfig)
+
+
+
+	it 'should extend default config', =>
+		success =
+			success: ->
+				error: ->
+
+		http = jasmine.createSpy('http').andReturn(success)
+		req = new @request(http, @publisher, @router)
+
+		defaultConfig =
+			url: 'wonderurl'
+			data:
+				test: 2
+
+		req.request('test', null, defaultConfig.data, null, null, 
+			{url: defaultConfig.url})
+
+		expect(http).toHaveBeenCalledWith(defaultConfig)

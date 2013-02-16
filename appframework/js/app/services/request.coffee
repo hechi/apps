@@ -59,7 +59,7 @@ angular.module('OC').factory '_Request', ->
 
 					# publish data to models
 					for name, value of data.data
-						@publisher.publishDataTo(name, value)
+						@_publisher.publishDataTo(name, value)
 
 				.error (data, status, headers, config) ->
 					if onFailure != null
