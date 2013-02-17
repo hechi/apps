@@ -20,13 +20,13 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 ###
 
-describe '_ContainsQuery', ->
+describe '_DoesNotContainQuery', ->
 
 
 	beforeEach module 'OC'
 
-	beforeEach inject (_ContainsQuery, _Model, _Query) =>
-		@query = _ContainsQuery
+	beforeEach inject (_DoesNotContainQuery, _Model, _Query) =>
+		@query = _DoesNotContainQuery
 		@q = _Query
 		@model = _Model
 		data1 = 
@@ -39,7 +39,7 @@ describe '_ContainsQuery', ->
 
 		data3 =
 			id: 2
-			name: 'jack'
+			name: 'jackn'
 		
 		@data = [
 			data1
@@ -53,7 +53,7 @@ describe '_ContainsQuery', ->
 
 
 	it 'should have a correct hash', =>
-		expect(new @query('id', 3).hashCode()).toBe('contains_id_3')
+		expect(new @query('id', 3).hashCode()).toBe('doesnotcontain_id_3')
 
 
 	it 'should return an empty list on empty list', =>
@@ -62,19 +62,19 @@ describe '_ContainsQuery', ->
 
 
 	it 'should query on one', =>
-		query = new @query('name', 'jack')
+		query = new @query('name', 'dono')
 
 		expect(query.exec(@data)).toContain(@data[2])
 
 
 	it 'should return an empty list if no element is matched', =>
-		query = new @query('name', 'dooooo')
+		query = new @query('name', 'n')
 
 		expect(query.exec(@data).length).toBe(0)
 
 
 	it 'should return list with multiple elements if an element is matched', =>
-		query = new @query('name', 'don')
+		query = new @query('name', 'jack')
 
 		expect(query.exec(@data)).toContain(@data[0])
 		expect(query.exec(@data)).toContain(@data[1])
