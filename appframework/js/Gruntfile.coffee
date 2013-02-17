@@ -59,7 +59,7 @@ module.exports = (grunt) ->
 				src: [
 						'<%= meta.build %>app/app.js'
 						'<%= meta.build %>app/directives/*.js'
-						'<%= meta.build %>app/services/*.js'
+						'<%= meta.build %>app/services/**/*.js'
 					]
 				dest: '<%= meta.production %>app.js'
 		wrap:
@@ -88,7 +88,7 @@ module.exports = (grunt) ->
 		coffeelint:
 			app: [
 				'app.coffee'
-				'services/*.coffee'
+				'services/**/*.coffee'
 				'directives/*.coffee'
 			]
 		coffeelintOptions:
