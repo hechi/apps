@@ -21,6 +21,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 ###
 
 
+# Inherit from this baseclass to define your own routes
 angular.module('OC').factory '_Request', ->
 
 	class Request

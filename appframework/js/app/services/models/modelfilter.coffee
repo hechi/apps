@@ -21,7 +21,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 ###
 
 
-# Model which offers basic crud for storing your data
+# Parentclass to inherit from for defining own model filters
 angular.module('OC').factory '_ModelFilter', ['_NotImplementedError',
 (_NotImplementedError) ->
 
