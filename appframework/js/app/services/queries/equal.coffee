@@ -21,27 +21,26 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 ###
 
 
-# A filter for returning a list with elements bigger than equal to the provided 
-# one
-angular.module('OC').factory '_BiggerThanFilter', ['_ModelFilter', 
-(_ModelFilter) ->
+# A query for returning a list with elements equal to the provided one
+angular.module('OC').factory '_EqualQuery', ['_Query', 
+(_Query) ->
 
-	class BiggerThanFilter extends _ModelFilter
+	class EqualQuery extends _Query
 
 		constructor: (@_field, @_value) ->
-			name = 'biggerthan'
+			name = 'equal'
 			super(name, [@_field, @_value])
 
 
 		exec: (data) ->
-			filtered = []
+			equal = []
 			for entry in data
-				if entry[@_field] > @_value
-					filtered.push(entry)
+				if entry[@_field] == @_value
+					equal.push(entry)
 
-			return filtered
+			return equal
 
 
-	return BiggerThanFilter
+	return EqualQuery
 ]
 

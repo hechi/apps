@@ -20,13 +20,13 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 ###
 
-describe '_ModelFilter', ->
+describe '_Query', ->
 
 
 	beforeEach module 'OC'
 
-	beforeEach inject (_ModelFilter, _NotImplementedError) =>
-		@filter = _ModelFilter
+	beforeEach inject (_Query, _NotImplementedError) =>
+		@query = _Query
 		@error = _NotImplementedError
 
 
@@ -38,20 +38,20 @@ describe '_ModelFilter', ->
 			1.3,
 			true
 		]
-		filter = new @filter(name, args)
+		query = new @query(name, args)
 
-		expect(filter.hashCode()).toBe('message_a_1_1.3_true')
+		expect(query.hashCode()).toBe('message_a_1_1.3_true')
 
 
 	it 'should escape underlines of field names to avoid collissions', =>
-		filter = new @filter('message', ['test__a'])
-		expect(filter.hashCode()).toBe('message_test____a')
+		query = new @query('message', ['test__a'])
+		expect(query.hashCode()).toBe('message_test____a')
 
 
 	it 'should throw an error when filtering', =>
 		expect =>
-			new @filter().exec()
-		.toThrow(new @error('Not implemented'))
+			new @query().exec()
+		.toThrow()
 
 
 	it 'should have the same hash for two identical objects', =>
@@ -62,7 +62,7 @@ describe '_ModelFilter', ->
 			1.3,
 			true
 		]
-		filter1 = new @filter(name, args)
-		filter2 = new @filter(name, args)
+		filter1 = new @query(name, args)
+		filter2 = new @query(name, args)
 
 		expect(filter1.hashCode()).toBe(filter2.hashCode())

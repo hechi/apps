@@ -21,26 +21,29 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 ###
 
 
-# A filter for returning a list with elements less than to the provided one
-angular.module('OC').factory '_LessThanFilter', ['_ModelFilter', 
-(_ModelFilter) ->
+# Parentclass to inherit from for defining own model query
+angular.module('OC').factory '_Query', ['_NotImplementedError',
+(_NotImplementedError) ->
 
-	class LessThanFilter extends _ModelFilter
+	class Query
 
-		constructor: (@_field, @_value) ->
-			name = 'lessthan'
-			super(name, [@_field, @_value])
+		constructor: (@_name, @_args=[]) ->
 
 
-		exec: (data) ->
-			filtered = []
-			for entry in data
-				if entry[@_field] < @_value
-					filtered.push(entry)
-
-			return filtered
+		exec: ->
+			throw new _NotImplementedError('Not implemented')
 
 
-	return LessThanFilter
+		hashCode: (filter) ->
+			hash = @_name
+			for arg in @_args
+				if angular.isString(arg)
+					arg = arg.replace(/_/gi, '__')
+				hash += '_' + arg
+
+			return hash
+
+
+	return Query
+
 ]
-

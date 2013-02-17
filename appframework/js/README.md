@@ -18,7 +18,7 @@ If you want to autocompile on change run:
 ## Running unittests
 Unittests are run with the testacular:
 
-	make test
+	make testacular
 
 afterwards the watch command can be run in a new terminal:
 
@@ -39,4 +39,4 @@ To clear the build/ folder run:
 ## Run js unittests
 To run js unittests with the ci server, use 
 
-	make ci
+	make test

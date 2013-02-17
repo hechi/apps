@@ -21,26 +21,28 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 ###
 
 
-# A filter for returning a list with all elements unequal to the provided one
-angular.module('OC').factory '_UnequalFilter', ['_ModelFilter', 
-(_ModelFilter) ->
+# A query for returning the maximum of an array based on the object
+angular.module('OC').factory '_MaximumQuery', ['_Query', 
+(_Query) ->
 
-	class UnequalFilter extends _ModelFilter
+	class MaximumQuery extends _Query
 
-		constructor: (@field, @value) ->
-			name = 'unequal'
-			super(name, [@field, @value])
+		constructor: (@_field) ->
+			name = 'maximum'
+			super(name, [@_field])
 
 
 		exec: (data) ->
-			unequal = []
+			maximum = undefined
 			for entry in data
-				if entry[@field] != @value
-					unequal.push(entry)
+				if angular.isUndefined(maximum) or 
+				entry[@_field] > maximum[@_field]
+					maximum = entry
 
-			return unequal
+			return maximum
 
 
-	return UnequalFilter
+	return MaximumQuery
 ]
+
 

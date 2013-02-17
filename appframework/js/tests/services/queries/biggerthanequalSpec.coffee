@@ -20,14 +20,14 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 ###
 
-describe '_BiggerThanEqualFilter', ->
+describe '_BiggerThanEqualQuery', ->
 
 
 	beforeEach module 'OC'
 
-	beforeEach inject (_BiggerThanEqualFilter, _Model, _ModelFilter) =>
-		@filter = _BiggerThanEqualFilter
-		@modelFilter = _ModelFilter
+	beforeEach inject (_BiggerThanEqualQuery, _Model, _Query) =>
+		@query = _BiggerThanEqualQuery
+		@q = _Query
 		@model = _Model
 		data1 = 
 			id: 3
@@ -49,32 +49,32 @@ describe '_BiggerThanEqualFilter', ->
 
 
 	it 'should be a _ModelFilter subclass', =>
-		expect(new @filter('id', 3) instanceof @modelFilter).toBe(true)
+		expect(new @query('id', 3) instanceof @q).toBe(true)
 
 
 	it 'should have a correct hash', =>
-		expect(new @filter('id', 3).hashCode()).toBe('biggerthanequal_id_3')		
+		expect(new @query('id', 3).hashCode()).toBe('biggerthanequal_id_3')		
 
 
 	it 'should return an empty list on empty list', =>
-		filter = new @filter('id', 3)
-		expect(filter.exec([]).length).toBe(0)
+		query = new @query('id', 3)
+		expect(query.exec([]).length).toBe(0)
 
 
-	it 'should filter on one', =>
-		filter = new @filter('id', 5)
+	it 'should query on one', =>
+		query = new @query('id', 5)
 
-		expect(filter.exec(@data)).toContain(@data[1])
+		expect(query.exec(@data)).toContain(@data[1])
 
 
 	it 'should return an empty list if no element is matched', =>
-		filter = new @filter('id', 6)
+		query = new @query('id', 6)
 
-		expect(filter.exec(@data).length).toBe(0)
+		expect(query.exec(@data).length).toBe(0)
 
 
 	it 'should return list with multiple elements if an element is matched', =>
-		filter = new @filter('id', 3)
+		query = new @query('id', 3)
 
-		expect(filter.exec(@data)).toContain(@data[0])
-		expect(filter.exec(@data)).toContain(@data[1])
+		expect(query.exec(@data)).toContain(@data[0])
+		expect(query.exec(@data)).toContain(@data[1])

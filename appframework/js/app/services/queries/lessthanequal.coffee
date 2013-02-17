@@ -21,29 +21,26 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 ###
 
 
-# Parentclass to inherit from for defining own model filters
-angular.module('OC').factory '_ModelFilter', ['_NotImplementedError',
-(_NotImplementedError) ->
+# A query for returning a list with elements less than equal to the provided one
+angular.module('OC').factory '_LessThanEqualQuery', ['_Query', 
+(_Query) ->
 
-	class ModelFilter
+	class LessThanEqualQuery extends _Query
 
-		constructor: (@_name, @_args=[]) ->
-
-
-		exec: ->
-			throw new _NotImplementedError('Not implemented')
+		constructor: (@_field, @_value) ->
+			name = 'lessthanequal'
+			super(name, [@_field, @_value])
 
 
-		hashCode: (filter) ->
-			hash = @_name
-			for arg in @_args
-				if angular.isString(arg)
-					arg = arg.replace(/_/gi, '__')
-				hash += '_' + arg
+		exec: (data) ->
+			filtered = []
+			for entry in data
+				if entry[@_field] <= @_value
+					filtered.push(entry)
 
-			return hash
+			return filtered
 
 
-	return ModelFilter
-
+	return LessThanEqualQuery
 ]
+

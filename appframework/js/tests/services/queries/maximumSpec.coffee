@@ -20,28 +20,27 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 ###
 
-describe '_MinimumFilter', ->
+describe '_MaximumQuery', ->
 
 
 	beforeEach module 'OC'
 
-	beforeEach inject (_MinimumFilter, _Model, _ModelFilter) =>
-		@filter = _MinimumFilter
-		@modelFilter = _ModelFilter
+	beforeEach inject (_MaximumQuery, _Model, _Query) =>
+		@query = _MaximumQuery
+		@q = _Query
 		@model = _Model
 
 
-	it 'should be a _ModelFilter subclass', =>
-		expect(new @filter('id') instanceof @modelFilter).toBe(true)
-
+	it 'should be a _Query subclass', =>
+		expect(new @query('id') instanceof @q).toBe(true)
 
 	it 'should have a correct hash', =>
-		expect(new @filter('id').hashCode()).toBe('minimum_id')
+		expect(new @query('id').hashCode()).toBe('maximum_id')
 
 
 	it 'should return undefined on empty list', =>
-		filter = new @filter('id')
-		expect(filter.exec([])).toBe(undefined)
+		query = new @query('id')
+		expect(query.exec([])).toBe(undefined)
 
 
 	it 'should return the minimum', =>
@@ -56,10 +55,10 @@ describe '_MinimumFilter', ->
 		
 		data = [
 			data1
+			data3
 			data2
-			data3	
 		]
-		filter = new @filter('id')
+		query = new @query('id')
 
-		expect(filter.exec(data)).toBe(data2)
+		expect(query.exec(data)).toBe(data3)
 

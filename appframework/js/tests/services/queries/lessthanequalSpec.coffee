@@ -20,14 +20,14 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 ###
 
-describe '_UnequalFilter', ->
+describe '_LessThanEqualQuery', ->
 
 
 	beforeEach module 'OC'
 
-	beforeEach inject (_UnequalFilter, _Model, _ModelFilter) =>
-		@filter = _UnequalFilter
-		@modelFilter = _ModelFilter
+	beforeEach inject (_LessThanEqualQuery, _Model, _Query) =>
+		@query = _LessThanEqualQuery
+		@q = _Query
 		@model = _Model
 		data1 = 
 			id: 3
@@ -49,32 +49,32 @@ describe '_UnequalFilter', ->
 
 
 	it 'should be a _ModelFilter subclass', =>
-		expect(new @filter('id', 3) instanceof @modelFilter).toBe(true)
+		expect(new @query('id', 3) instanceof @q).toBe(true)
 
 
 	it 'should have a correct hash', =>
-		expect(new @filter('id', 3).hashCode()).toBe('unequal_id_3')
+		expect(new @query('id', 3).hashCode()).toBe('lessthanequal_id_3')		
 
 
 	it 'should return an empty list on empty list', =>
-		filter = new @filter('id', 3)
-		expect(filter.exec([]).length).toBe(0)
+		query = new @query('id', 3)
+		expect(query.exec([]).length).toBe(0)
 
 
-	it 'should filter on one', =>
-		filter = new @filter('name', 'donovan')
+	it 'should query on one', =>
+		query = new @query('id', 2)
 
-		expect(filter.exec(@data)).toContain(@data[2])
-
-
-	it 'should return a list with all elements if no element is equal', =>
-		filter = new @filter('name', 5)
-
-		expect(filter.exec(@data).length).toBe(3)
+		expect(query.exec(@data)).toContain(@data[2])
 
 
-	it 'should return a list with multiple entries if elements are unequal', =>
-		filter = new @filter('name', 'jack')
+	it 'should return an empty list if no element is matched', =>
+		query = new @query('id', 1)
 
-		expect(filter.exec(@data)).toContain(@data[0])
-		expect(filter.exec(@data)).toContain(@data[1])
+		expect(query.exec(@data).length).toBe(0)
+
+
+	it 'should return list with multiple elements if an element is matched', =>
+		query = new @query('id', 3)
+
+		expect(query.exec(@data)).toContain(@data[0])
+		expect(query.exec(@data)).toContain(@data[2])

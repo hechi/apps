@@ -16,7 +16,7 @@ watch: compile
 	$(coffee) --compile --watch --output $(CURDIR)/build/tests $(CURDIR)/tests/ & \
 	$(grunt) --config $(CURDIR)/Gruntfile.coffee run
 
-test:
+testacular:
 	export CHROME_BIN=$(chrome_bin) && export FIREFOX_BIN=$(firefox_bin) && \
 	$(grunt) --config $(CURDIR)/Gruntfile.coffee testacular
 
@@ -30,7 +30,7 @@ compile:
 	$(coffee) --compile --output $(CURDIR)/build/tests $(CURDIR)/tests/
 	$(grunt) --config $(CURDIR)/Gruntfile.coffee compile
 
-ci: compile
+test: deps compile
 	export PHANTOMJS_BIN=$(phantomjs) && \
 	$(grunt) --config $(CURDIR)/Gruntfile.coffee ci
 

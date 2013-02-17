@@ -103,13 +103,13 @@ angular.module('OC').factory '_Model', ->
 			@_filterCache = {}
 
 
-		get: (filter) ->
+		get: (query) ->
 			###
-			Calls, caches and returns filter results
+			Calls, caches and returns filtered results
 			###
-			hash = filter.hashCode()
+			hash = query.hashCode()
 			if not angular.isDefined(@_filterCache[hash])
-				@_filterCache[hash] = filter.exec(@_data)
+				@_filterCache[hash] = query.exec(@_data)
 			return @_filterCache[hash]
 			
 

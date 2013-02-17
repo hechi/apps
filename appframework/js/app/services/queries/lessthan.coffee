@@ -21,28 +21,26 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 ###
 
 
-# A filter for returning the maximum of an array based on the object
-angular.module('OC').factory '_MaximumFilter', ['_ModelFilter', 
-(_ModelFilter) ->
+# A query for returning a list with elements less than to the provided one
+angular.module('OC').factory '_LessThanQuery', ['_Query', 
+(_Query) ->
 
-	class MaximumFilter extends _ModelFilter
+	class LessThanQuery extends _Query
 
-		constructor: (@_field) ->
-			name = 'maximum'
-			super(name, [@_field])
+		constructor: (@_field, @_value) ->
+			name = 'lessthan'
+			super(name, [@_field, @_value])
 
 
 		exec: (data) ->
-			maximum = undefined
+			filtered = []
 			for entry in data
-				if angular.isUndefined(maximum) or 
-				entry[@_field] > maximum[@_field]
-					maximum = entry
+				if entry[@_field] < @_value
+					filtered.push(entry)
 
-			return maximum
+			return filtered
 
 
-	return MaximumFilter
+	return LessThanQuery
 ]
-
 

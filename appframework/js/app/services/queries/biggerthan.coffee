@@ -21,28 +21,27 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 ###
 
 
-# A filter for returning the minium of an array based on the object
-angular.module('OC').factory '_MinimumFilter', ['_ModelFilter', 
-(_ModelFilter) ->
+# A query for returning a list with elements bigger than equal to the provided 
+# one
+angular.module('OC').factory '_BiggerThanQuery', ['_Query', 
+(_Query) ->
 
-	class MinimumFilter extends _ModelFilter
+	class BiggerThanQuery extends _Query
 
-		constructor: (@_field) ->
-			name = 'minimum'
-			super(name, [@_field])
+		constructor: (@_field, @_value) ->
+			name = 'biggerthan'
+			super(name, [@_field, @_value])
 
 
 		exec: (data) ->
-			minimum = undefined
+			filtered = []
 			for entry in data
-				if angular.isUndefined(minimum) or 
-				entry[@_field] < minimum[@_field]
-					minimum = entry
+				if entry[@_field] > @_value
+					filtered.push(entry)
 
-			return minimum
+			return filtered
 
 
-	return MinimumFilter
+	return BiggerThanQuery
 ]
-
 
