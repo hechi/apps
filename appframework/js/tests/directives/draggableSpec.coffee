@@ -25,7 +25,7 @@ describe 'ocDraggable', ->
 	beforeEach module 'OC'
 
 	beforeEach inject ($rootScope, $compile) =>
-		@options = 
+		@options =
 			revert: true
 
 		optionsString = JSON.stringify(@options).replace(/\"/g, '\'')

@@ -45,7 +45,7 @@ describe '_MinimumQuery', ->
 
 
 	it 'should return the minimum', =>
-		data1 = 
+		data1 =
 			id: 3
 
 		data2 =
@@ -57,7 +57,7 @@ describe '_MinimumQuery', ->
 		data = [
 			data1
 			data2
-			data3	
+			data3
 		]
 		query = new @query('id')
 

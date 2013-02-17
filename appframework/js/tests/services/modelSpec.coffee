@@ -27,12 +27,12 @@ describe '_Model', ->
 	beforeEach inject (_Model) =>
 		@model = new _Model()
 
-		@data1 = 
+		@data1 =
 			id: 1
 			name: 'john'
 			mail: 'john.com'
 
-		@data2 = 
+		@data2 =
 			id: 5
 			name: 'frank'
 			mail: 'frank.de'
@@ -46,7 +46,7 @@ describe '_Model', ->
 
 
 	it 'should add data', =>
-		data3 = 
+		data3 =
 			id: 4
 			name: 'tom'
 			mail: 'tom.ch'
@@ -57,7 +57,7 @@ describe '_Model', ->
 
 
 	it 'should increase size when adding data', =>
-		data3 = 
+		data3 =
 			id: 4
 
 		@model.add(data3)
@@ -66,7 +66,7 @@ describe '_Model', ->
 
 
 	it 'should update the data if add is called with an existing id', =>
-		data3 = 
+		data3 =
 			id: 1
 			name: 'tom'
 			mail: 'tom.ch'
@@ -99,7 +99,7 @@ describe '_Model', ->
 
 
 	it 'should call add when handle is called', =>
-		data = 
+		data =
 			id: 10
 			name: 'bruce'
 

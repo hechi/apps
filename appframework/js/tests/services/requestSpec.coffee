@@ -25,7 +25,7 @@ describe '_Request', ->
 	beforeEach module 'OC'
 
 	beforeEach inject (_Request, _Publisher) =>
-		@router = 
+		@router =
 			generate: (route, values) ->
 				return 'url'
 			registerLoadedCallback: (callback) ->
@@ -83,7 +83,7 @@ describe '_Request', ->
 				error: ->
 
 		http = jasmine.createSpy('http').andReturn(success)
-		router = 
+		router =
 			generate: jasmine.createSpy('router').andReturn('url')
 			registerLoadedCallback: @router.registerLoadedCallback
 
@@ -99,7 +99,7 @@ describe '_Request', ->
 
 
 	it 'should call callbacks', =>
-		error = 
+		error =
 			error: (callback) ->
 				callback({})
 		success =
@@ -119,14 +119,14 @@ describe '_Request', ->
 
 
 	it 'should call publisher', =>
-		fromServer = 
-			data: 
+		fromServer =
+			data:
 				files: ['data']
 
 		publisher =
 			publishDataTo: jasmine.createSpy('publisher')
 
-		error = 
+		error =
 			error: (callback) ->
 				callback({})
 		success =
@@ -140,7 +140,7 @@ describe '_Request', ->
 		req.request(null)
 
 		expect(publisher.publishDataTo).toHaveBeenCalledWith(
-			'files', 
+			'files',
 			fromServer.data.files
 		)
 
@@ -155,7 +155,7 @@ describe '_Request', ->
 
 		defaultConfig =
 			url: 'url'
-			data: 
+			data:
 				test: 2
 
 		req.request('test', null, defaultConfig.data)
@@ -177,7 +177,7 @@ describe '_Request', ->
 			data:
 				test: 2
 
-		req.request('test', null, defaultConfig.data, null, null, 
+		req.request('test', null, defaultConfig.data, null, null,
 			{url: defaultConfig.url})
 
 		expect(http).toHaveBeenCalledWith(defaultConfig)
@@ -197,7 +197,7 @@ describe '_Request', ->
 			data:
 				test: 2
 
-		req.post('test', null, defaultConfig.data, null, null, 
+		req.post('test', null, defaultConfig.data, null, null,
 			{url: defaultConfig.url})
 
 		expect(http).toHaveBeenCalledWith(defaultConfig)
@@ -218,7 +218,7 @@ describe '_Request', ->
 			data:
 				test: 2
 
-		req.get('test', null, defaultConfig.data, null, null, 
+		req.get('test', null, defaultConfig.data, null, null,
 			{url: defaultConfig.url})
 
 		expect(http).toHaveBeenCalledWith(defaultConfig)

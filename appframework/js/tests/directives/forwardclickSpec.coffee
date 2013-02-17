@@ -60,7 +60,7 @@ describe 'ocForwardClick', ->
 
 
 	it 'should forward click to item if selector is given', =>
-		options = 
+		options =
 			selector: '#b'
 		@setOptions(options)
 		@elm.find('#a').trigger('click')

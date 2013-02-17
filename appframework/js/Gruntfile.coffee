@@ -87,9 +87,8 @@ module.exports = (grunt) ->
 
 		coffeelint:
 			app: [
-				'app.coffee'
-				'services/**/*.coffee'
-				'directives/*.coffee'
+				'app/**/*.coffee'
+				'tests/**/*.coffee'
 			]
 		coffeelintOptions:
 			'no_tabs':
@@ -125,9 +124,7 @@ module.exports = (grunt) ->
 			lint: 
 				files: [
 					'app/**/*.coffee'
-					'tests/directives/*.coffee'
-					'tests/services/*.coffee'
-					'tests/filters/*.coffee'
+					'tests/**/*.coffee'
 				]
 				tasks: 'coffeelint'
 			phpunit:
@@ -154,7 +151,7 @@ module.exports = (grunt) ->
 				colors: true
 
 
-	grunt.registerTask('run', ['watch'])
+	grunt.registerTask('run', ['watch:lint', 'watch:concat'])
 	grunt.registerTask('compile', [
 			'concat:app'
 			'wrap'

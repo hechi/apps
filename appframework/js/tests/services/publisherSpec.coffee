@@ -34,7 +34,7 @@ describe '_Publisher', ->
 
 
 	it 'should publish data to subscribed model', =>
-		data = 
+		data =
 			hi: 'test'
 
 		@publisher.subscribeModelTo @modelMock, 'test'
@@ -44,7 +44,7 @@ describe '_Publisher', ->
 			
 
 	it 'should publish not to unsubscribed model', =>
-		data = 
+		data =
 			hi: 'test'
 
 		@publisher.subscribeModelTo @modelMock, 'test1'
@@ -54,11 +54,11 @@ describe '_Publisher', ->
 
 
 	it 'should publish data to multiple subscribed models', =>
-		data = 
+		data =
 			hi: 'test'
-		data2 = 
+		data2 =
 			base: 'john'
-		@modelMock2 = 
+		@modelMock2 =
 			handle: jasmine.createSpy()
 
 		@publisher.subscribeModelTo @modelMock, 'test'

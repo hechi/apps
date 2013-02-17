@@ -22,7 +22,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 
 # A query for returning the maximum of an array based on the object
-angular.module('OC').factory '_MaximumQuery', ['_Query', 
+angular.module('OC').factory '_MaximumQuery', ['_Query',
 (_Query) ->
 
 	class MaximumQuery extends _Query
@@ -35,7 +35,7 @@ angular.module('OC').factory '_MaximumQuery', ['_Query',
 		exec: (data) ->
 			maximum = undefined
 			for entry in data
-				if angular.isUndefined(maximum) or 
+				if angular.isUndefined(maximum) or
 				entry[@_field] > maximum[@_field]
 					maximum = entry
 

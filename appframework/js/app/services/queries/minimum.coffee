@@ -22,7 +22,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 
 # A query for returning the minium of an array based on the object
-angular.module('OC').factory '_MinimumQuery', ['_Query', 
+angular.module('OC').factory '_MinimumQuery', ['_Query',
 (_Query) ->
 
 	class MinimumQuery extends _Query
@@ -35,7 +35,7 @@ angular.module('OC').factory '_MinimumQuery', ['_Query',
 		exec: (data) ->
 			minimum = undefined
 			for entry in data
-				if angular.isUndefined(minimum) or 
+				if angular.isUndefined(minimum) or
 				entry[@_field] < minimum[@_field]
 					minimum = entry
 

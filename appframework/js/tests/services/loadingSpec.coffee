@@ -46,9 +46,9 @@ describe 'Loading', ->
 
 
 	it 'should return false when no loading is happening', =>
-		expect(@loading.isLoading()).toBe(false)		
+		expect(@loading.isLoading()).toBe(false)
 
 
 	it 'should return true when loading is happening', =>
 		@loading.increase()
-		expect(@loading.isLoading()).toBe(true)		
+		expect(@loading.isLoading()).toBe(true)

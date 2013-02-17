@@ -22,7 +22,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 
 # A query for returning a list with elements that contain the search term
-angular.module('OC').factory '_ContainsQuery', ['_Query', 
+angular.module('OC').factory '_ContainsQuery', ['_Query',
 (_Query) ->
 
 	class ContainsQuery extends _Query

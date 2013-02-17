@@ -29,7 +29,7 @@ describe '_DoesNotContainQuery', ->
 		@query = _DoesNotContainQuery
 		@q = _Query
 		@model = _Model
-		data1 = 
+		data1 =
 			name: 3
 			name: 'donovan'
 

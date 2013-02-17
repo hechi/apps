@@ -29,7 +29,7 @@ describe '_BiggerThanEqualQuery', ->
 		@query = _BiggerThanEqualQuery
 		@q = _Query
 		@model = _Model
-		data1 = 
+		data1 =
 			id: 3
 			name: 'donovan'
 
@@ -53,7 +53,7 @@ describe '_BiggerThanEqualQuery', ->
 
 
 	it 'should have a correct hash', =>
-		expect(new @query('id', 3).hashCode()).toBe('biggerthanequal_id_3')		
+		expect(new @query('id', 3).hashCode()).toBe('biggerthanequal_id_3')
 
 
 	it 'should return an empty list on empty list', =>

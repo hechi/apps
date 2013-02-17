@@ -29,7 +29,7 @@ describe '_EqualQuery', ->
 		@query = _EqualQuery
 		@q = _Query
 		@model = _Model
-		data1 = 
+		data1 =
 			id: 3
 			name: 'donovan'
 

@@ -36,7 +36,7 @@ angular.module('OC').factory '_Request', ->
 				@_shelvedRequests = []
 
 
-		request: (route, routeParams={}, data={}, onSuccess=null, 
+		request: (route, routeParams={}, data={}, onSuccess=null,
 			onFailure=null, config={}) ->
 			###
 			Wrapper to do a normal request to the server. This needs to
@@ -72,7 +72,7 @@ angular.module('OC').factory '_Request', ->
 						onFailure(data, status, headers, config)
 
 
-		post: (route, routeParams={}, data={}, onSuccess=null, 
+		post: (route, routeParams={}, data={}, onSuccess=null,
 			onFailure=null, config={}) ->
 			###
 			Request shortcut which sets the method to POST
@@ -81,7 +81,7 @@ angular.module('OC').factory '_Request', ->
 			@request(route, routeParams, data, onSuccess, onFailure, config)
 
 
-		get: (route, routeParams={}, data={}, onSuccess=null, 
+		get: (route, routeParams={}, data={}, onSuccess=null,
 			onFailure=null, config={}) ->
 			###
 			Request shortcut which sets the method to GET
@@ -90,7 +90,7 @@ angular.module('OC').factory '_Request', ->
 			@request(route, routeParams, data, onSuccess, onFailure, config)
 
 
-		_shelveRequest: (route, routeParams, data, onSuccess, onFailure, 
+		_shelveRequest: (route, routeParams, data, onSuccess, onFailure,
 			config) ->
 			###
 			Saves requests for later if the routes have not been loaded
@@ -112,7 +112,7 @@ angular.module('OC').factory '_Request', ->
 			loaded
 			###
 			for r in @_shelvedRequests
-				@request(r.route, r.routeParams, r.data, r.onSuccess, 
+				@request(r.route, r.routeParams, r.data, r.onSuccess,
 					r.onFailure, r.config)
 
 

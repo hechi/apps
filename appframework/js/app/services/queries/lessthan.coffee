@@ -22,7 +22,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 
 # A query for returning a list with elements less than to the provided one
-angular.module('OC').factory '_LessThanQuery', ['_Query', 
+angular.module('OC').factory '_LessThanQuery', ['_Query',
 (_Query) ->
 
 	class LessThanQuery extends _Query

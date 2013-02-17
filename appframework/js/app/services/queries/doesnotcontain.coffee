@@ -23,7 +23,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 # A query for returning a list with elements that does not contain the search
 # term
-angular.module('OC').factory '_DoesNotContainQuery', ['_Query', 
+angular.module('OC').factory '_DoesNotContainQuery', ['_Query',
 (_Query) ->
 
 	class DoesNotContainQuery extends _Query

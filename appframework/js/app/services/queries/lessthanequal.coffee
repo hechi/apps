@@ -22,7 +22,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 
 # A query for returning a list with elements less than equal to the provided one
-angular.module('OC').factory '_LessThanEqualQuery', ['_Query', 
+angular.module('OC').factory '_LessThanEqualQuery', ['_Query',
 (_Query) ->
 
 	class LessThanEqualQuery extends _Query

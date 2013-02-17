@@ -41,7 +41,7 @@ describe 'ocClickSlideToggle', ->
 			optionsString = ""
 
 		elm = '<div>' +
-				'<div style="display: none;" id="a" ' + 
+				'<div style="display: none;" id="a" ' +
 				'oc-click-slide-toggle="' + optionsString + '"></div>' +
 				'<div style="display: none;" id="b"></div>' +
 				'<div style="display: none;" id="c"></div>' +
@@ -72,7 +72,7 @@ describe 'ocClickSlideToggle', ->
 
 	xit 'should slide up other element if selector is passed', =>
 		# FIXME: run async
-		options = 
+		options =
 			selector: '#b'
 
 		@setOptions(options)
@@ -86,7 +86,7 @@ describe 'ocClickSlideToggle', ->
 
 	xit 'should hide div when other div was clicked', =>
 		# FIXME: run async
-		options = 
+		options =
 			selector: '#b'
 			callback: =>
 				@elm.find('#c').trigger 'click'
@@ -107,13 +107,13 @@ describe 'ocClickSlideToggle', ->
 			else
 				called += 1
 
-		options = 
+		options =
 			selector: '#b'
 			callback: =>
 				callback()
 		@setOptions(options)
 
-		options = 
+		options =
 			selector: '#c'
 			callback: =>
 				callback()

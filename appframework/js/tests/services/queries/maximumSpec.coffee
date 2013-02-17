@@ -44,7 +44,7 @@ describe '_MaximumQuery', ->
 
 
 	it 'should return the minimum', =>
-		data1 = 
+		data1 =
 			id: 3
 
 		data2 =
