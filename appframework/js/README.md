@@ -2,10 +2,6 @@
 
 You'll need node.js version > 0.8
 
-To install the dependencies simply run:
-
-    make deps
-    
 ## Compile coffeescript
 To compile the coffeescript run:
 

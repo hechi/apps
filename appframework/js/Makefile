@@ -16,14 +16,14 @@ watch: compile
 	$(coffee) --compile --watch --output $(CURDIR)/build/tests $(CURDIR)/tests/ & \
 	$(grunt) --config $(CURDIR)/Gruntfile.coffee run
 
-testacular:
+testacular: deps
 	export CHROME_BIN=$(chrome_bin) && export FIREFOX_BIN=$(firefox_bin) && \
 	$(grunt) --config $(CURDIR)/Gruntfile.coffee testacular
 
 phpunit:
 	$(grunt) --config $(CURDIR)/Gruntfile.coffee testphp	
 
-compile:
+compile: deps
 	mkdir -p $(CURDIR)/build/app
 	mkdir -p $(CURDIR)/build/tests
 	$(coffee) --compile --output $(CURDIR)/build/app $(CURDIR)/app/
