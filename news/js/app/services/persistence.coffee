@@ -33,37 +33,29 @@ angular.module('News').factory '_Persistence', ->
 			###
 			Loads the initial data from the server
 			###
-			@_initReqCount = 0
 			@_loading.increase()
 
-			# items can only be loaded after the all feeds and the active
-			# feed is known
-			loadItems: =>
-				if @_initReqCount >= 2
-					
-					data =
-						limit: @_config.itemBatchSize
-						type: @_activeFeed.getType()
-						id: @_activeFeed.getId()
+			# items can only be loaded after the active feed is known
+			loadItems = =>
+				data =
+					limit: @_config.itemBatchSize
+					type: @_activeFeed.getType()
+					id: @_activeFeed.getId()
 
-					@_request.get 'news_items', {}, data, =>
-						@_loading.decrease()
+				@_request.get 'news_items', {}, data, =>
+					@_loading.decrease()
 
-				else
-					# hide or make feeds and folders visible based on their
-					# unread count
-					@_$rootScope.$broadcast('triggerHideRead')
-					@_initReqCount += 1
+			@_request.get('news_feeds_active', {}, {}, loadItems)
 
-			# feeds can only be loaded once all folders are known
-			loadFeeds = =>
-				@_request.get('news_feeds_active', {}, {}, loadItems)
-				@_request.get('news_feeds', {}, {}, loadItems)
-			
+			@_request.get 'news_folders', {}, {}, =>
+				@_$rootScope.$broadcast('triggerHideRead')
+
+			@_request.get 'news_feeds', {}, {}, =>
+				@_$rootScope.$broadcast('triggerHideRead')
+
 			@_request.get('news_settings_read')
 			@_request.get('news_items_starred')
-			@_request.get('news_folders', {}, {}, loadFeeds)
-
+			
 
 
 	return Persistence

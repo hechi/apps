@@ -473,35 +473,29 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
         			Loads the initial data from the server
         */
 
-        var loadFeeds,
+        var loadItems,
           _this = this;
-        this._initReqCount = 0;
         this._loading.increase();
-        ({
-          loadItems: function() {
-            var data;
-            if (_this._initReqCount >= 2) {
-              data = {
-                limit: _this._config.itemBatchSize,
-                type: _this._activeFeed.getType(),
-                id: _this._activeFeed.getId()
-              };
-              return _this._request.get('news_items', {}, data, function() {
-                return _this._loading.decrease();
-              });
-            } else {
-              _this._$rootScope.$broadcast('triggerHideRead');
-              return _this._initReqCount += 1;
-            }
-          }
-        });
-        loadFeeds = function() {
-          _this._request.get('news_feeds_active', {}, {}, loadItems);
-          return _this._request.get('news_feeds', {}, {}, loadItems);
+        loadItems = function() {
+          var data;
+          data = {
+            limit: _this._config.itemBatchSize,
+            type: _this._activeFeed.getType(),
+            id: _this._activeFeed.getId()
+          };
+          return _this._request.get('news_items', {}, data, function() {
+            return _this._loading.decrease();
+          });
         };
+        this._request.get('news_feeds_active', {}, {}, loadItems);
+        this._request.get('news_folders', {}, {}, function() {
+          return _this._$rootScope.$broadcast('triggerHideRead');
+        });
+        this._request.get('news_feeds', {}, {}, function() {
+          return _this._$rootScope.$broadcast('triggerHideRead');
+        });
         this._request.get('news_settings_read');
-        this._request.get('news_items_starred');
-        return this._request.get('news_folders', {}, {}, loadFeeds);
+        return this._request.get('news_items_starred');
       };
 
       return Persistence;

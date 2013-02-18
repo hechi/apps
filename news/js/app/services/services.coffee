@@ -28,7 +28,7 @@ angular.module('News').factory 'Persistence', ['_Persistence', 'Request',
 	return new _Persistence(Request, Loading, Config, ActiveFeed, $rootScope)
 ]
 
-angular.module('News').factory 'Request', 
+angular.module('News').factory 'Request',
 ['_Request', '$http', 'Publisher', 'Router',
 (_Request, $http, Publisher, Router) ->
 	return new _Request($http, Publisher, Router)
