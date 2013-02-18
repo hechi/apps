@@ -567,9 +567,9 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
     }
   ]);
 
-  angular.module('News').factory('ItemModel', [
-    '_ItemModel', function(_ItemModel) {
-      return new _ItemModel();
+  angular.module('News').factory('FeedModel', [
+    '_FeedModel', function(_FeedModel) {
+      return new _FeedModel();
     }
   ]);
 
