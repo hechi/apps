@@ -19,9 +19,5 @@
  *
  */
 
-
-/**
- * Contains all modules that we are going to use
- */
-
-angular.module('News', ['OC']);
+// module definition for testing
+angular.module('News', ['OC', 'ngMock']);
