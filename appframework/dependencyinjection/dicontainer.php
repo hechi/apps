@@ -129,6 +129,8 @@ class DIContainer extends \Pimple {
 					'autoescape' => true
 				));
 			}
+			$twig->addFunction($c['TwigAddScript']);
+			$twig->addFunction($c['TwigAddStyle']);
 			$twig->addFunction($c['TwigL10N']);
 			$twig->addFunction($c['TwigLinkToRoute']);
 			$twig->addFunction($c['TwigLinkToAbsoluteRoute']);
