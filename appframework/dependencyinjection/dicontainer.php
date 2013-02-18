@@ -91,7 +91,7 @@ class DIContainer extends \Pimple {
 		$this['TwigAddScript'] = $this->share(function($c){
 			$api = $c['API'];
 			return new \Twig_SimpleFunction('script', function () use ($api) {
-				return call_user_func_array(array($api, 'addScript'), func_get_args());
+				call_user_func_array(array($api, 'addScript'), func_get_args());
 			});
 		});
 
@@ -99,7 +99,7 @@ class DIContainer extends \Pimple {
 		$this['TwigAddStyle'] = $this->share(function($c){
 			$api = $c['API'];
 			return new \Twig_SimpleFunction('style', function () use ($api) {
-				return call_user_func_array(array($api, 'addStyle'), func_get_args());
+				call_user_func_array(array($api, 'addStyle'), func_get_args());
 			});
 		});
 
