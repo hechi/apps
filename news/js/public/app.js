@@ -568,8 +568,8 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
   ]);
 
   angular.module('News').factory('FeedModel', [
-    '_FeedModel', function(_FeedModel) {
-      return new _FeedModel();
+    '_FeedModel', 'Utils', function(_FeedModel, Utils) {
+      return new _FeedModel(Utils);
     }
   ]);
 

@@ -48,8 +48,9 @@ angular.module('News').factory 'StarredCount', ['_StarredCount',
 	return new _StarredCount()
 ]
 
-angular.module('News').factory 'FeedModel', ['_FeedModel', (_FeedModel) ->
-	return new _FeedModel()
+angular.module('News').factory 'FeedModel', ['_FeedModel', 'Utils',
+(_FeedModel, Utils) ->
+	return new _FeedModel(Utils)
 ]
 
 angular.module('News').factory 'FolderModel', ['_FolderModel', (_FolderModel) ->
