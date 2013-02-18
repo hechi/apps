@@ -36,7 +36,7 @@ angular.module('News').factory '_Persistence', ->
 			@_loading.increase()
 
 			# items can only be loaded after the active feed is known
-			loadItems = =>
+			@_request.get 'news_feeds_active', {}, {}, =>
 				data =
 					limit: @_config.itemBatchSize
 					type: @_activeFeed.getType()
@@ -45,7 +45,7 @@ angular.module('News').factory '_Persistence', ->
 				@_request.get 'news_items', {}, data, =>
 					@_loading.decrease()
 
-			@_request.get('news_feeds_active', {}, {}, loadItems)
+			
 			@_request.get('news_folders', {}, {}, @triggerHideRead)
 			@_request.get('news_feeds', {}, {}, @triggerHideRead)
 			@_request.get('news_settings_read', @triggerHideRead)

@@ -473,10 +473,9 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
         			Loads the initial data from the server
         */
 
-        var loadItems,
-          _this = this;
+        var _this = this;
         this._loading.increase();
-        loadItems = function() {
+        this._request.get('news_feeds_active', {}, {}, function() {
           var data;
           data = {
             limit: _this._config.itemBatchSize,
@@ -486,8 +485,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
           return _this._request.get('news_items', {}, data, function() {
             return _this._loading.decrease();
           });
-        };
-        this._request.get('news_feeds_active', {}, {}, loadItems);
+        });
         this._request.get('news_folders', {}, {}, this.triggerHideRead);
         this._request.get('news_feeds', {}, {}, this.triggerHideRead);
         this._request.get('news_settings_read', this.triggerHideRead);
