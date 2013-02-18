@@ -56,7 +56,7 @@ angular.module('News').factory '_Persistence', ['_Request', (_Request) ->
 
 			# feeds can only be loaded once all folders are known
 			loadFeeds = =>
-				@_request.get('news_feeds_active', loadItems)
+				@_request.get('news_feeds_active', {}, {}, loadItems)
 				@_request.get('news_feeds', {}, {}, loadItems)
 			
 			@_request.get('news_settings_read')

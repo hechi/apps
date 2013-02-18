@@ -496,7 +496,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
             }
           });
           loadFeeds = function() {
-            _this._request.get('news_feeds_active', loadItems);
+            _this._request.get('news_feeds_active', {}, {}, loadItems);
             return _this._request.get('news_feeds', {}, {}, loadItems);
           };
           this._request.get('news_settings_read');
