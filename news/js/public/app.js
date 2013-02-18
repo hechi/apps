@@ -486,10 +486,10 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
             return _this._loading.decrease();
           });
         });
-        this._request.get('news_folders', {}, {}, this.triggerHideRead);
-        this._request.get('news_feeds', {}, {}, this.triggerHideRead);
-        this._request.get('news_settings_read', this.triggerHideRead);
-        return this._request.get('news_items_starred', this.triggerHideRead);
+        this._request.get('news_folders', {}, {}, this._triggerHideRead);
+        this._request.get('news_feeds', {}, {}, this._triggerHideRead);
+        this._request.get('news_settings_read', this._triggerHideRead);
+        return this._request.get('news_items_starred', this._triggerHideRead);
       };
 
       Persistence.prototype._trigerHideRead = function() {
