@@ -1,3 +1,20 @@
+<? /*
+Twig includes
+
+{{ script('vendor/angular-1.0.4/angular') }}
+{{ script('vendor/angular-ui-0.3.2/angular-ui') }}
+{{ script('vendor/momentjs-2.0.0/moment') }}
+{{ script('multiselect', 'core') }}
+{{ script('public/app', 'appframework') }}
+{{ script('public/app') }}
+
+{{ style('addnew') }}
+{{ style('feeds') }}
+{{ style('items') }}
+{{ style('settings') }}
+{{ style('showall') }}
+*/
+
 <div id="app" ng-app="News">
 	<div id="left-content" ng-controller="FeedController">
 

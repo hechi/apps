@@ -36,6 +36,7 @@ files = [
 	'vendor/angular-1.0.4/angular.js',
 	'vendor/angular-1.0.4/angular-mocks.js',
 	'vendor/angular-ui-0.3.2/angular-ui-0.3.2.js',
+	'../../appframework/js/public/app.js',
 	'tests/common/modules.js',
 	'build/app/directives/*.js',
 	'build/app/filters/*.js',

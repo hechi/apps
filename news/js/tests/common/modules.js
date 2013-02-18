@@ -24,4 +24,4 @@
  * Contains all modules that we are going to use
  */
 
-angular.module('News', ['ngMock']);
+angular.module('News', ['OC']);
