@@ -23,7 +23,6 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 module.exports = (grunt) ->
 	
-	grunt.loadNpmTasks('grunt-contrib-coffee')
 	grunt.loadNpmTasks('grunt-contrib-concat')
 	grunt.loadNpmTasks('grunt-contrib-watch')
 	grunt.loadNpmTasks('grunt-coffeelint')
@@ -70,20 +69,6 @@ module.exports = (grunt) ->
 					'(function(angular, $){\n\n'
 					'\n})(window.angular, jQuery);'
 				]
-
-		coffee: 
-			app:
-				expand: true
-				cwd: 'app/'
-				src: ['**/*.coffee']
-				dest: '<%= meta.build %>app/'
-				ext: '.js'
-			unit:
-				expand: true
-				cwd: 'tests/'
-				src: ['**/*.coffee']
-				dest: '<%= meta.build %>tests/'
-				ext: '.js'				
 
 		coffeelint:
 			app: [
