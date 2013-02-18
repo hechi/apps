@@ -44,6 +44,7 @@ phpunit:
 compile: deps
 	mkdir -p $(CURDIR)/build/app
 	mkdir -p $(CURDIR)/build/tests
+	mkdir -p $(CURDIR)/public
 	$(coffee) --compile --output $(CURDIR)/build/app $(CURDIR)/app/
 	$(coffee) --compile --output $(CURDIR)/build/tests $(CURDIR)/tests/
 	$(grunt) --config $(CURDIR)/Gruntfile.coffee compile
