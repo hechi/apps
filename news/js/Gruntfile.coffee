@@ -45,8 +45,7 @@ module.exports = (grunt) ->
 				' * This file is licensed under the Affero General Public License version 3 or later.\n' +
 				' * See the COPYING-README file\n' +
 				' *\n' + 
-				' */\n\n' +
-				' /* Generated with Coffee-Script */\n'
+				' */\n\n'
 			build: 'build/'
 			production: 'public/'
 
