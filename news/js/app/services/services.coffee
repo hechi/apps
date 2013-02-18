@@ -21,6 +21,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 ###
 
 
+# request related stuff
 angular.module('News').factory 'Persistence', ['_Persistence', 'Request',
 (_Persistence, Request) ->
 	return new _Persistence(Request)
@@ -41,7 +42,8 @@ angular.module('News').factory 'ShowAll', ['_ShowAll', (_ShowAll) ->
 	return new _ShowAll()
 ]
 
-angular.module('News').factory 'StarredCount', ['_StarredCount', (_StarredCount) ->
+angular.module('News').factory 'StarredCount', ['_StarredCount',
+(_StarredCount) ->
 	return new _StarredCount()
 ]
 
@@ -58,10 +60,10 @@ angular.module('News').factory 'ItemModel', ['_ItemModel', (_ItemModel) ->
 ]
 
 
-angular.module('News').factory 'Publisher', 
-['_Publisher', 'ActiveFeed', 'ShowAll', 'StarredCount', 'ItemModel', 
+angular.module('News').factory 'Publisher',
+['_Publisher', 'ActiveFeed', 'ShowAll', 'StarredCount', 'ItemModel',
 'FolderModel', 'FeedModel',
-(_Publisher, ActiveFeed, ShowAll, StarredCount, ItemModel, 
+(_Publisher, ActiveFeed, ShowAll, StarredCount, ItemModel,
 FolderModel, FeedModel) ->
 
 	# register items at publisher to automatically add incoming items
@@ -75,3 +77,10 @@ FolderModel, FeedModel) ->
 
 	return publisher
 ]
+
+
+# other classes
+angular.module('News').factory 'OPMLParser', ['_OPMLParser', (_OPMLParser) ->
+	return new _OPMLParser()
+]
+

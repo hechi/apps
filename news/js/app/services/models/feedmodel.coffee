@@ -36,5 +36,5 @@ angular.module('News').factory '_FeedModel', ['_Model', (_Model) ->
 
 
 
-	return FeedModel 
+	return FeedModel
 ]

@@ -100,22 +100,6 @@ module.exports = (grunt) ->
 				'level': 'warn'
 
 		watch: 
-			## Use later when watch can finally update single files
-			#app: 
-			#	files: [
-			#		'app/**/*.coffee'
-			#		'tests/directives/*.coffee'
-			#		'tests/services/*.coffee'
-			#		'tests/controllers/*.coffee'
-			#		'tests/filters/*.coffee'
-			#	]
-			#	tasks: 'compile'
-			#testacular:
-			#	files: [
-			#		'<%= meta.build %>app/**/*.js'
-			#		'<%= meta.build %>tests/**/*.js'
-			#	]
-			#	tasks: ['testacular:unit:run', 'concat']
 			concat:
 				files: [
 					'<%= meta.build %>app/**/*.js'
@@ -126,7 +110,6 @@ module.exports = (grunt) ->
 				files: '../**/*.php'
 				tasks: 'phpunit'
 
-		
 		testacular: 
 			unit: 
 				configFile: 'config/testacular.conf.js'
@@ -137,7 +120,6 @@ module.exports = (grunt) ->
 				reporters: ['progress', 'junit']
 				junitReporter:
 					outputFile: 'test-results.xml'
-
 
 		phpunit:
 			classes:
