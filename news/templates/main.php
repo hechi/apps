@@ -13,7 +13,7 @@ Twig includes
 {{ style('items') }}
 {{ style('settings') }}
 {{ style('showall') }}
-*/
+*/?>
 
 <div id="app" ng-app="News">
 	<div id="left-content" ng-controller="FeedController">
@@ -31,7 +31,7 @@ Twig includes
 			<div id="app-settings-header">
 				<button name="app settings" 
 						class="settings-button"
-						click-slide-toggle="{
+						oc-click-slide-toggle="{
 							selector: '#app-settings-content',
 							hideOnFocusLost: true
 						}"></button>
