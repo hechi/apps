@@ -1,13 +1,13 @@
 {
-	"name": "owncloud-appframework",
-	"description": "ownCloud App Framework",
+	"name": "owncloud-news",
+	"description": "ownCloud News App",
 	"version": "0.0.1",
 	"author": {
 		"name": "Bernhard Posselt",
 		"email": "nukeawhale@gmail.com"
 	},
 	"private": true,
-	"homepage": "https://github.com/owncloud/apps/tree/appframework-js/appframework/",
+	"homepage": "https://github.com/owncloud/apps/tree/news/",
 	"repository": {
 		"type": "git",
 		"url": "git@github.com:owncloud/apps.git"
