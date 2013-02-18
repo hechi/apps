@@ -483,7 +483,6 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
               if (_this._initReqCount >= 2) {
                 data = {
                   limit: _this._config.itemBatchSize,
-                  offset: 0,
                   type: _this._activeFeed.getType(),
                   id: _this._activeFeed.getId()
                 };

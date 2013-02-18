@@ -42,7 +42,6 @@ angular.module('News').factory '_Persistence', ['_Request', (_Request) ->
 					
 					data =
 						limit: @_config.itemBatchSize
-						offset: 0
 						type: @_activeFeed.getType()
 						id: @_activeFeed.getId()
 
