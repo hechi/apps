@@ -197,9 +197,17 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
         __extends(FeedModel, _super);
 
-        function FeedModel() {
-          return FeedModel.__super__.constructor.apply(this, arguments);
+        function FeedModel(_utils) {
+          this._utils = _utils;
+          FeedModel.__super__.constructor.call(this);
         }
+
+        FeedModel.prototype.add = function(item) {
+          if (item.icon === 'url()') {
+            item.icon = 'url(' + this._utils.imagePath('news', 'rss.svg') + ')';
+          }
+          return FeedModel.__super__.add.call(this, item);
+        };
 
         return FeedModel;
 
@@ -530,13 +538,34 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
     }
   ]);
 
+  angular.module('News').factory('ItemModel', [
+    '_ItemModel', function(_ItemModel) {
+      return new _ItemModel();
+    }
+  ]);
+
+  angular.module('News').factory('FolderModel', [
+    '_FolderModel', function(_FolderModel) {
+      return new _FolderModel();
+    }
+  ]);
+
+  angular.module('News').factory('ItemModel', [
+    '_ItemModel', function(_ItemModel) {
+      return new _ItemModel();
+    }
+  ]);
+
   angular.module('News').factory('Publisher', [
-    '_Publisher', 'ActiveFeed', 'ShowAll', 'StarredCount', function(_Publisher, ActiveFeed, ShowAll, StarredCount) {
+    '_Publisher', 'ActiveFeed', 'ShowAll', 'StarredCount', 'ItemModel', 'FolderModel', 'FeedModel', function(_Publisher, ActiveFeed, ShowAll, StarredCount, ItemModel, FolderModel, FeedModel) {
       var publisher;
       publisher = new _Publisher();
       Publisher.subsribeModelTo(ActiveFeed, 'activeFeed');
       Publisher.subsribeModelTo(ShowAll, 'showAll');
       Publisher.subsribeModelTo(StarredCount, 'starredCount');
+      Publisher.subsribeModelTo(FolderModel, 'folders');
+      Publisher.subsribeModelTo(FeedModel, 'feeds');
+      Publisher.subsribeModelTo(ItemModel, 'items');
       return publisher;
     }
   ]);

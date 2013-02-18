@@ -20,9 +20,21 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 ###
 
+
 angular.module('News').factory '_FeedModel', ['_Model', (_Model) ->
 
 	class FeedModel extends _Model
 
-	return FeedModel
+		constructor: (@_utils) ->
+			super()
+
+
+		add: (item) ->
+			if item.icon == 'url()'
+				item.icon = 'url(' + @_utils.imagePath('news', 'rss.svg') + ')'
+			super(item)
+
+
+
+	return FeedModel 
 ]

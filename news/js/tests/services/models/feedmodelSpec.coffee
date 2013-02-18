@@ -20,6 +20,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 ###
 
+
 describe '_FeedModel', ->
 
 
@@ -30,3 +31,16 @@ describe '_FeedModel', ->
 
 	it 'should extend model', =>
 		expect(new @_FeedModel instanceof @_Model).toBeTruthy()
+
+
+	it 'should bind an imagepath to the item if the url is empty', =>
+		item =
+			id: 3
+			icon: 'url()'
+		utils =
+			imagePath: jasmine.createSpy('utils')
+
+		model = new @_FeedModel(utils)
+		model.add(item)
+
+		expect(utils.imagePath).toHaveBeenCalledWith('news', 'rss.svg')
