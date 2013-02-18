@@ -62,7 +62,7 @@ angular.module('News').factory '_OPMLParser', ->
 			structure = new Folder('root')
 			@_recursivelyParse($root, structure)
 			return structure
-		
+
 		_recursivelyParse: ($xml, structure) ->
 			for outline in $xml.children('outline')
 				$outline = $(outline)

@@ -26,11 +26,36 @@ angular.module('News').factory 'Persistence', ['_Persistence', 'Request',
 	return new _Persistence(Request)
 ]
 
+
 angular.module('News').factory 'Request', ['$http', 'Publisher', 'Router',
 ($http, Publisher, Router) ->
 	return new Request($http, Publisher, Router)
 ]
 
-angular.module('News').factory 'Publisher', ['_Publisher', (_Publisher) ->
-	return new _Publisher()
+
+angular.module('News').factory 'ActiveFeed', ['_ActiveFeed', (_ActiveFeed) ->
+	return new _ActiveFeed()
+]
+
+
+angular.module('News').factory 'ShowAll', ['_ShowAll', (_ShowAll) ->
+	return new _ShowAll()
+]
+
+
+angular.module('News').factory 'StarredCount', ['_StarredCount', (_StarredCount) ->
+	return new _StarredCount()
+]
+
+
+angular.module('News').factory 'Publisher', 
+['_Publisher', 'ActiveFeed', 'ShowAll', 'StarredCount',
+(_Publisher, ActiveFeed, ShowAll, StarredCount) ->
+
+	publisher = new _Publisher()
+	Publisher.subsribeModelTo(ActiveFeed, 'activeFeed')
+	Publisher.subsribeModelTo(ShowAll, 'showAll')
+	Publisher.subsribeModelTo(StarredCount, 'starredCount')
+
+	return publisher
 ]
