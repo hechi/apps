@@ -24,8 +24,8 @@ angular.module('News').factory '_Persistence', ['_Request', (_Request) ->
 	
 	class Persistence
 
-		constructor: (@_request, @_loading, @_config, @_$rootScope,
-						@_activeFeed) ->
+		constructor: (@_request, @_loading, @_config, @_activeFeed,
+						@_$rootScope) ->
 
 
 		init: ->

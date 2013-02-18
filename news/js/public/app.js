@@ -460,12 +460,12 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
       var Persistence;
       Persistence = (function() {
 
-        function Persistence(_request, _loading, _config, _$rootScope, _activeFeed) {
+        function Persistence(_request, _loading, _config, _activeFeed, _$rootScope) {
           this._request = _request;
           this._loading = _loading;
           this._config = _config;
-          this._$rootScope = _$rootScope;
           this._activeFeed = _activeFeed;
+          this._$rootScope = _$rootScope;
         }
 
         Persistence.prototype.init = function() {
@@ -541,8 +541,8 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 (function() {
 
   angular.module('News').factory('Persistence', [
-    '_Persistence', 'Request', 'Loading', 'Config', '$rootScope', 'ActiveFeed', function(_Persistence, Request, Loading, Config, $rootScope, ActiveFeed) {
-      return new _Persistence(Request, Loading, Config, $rootScope, ActiveFeed);
+    '_Persistence', 'Request', 'Loading', 'Config', '$rootScope', 'ActiveFeed', function(_Persistence, Request, Loading, Config, ActiveFeed, $rootScope) {
+      return new _Persistence(Request, Loading, Config, ActiveFeed, $rootScope);
     }
   ]);
 
