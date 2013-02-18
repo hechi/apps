@@ -22,23 +22,17 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 
 angular.module('OC', []).config ['$httpProvider', ($httpProvider) ->
-
 	# Always send the CSRF token by default
-	$httpProvider.defaults.get['requesttoken'] = oc_requesttoken
-	$httpProvider.defaults.post['requesttoken'] = oc_requesttoken
-	$httpProvider.defaults.put['requesttoken'] = oc_requesttoken
-	$httpProvider.defaults.delete['requesttoken'] = oc_requesttoken
+	$httpProvider.defaults.headers.common['requesttoken'] = oc_requesttoken
 	
 	# needed because crap PHP does not understand JSON
-	$httpProvider.defaults.post['Content-Type'] =
-		'application/x-www-form-urlencoded'
-		
-	$httpProvider.defaults.get['Content-Type'] =
+	$httpProvider.defaults.headers.common['Content-Type'] =
 		'application/x-www-form-urlencoded'
 
 	$httpProvider.defaults.transformRequest = (data) ->
 		if angular.isUndefined(data)
-			return {}
+			return data
 		else
 			return $.param(data)
+
 ]

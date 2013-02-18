@@ -1,5 +1,3 @@
-(function(angular, $, OC, oc_requesttoken){
-
 /**
  * ownCloud App Framework - v0.0.1
  *
@@ -40,15 +38,11 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
   angular.module('OC', []).config([
     '$httpProvider', function($httpProvider) {
-      $httpProvider.defaults.get['requesttoken'] = oc_requesttoken;
-      $httpProvider.defaults.post['requesttoken'] = oc_requesttoken;
-      $httpProvider.defaults.put['requesttoken'] = oc_requesttoken;
-      $httpProvider.defaults["delete"]['requesttoken'] = oc_requesttoken;
-      $httpProvider.defaults.post['Content-Type'] = 'application/x-www-form-urlencoded';
-      $httpProvider.defaults.get['Content-Type'] = 'application/x-www-form-urlencoded';
+      $httpProvider.defaults.headers.common['requesttoken'] = oc_requesttoken;
+      $httpProvider.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
       return $httpProvider.defaults.transformRequest = function(data) {
         if (angular.isUndefined(data)) {
-          return {};
+          return data;
         } else {
           return $.param(data);
         }
@@ -1473,5 +1467,3 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
   });
 
 }).call(this);
-
-})(window.angular, jQuery, OC, oc_requesttoken);
