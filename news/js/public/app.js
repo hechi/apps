@@ -488,14 +488,14 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
           });
         };
         this._request.get('news_feeds_active', {}, {}, loadItems);
-        this._request.get('news_folders', {}, {}, function() {
-          return _this._$rootScope.$broadcast('triggerHideRead');
-        });
-        this._request.get('news_feeds', {}, {}, function() {
-          return _this._$rootScope.$broadcast('triggerHideRead');
-        });
-        this._request.get('news_settings_read');
-        return this._request.get('news_items_starred');
+        this._request.get('news_folders', {}, {}, this.triggerHideRead);
+        this._request.get('news_feeds', {}, {}, this.triggerHideRead);
+        this._request.get('news_settings_read', this.triggerHideRead);
+        return this._request.get('news_items_starred', this.triggerHideRead);
+      };
+
+      Persistence.prototype._trigerHideRead = function() {
+        return this._$rootScope.$broadcast('triggerHideRead');
       };
 
       return Persistence;

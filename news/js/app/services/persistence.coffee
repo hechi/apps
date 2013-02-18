@@ -46,16 +46,14 @@ angular.module('News').factory '_Persistence', ->
 					@_loading.decrease()
 
 			@_request.get('news_feeds_active', {}, {}, loadItems)
-
-			@_request.get 'news_folders', {}, {}, =>
-				@_$rootScope.$broadcast('triggerHideRead')
-
-			@_request.get 'news_feeds', {}, {}, =>
-				@_$rootScope.$broadcast('triggerHideRead')
-
-			@_request.get('news_settings_read')
-			@_request.get('news_items_starred')
+			@_request.get('news_folders', {}, {}, @triggerHideRead)
+			@_request.get('news_feeds', {}, {}, @triggerHideRead)
+			@_request.get('news_settings_read', @triggerHideRead)
+			@_request.get('news_items_starred', @triggerHideRead)
 			
+
+		_trigerHideRead: ->
+			@_$rootScope.$broadcast('triggerHideRead')
 
 
 	return Persistence
