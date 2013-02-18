@@ -20,23 +20,10 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 ###
 
-angular.module('News').factory '_Persistence', ['_Request', (_Request) ->
-	
-	class Persistence
 
-		constructor: (@_request) ->
+describe '_OPMLParser', ->
 
 
-		getAllFolders: () ->
-			@_request.post('news_folders_get_all')
+	beforeEach module 'News'
 
-
-		getAllFeeds: () ->
-			@_request.post('news_feeds_get_all')
-
-
-
-
-	return Persistence
-
-]
+	beforeEach inject (@_OPMLParser) =>

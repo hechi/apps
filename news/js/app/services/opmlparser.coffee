@@ -1,29 +1,36 @@
 ###
-# ownCloud news app
-#
-# @author Alessandro Cosentino
-# @author Bernhard Posselt
-# Copyright (c) 2012 - Alessandro Cosentino <cosenal@gmail.com>
-# Copyright (c) 2012 - Bernhard Posselt <nukeawhale@gmail.com>
-#
-# This file is licensed under the Affero General Public License version 3 or
-# later.
-#
-# See the COPYING-README file
-#
+
+ownCloud - News
+
+@author Bernhard Posselt
+@copyright 2012 Bernhard Posselt nukeawhale@gmail.com
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+License as published by the Free Software Foundation; either
+version 3 of the License, or any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+
+You should have received a copy of the GNU Affero General Public
+License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
 ###
 
 angular.module('News').factory '_OPMLParser', ->
 	
 	class Feed
 
-		constructor: (@name, @url) ->
+		constructor: (@_name, @_url) ->
 
 		getName: ->
-			return @name
+			return @_name
 
 		getUrl: ->
-			return @url
+			return @_url
 
 		isFolder: ->
 			return false
@@ -31,17 +38,17 @@ angular.module('News').factory '_OPMLParser', ->
 
 	class Folder
 
-		constructor: (@name) ->
-			@items = []
+		constructor: (@_name) ->
+			@_items = []
 
 		add: (feed) ->
-			@items.push(feed)
+			@_items.push(feed)
 
 		getItems: ->
-			return @items
+			return @_items
 
 		getName: ->
-			return @name
+			return @_name
 
 		isFolder: ->
 			return true
@@ -59,7 +66,7 @@ angular.module('News').factory '_OPMLParser', ->
 		_recursivelyParse: ($xml, structure) ->
 			for outline in $xml.children('outline')
 				$outline = $(outline)
-				if $outline.attr('type') != undefined
+				if angular.isDefined($outline.attr('type'))
 					feed = new Feed($outline.attr('text'), $outline.attr('xmlUrl'))
 					structure.add(feed)
 				else
