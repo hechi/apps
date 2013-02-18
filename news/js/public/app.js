@@ -545,8 +545,8 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
   ]);
 
   angular.module('News').factory('Request', [
-    '$http', 'Publisher', 'Router', function($http, Publisher, Router) {
-      return new Request($http, Publisher, Router);
+    '_Request', '$http', 'Publisher', 'Router', function(_Request, $http, Publisher, Router) {
+      return new _Request($http, Publisher, Router);
     }
   ]);
 
@@ -590,12 +590,12 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
     '_Publisher', 'ActiveFeed', 'ShowAll', 'StarredCount', 'ItemModel', 'FolderModel', 'FeedModel', function(_Publisher, ActiveFeed, ShowAll, StarredCount, ItemModel, FolderModel, FeedModel) {
       var publisher;
       publisher = new _Publisher();
-      Publisher.subsribeModelTo(ActiveFeed, 'activeFeed');
-      Publisher.subsribeModelTo(ShowAll, 'showAll');
-      Publisher.subsribeModelTo(StarredCount, 'starred');
-      Publisher.subsribeModelTo(FolderModel, 'folders');
-      Publisher.subsribeModelTo(FeedModel, 'feeds');
-      Publisher.subsribeModelTo(ItemModel, 'items');
+      publisher.subscribeObjectTo(ActiveFeed, 'activeFeed');
+      publisher.subscribeObjectTo(ShowAll, 'showAll');
+      publisher.subscribeObjectTo(StarredCount, 'starred');
+      publisher.subscribeObjectTo(FolderModel, 'folders');
+      publisher.subscribeObjectTo(FeedModel, 'feeds');
+      publisher.subscribeObjectTo(ItemModel, 'items');
       return publisher;
     }
   ]);
