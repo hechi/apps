@@ -23,18 +23,15 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 # app main
 angular.module('News', ['OC', 'ui']).config ($provide) ->
-	# enter your config values in here
-	config =
+	$provide.value 'Config', config =
 		MarkReadTimeout: 500
 		ScrollTimeout: 500
-		initialLoadedItemsNr: 20
 		FeedUpdateInterval: 6000000
-
-	$provide.value('Config', config)
+		itemBatch: 20
 
 
 angular.module('News').run ['Persistence', (Persistence) ->
-	Persistence.loadInitial()
+	Persistence.init()
 ]
 
 

@@ -25,7 +25,6 @@ angular.module('News').factory '_StarredCount', ->
 	
 	class StarredCount
 
-
 		constructor: ->
 			@_count = 0
 

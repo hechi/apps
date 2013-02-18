@@ -32,15 +32,6 @@ describe '_Persistence', ->
 			get: post: jasmine.createSpy('GET')
 
 
-	it 'should have a get all folders request', =>
-		persist = new @_Persistence(@request)
-		persist.getAllFolders()
-
-		expect(@request.post).toHaveBeenCalledWith('news_folders_get_all')
-
-
-	it 'should have a get all feeds request', =>
-		persist = new @_Persistence(@request)
-		persist.getAllFeeds()
-
-		expect(@request.post).toHaveBeenCalledWith('news_feeds_get_all')
+	it 'should should do a proper init request', =>
+		# TBD
+		

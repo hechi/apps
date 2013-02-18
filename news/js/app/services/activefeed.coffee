@@ -24,7 +24,6 @@ angular.module('News').factory '_ActiveFeed', ->
 
 	class ActiveFeed
 
-
 		constructor: ->
 			###
 			Default value is all feeds

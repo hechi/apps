@@ -24,15 +24,36 @@ angular.module('News').factory '_Persistence', ['_Request', (_Request) ->
 	
 	class Persistence
 
-		constructor: (@_request) ->
+		constructor: (@_request, @_loading, @_config, @_$rootScope,
+						@_activeFeed) ->
 
 
-		getAllFolders: () ->
-			@_request.post('news_folders_get_all')
+		init: ->
+			###
+			Loads the initial data from the server
+			###
+			@_initReqCount = 0
+			@_loading.increase()
 
+			# items can only be loaded after the all feeds and the active
+			# feed is known
+			loadItems: =>
+				if @_initReqCount >= 2
+					@_request.get 'news_item', {}, {}, =>
+						@_loading.decrease()
+				else
+					@_initReqCount += 1
 
-		getAllFeeds: () ->
-			@_request.post('news_feeds_get_all')
+			# feeds can only be loaded once all folders are known
+			loadFeeds = =>
+				@_request.get('news_feeds_active', loadItems)
+				@_request.get('news_feeds', {}, {}, loadItems)
+			
+			@_request.get('news_settings_read')
+			@_request.get('news_items_starred')
+			@_request.get('news_folders', {}, {}, loadFeeds)
+
+			
 
 
 

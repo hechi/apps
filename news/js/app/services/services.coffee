@@ -23,8 +23,9 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 # request related stuff
 angular.module('News').factory 'Persistence', ['_Persistence', 'Request',
-(_Persistence, Request) ->
-	return new _Persistence(Request)
+'Loading', 'Config', '$rootScope', 'ActiveFeed',
+(_Persistence, Request, Loading, Config, $rootScope, ActiveFeed) ->
+	return new _Persistence(Request, Loading, Config, $rootScope, ActiveFeed)
 ]
 
 angular.module('News').factory 'Request', ['$http', 'Publisher', 'Router',
@@ -70,7 +71,7 @@ FolderModel, FeedModel) ->
 	publisher = new _Publisher()
 	Publisher.subsribeModelTo(ActiveFeed, 'activeFeed')
 	Publisher.subsribeModelTo(ShowAll, 'showAll')
-	Publisher.subsribeModelTo(StarredCount, 'starredCount')
+	Publisher.subsribeModelTo(StarredCount, 'starred')
 	Publisher.subsribeModelTo(FolderModel, 'folders')
 	Publisher.subsribeModelTo(FeedModel, 'feeds')
 	Publisher.subsribeModelTo(ItemModel, 'items')

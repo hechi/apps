@@ -38,18 +38,17 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
   angular.module('News', ['OC', 'ui']).config(function($provide) {
     var config;
-    config = {
+    return $provide.value('Config', config = {
       MarkReadTimeout: 500,
       ScrollTimeout: 500,
-      initialLoadedItemsNr: 20,
-      FeedUpdateInterval: 6000000
-    };
-    return $provide.value('Config', config);
+      FeedUpdateInterval: 6000000,
+      itemBatch: 20
+    });
   });
 
   angular.module('News').run([
     'Persistence', function(Persistence) {
-      return Persistence.loadInitial();
+      return Persistence.init();
     }
   ]);
 
@@ -461,16 +460,41 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
       var Persistence;
       Persistence = (function() {
 
-        function Persistence(_request) {
+        function Persistence(_request, _loading, _config, _$rootScope, _activeFeed) {
           this._request = _request;
+          this._loading = _loading;
+          this._config = _config;
+          this._$rootScope = _$rootScope;
+          this._activeFeed = _activeFeed;
         }
 
-        Persistence.prototype.getAllFolders = function() {
-          return this._request.post('news_folders_get_all');
-        };
+        Persistence.prototype.init = function() {
+          /*
+          			Loads the initial data from the server
+          */
 
-        Persistence.prototype.getAllFeeds = function() {
-          return this._request.post('news_feeds_get_all');
+          var loadFeeds,
+            _this = this;
+          this._initReqCount = 0;
+          this._loading.increase();
+          ({
+            loadItems: function() {
+              if (_this._initReqCount >= 2) {
+                return _this._request.get('news_item', {}, {}, function() {
+                  return _this._loading.decrease();
+                });
+              } else {
+                return _this._initReqCount += 1;
+              }
+            }
+          });
+          loadFeeds = function() {
+            _this._request.get('news_feeds_active', loadItems);
+            return _this._request.get('news_feeds', {}, {}, loadItems);
+          };
+          this._request.get('news_settings_read');
+          this._request.get('news_items_starred');
+          return this._request.get('news_folders', {}, {}, loadFeeds);
         };
 
         return Persistence;
@@ -509,8 +533,8 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 (function() {
 
   angular.module('News').factory('Persistence', [
-    '_Persistence', 'Request', function(_Persistence, Request) {
-      return new _Persistence(Request);
+    '_Persistence', 'Request', 'Loading', 'Config', '$rootScope', 'ActiveFeed', function(_Persistence, Request, Loading, Config, $rootScope, ActiveFeed) {
+      return new _Persistence(Request, Loading, Config, $rootScope, ActiveFeed);
     }
   ]);
 
@@ -562,7 +586,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
       publisher = new _Publisher();
       Publisher.subsribeModelTo(ActiveFeed, 'activeFeed');
       Publisher.subsribeModelTo(ShowAll, 'showAll');
-      Publisher.subsribeModelTo(StarredCount, 'starredCount');
+      Publisher.subsribeModelTo(StarredCount, 'starred');
       Publisher.subsribeModelTo(FolderModel, 'folders');
       Publisher.subsribeModelTo(FeedModel, 'feeds');
       Publisher.subsribeModelTo(ItemModel, 'items');
