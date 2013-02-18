@@ -491,6 +491,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
                   return _this._loading.decrease();
                 });
               } else {
+                _this._$rootScope.$broadcast('triggerHideRead');
                 return _this._initReqCount += 1;
               }
             }

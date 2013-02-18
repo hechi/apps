@@ -48,7 +48,11 @@ angular.module('News').factory '_Persistence', ['_Request', (_Request) ->
 
 					@_request.get 'news_items', {}, data, =>
 						@_loading.decrease()
+
 				else
+					# hide or make feeds and folders visible based on their
+					# unread count
+					@_$rootScope.$broadcast('triggerHideRead')
 					@_initReqCount += 1
 
 			# feeds can only be loaded once all folders are known
@@ -59,9 +63,6 @@ angular.module('News').factory '_Persistence', ['_Request', (_Request) ->
 			@_request.get('news_settings_read')
 			@_request.get('news_items_starred')
 			@_request.get('news_folders', {}, {}, loadFeeds)
-
-			
-
 
 
 
