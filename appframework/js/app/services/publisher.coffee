@@ -45,13 +45,13 @@ angular.module('OC').factory '_Publisher', ->
 		#		}
 		# 	}
 		#
-		# To get the array ['one', 'two'] passed to your model, just subscribe
+		# To get the array ['one', 'two'] passed to your object, just subscribe
 		# to the key:
-		#	Publisher.subscribeModelTo('modelName', myModelInstance)
+		#	Publisher.subscribeObjectTo('modelName', myModelInstance)
 		#
-		subscribeModelTo: (model, name) ->
+		subscribeObjectTo: (object, name) ->
 			@_subscriptions[name] or= []
-			@_subscriptions[name].push(model)
+			@_subscriptions[name].push(object)
 
 
 		# This will publish data from the server to all registered subscribers

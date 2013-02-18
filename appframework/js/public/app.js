@@ -525,10 +525,10 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
         this._subscriptions = {};
       }
 
-      Publisher.prototype.subscribeModelTo = function(model, name) {
+      Publisher.prototype.subscribeObjectTo = function(object, name) {
         var _base;
         (_base = this._subscriptions)[name] || (_base[name] = []);
-        return this._subscriptions[name].push(model);
+        return this._subscriptions[name].push(object);
       };
 
       Publisher.prototype.publishDataTo = function(data, name) {

@@ -37,7 +37,7 @@ describe '_Publisher', ->
 		data =
 			hi: 'test'
 
-		@publisher.subscribeModelTo @modelMock, 'test'
+		@publisher.subscribeObjectTo @modelMock, 'test'
 		@publisher.publishDataTo data, 'test'
 
 		expect(@modelMock.handle).toHaveBeenCalledWith(data)
@@ -47,7 +47,7 @@ describe '_Publisher', ->
 		data =
 			hi: 'test'
 
-		@publisher.subscribeModelTo @modelMock, 'test1'
+		@publisher.subscribeObjectTo @modelMock, 'test1'
 		@publisher.publishDataTo data, 'test'
 
 		expect(@modelMock.handle).not.toHaveBeenCalledWith(data)
@@ -61,8 +61,8 @@ describe '_Publisher', ->
 		@modelMock2 =
 			handle: jasmine.createSpy()
 
-		@publisher.subscribeModelTo @modelMock, 'test'
-		@publisher.subscribeModelTo @modelMock2, 'test'
+		@publisher.subscribeObjectTo @modelMock, 'test'
+		@publisher.subscribeObjectTo @modelMock2, 'test'
 		@publisher.publishDataTo data, 'test'
 
 		expect(@modelMock.handle).toHaveBeenCalledWith(data)
