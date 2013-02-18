@@ -59,6 +59,7 @@ module.exports = (grunt) ->
 				src: [
 						'<%= meta.build %>app/app.js'
 						'<%= meta.build %>app/directives/*.js'
+						'<%= meta.build %>app/controllers/*.js'
 						'<%= meta.build %>app/services/**/*.js'
 					]
 				dest: '<%= meta.production %>app.js'
@@ -67,8 +68,8 @@ module.exports = (grunt) ->
 				src: '<%= meta.production %>app.js'
 				dest: ''
 				wrapper: [
-					'(function(angular, $, OC, oc_requesttoken){\n\n'
-					'\n})(window.angular, jQuery, OC, oc_requesttoken);'
+					'(function(angular, $){\n\n'
+					'\n})(window.angular, jQuery);'
 				]
 
 		coffee: 
