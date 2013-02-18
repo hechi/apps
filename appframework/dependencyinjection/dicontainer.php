@@ -87,6 +87,22 @@ class DIContainer extends \Pimple {
 			});
 		});
 
+		// enables the addScript function as script() function in twig
+		$this['TwigAddScript'] = $this->share(function($c){
+			$api = $c['API'];
+			return new \Twig_SimpleFunction('script', function () use ($api) {
+				return call_user_func_array(array($api, 'addScript'), func_get_args());
+			});
+		});
+
+		// enables the addScript function as script() function in twig
+		$this['TwigAddStyle'] = $this->share(function($c){
+			$api = $c['API'];
+			return new \Twig_SimpleFunction('style', function () use ($api) {
+				return call_user_func_array(array($api, 'addStyle'), func_get_args());
+			});
+		});
+
 		// enables the linkToRoute function as url() function in twig
 		$this['TwigLinkToAbsoluteRoute'] = $this->share(function($c){
 			$api = $c['API'];
