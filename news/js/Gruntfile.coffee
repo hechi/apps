@@ -89,7 +89,7 @@ module.exports = (grunt) ->
 					'<%= meta.build %>app/**/*.js'
 					'<%= meta.build %>tests/**/*.js'
 				]
-				tasks: ['concat', 'coffeelint']
+				tasks: 'compile'
 			phpunit:
 				files: '../**/*.php'
 				tasks: 'phpunit'
@@ -113,15 +113,6 @@ module.exports = (grunt) ->
 
 
 	grunt.registerTask('run', ['watch:concat'])
-	grunt.registerTask('compile', [
-			'concat:app'
-			'wrap'
-		]
-	)
-
-	grunt.registerTask('ci', [
-			'testacular:continuous'
-		]
-	)
-
+	grunt.registerTask('compile', ['concat', 'wrap', 'coffeelint'])
+	grunt.registerTask('ci', ['testacular:continuous'])
 	grunt.registerTask('testphp', ['watch:phpunit'])
