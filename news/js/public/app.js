@@ -455,61 +455,59 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 (function() {
 
-  angular.module('News').factory('_Persistence', [
-    '_Request', function(_Request) {
-      var Persistence;
-      Persistence = (function() {
+  angular.module('News').factory('_Persistence', function() {
+    var Persistence;
+    Persistence = (function() {
 
-        function Persistence(_request, _loading, _config, _activeFeed, _$rootScope) {
-          this._request = _request;
-          this._loading = _loading;
-          this._config = _config;
-          this._activeFeed = _activeFeed;
-          this._$rootScope = _$rootScope;
-        }
+      function Persistence(_request, _loading, _config, _activeFeed, _$rootScope) {
+        this._request = _request;
+        this._loading = _loading;
+        this._config = _config;
+        this._activeFeed = _activeFeed;
+        this._$rootScope = _$rootScope;
+      }
 
-        Persistence.prototype.init = function() {
-          /*
-          			Loads the initial data from the server
-          */
+      Persistence.prototype.init = function() {
+        /*
+        			Loads the initial data from the server
+        */
 
-          var loadFeeds,
-            _this = this;
-          this._initReqCount = 0;
-          this._loading.increase();
-          ({
-            loadItems: function() {
-              var data;
-              if (_this._initReqCount >= 2) {
-                data = {
-                  limit: _this._config.itemBatchSize,
-                  type: _this._activeFeed.getType(),
-                  id: _this._activeFeed.getId()
-                };
-                return _this._request.get('news_items', {}, data, function() {
-                  return _this._loading.decrease();
-                });
-              } else {
-                _this._$rootScope.$broadcast('triggerHideRead');
-                return _this._initReqCount += 1;
-              }
+        var loadFeeds,
+          _this = this;
+        this._initReqCount = 0;
+        this._loading.increase();
+        ({
+          loadItems: function() {
+            var data;
+            if (_this._initReqCount >= 2) {
+              data = {
+                limit: _this._config.itemBatchSize,
+                type: _this._activeFeed.getType(),
+                id: _this._activeFeed.getId()
+              };
+              return _this._request.get('news_items', {}, data, function() {
+                return _this._loading.decrease();
+              });
+            } else {
+              _this._$rootScope.$broadcast('triggerHideRead');
+              return _this._initReqCount += 1;
             }
-          });
-          loadFeeds = function() {
-            _this._request.get('news_feeds_active', {}, {}, loadItems);
-            return _this._request.get('news_feeds', {}, {}, loadItems);
-          };
-          this._request.get('news_settings_read');
-          this._request.get('news_items_starred');
-          return this._request.get('news_folders', {}, {}, loadFeeds);
+          }
+        });
+        loadFeeds = function() {
+          _this._request.get('news_feeds_active', {}, {}, loadItems);
+          return _this._request.get('news_feeds', {}, {}, loadItems);
         };
+        this._request.get('news_settings_read');
+        this._request.get('news_items_starred');
+        return this._request.get('news_folders', {}, {}, loadFeeds);
+      };
 
-        return Persistence;
-
-      })();
       return Persistence;
-    }
-  ]);
+
+    })();
+    return Persistence;
+  });
 
 }).call(this);
 

@@ -20,7 +20,8 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 ###
 
-angular.module('News').factory '_Persistence', ['_Request', (_Request) ->
+
+angular.module('News').factory '_Persistence', ->
 	
 	class Persistence
 
@@ -67,4 +68,3 @@ angular.module('News').factory '_Persistence', ['_Request', (_Request) ->
 
 	return Persistence
 
-]
