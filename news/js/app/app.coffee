@@ -24,10 +24,10 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 # app main
 angular.module('News', ['OC', 'ui']).config ($provide) ->
 	$provide.value 'Config', config =
-		MarkReadTimeout: 500
-		ScrollTimeout: 500
-		FeedUpdateInterval: 6000000
-		itemBatch: 20
+		markReadTimeout: 500
+		scrollTimeout: 500
+		feedUpdateInterval: 6000000
+		itemBatchSize: 20
 
 
 angular.module('News').run ['Persistence', (Persistence) ->

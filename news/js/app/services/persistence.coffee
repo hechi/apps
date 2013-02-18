@@ -39,7 +39,14 @@ angular.module('News').factory '_Persistence', ['_Request', (_Request) ->
 			# feed is known
 			loadItems: =>
 				if @_initReqCount >= 2
-					@_request.get 'news_item', {}, {}, =>
+					
+					data =
+						limit: @_config.itemBatchSize
+						offset: 0
+						type: @_activeFeed.getType()
+						id: @_activeFeed.getId()
+
+					@_request.get 'news_items', {}, data, =>
 						@_loading.decrease()
 				else
 					@_initReqCount += 1
