@@ -2,8 +2,8 @@
 
 ownCloud - News
 
-@author Bernhard Posselt
-@copyright 2012 Bernhard Posselt nukeawhale@gmail.com
+@author Raghu Nayyar
+@copyright 2012 Raghu Nayyar me@iraghu.com
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -23,7 +23,16 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 describe '_OPMLParser', ->
 
-
 	beforeEach module 'News'
 
 	beforeEach inject (@_OPMLParser) =>
+		@opmlstring = new_opmltring()
+		
+		@_opmlstring1 = []
+		
+		it 'should return only the root folder when parsing empty OPML', =>
+			@_data = @opmlstring.parseXML(@_opmlstring1)
+			expect(@_data.Folder('root')).toBe(true)
+			
+			
+			
