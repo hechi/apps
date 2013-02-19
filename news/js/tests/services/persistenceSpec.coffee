@@ -29,7 +29,7 @@ describe '_Persistence', ->
 	beforeEach inject (@_Persistence) =>
 		@request =
 			post: jasmine.createSpy('POST')
-			get: post: jasmine.createSpy('GET')
+                        get: jasmine.createSpy('GET')
 
 
 	it 'should should do a proper init request', =>
