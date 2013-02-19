@@ -26,13 +26,11 @@ describe '_OPMLParser', ->
 	beforeEach module 'News'
 
 	beforeEach inject (@_OPMLParser) =>
-		@opmlstring = new_opmltring()
+		@parser = new @_OPMLParser()
 		
-		@_opmlstring1 = []
-		
-		it 'should return only the root folder when parsing empty OPML', =>
-			@_data = @opmlstring.parseXML(@_opmlstring1)
-			expect(@_data.Folder('root')).toBe(true)
+	it 'should return only the root folder when parsing empty OPML', =>
+		@data = @parser.parseXML('')
+		expect(@data.getName()).toBe('root')
 			
 			
 			
