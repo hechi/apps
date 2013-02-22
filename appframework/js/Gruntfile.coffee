@@ -68,52 +68,22 @@ module.exports = (grunt) ->
 				wrapper: [
 					'(function(angular, $, OC, oc_requesttoken){\n\n'
 					'\n})(window.angular, jQuery, OC, oc_requesttoken);'
-				]
-
-		coffee: 
-			app:
-				expand: true
-				cwd: 'app/'
-				src: ['**/*.coffee']
-				dest: '<%= meta.build %>app/'
-				ext: '.js'
-			unit:
-				expand: true
-				cwd: 'tests/'
-				src: ['**/*.coffee']
-				dest: '<%= meta.build %>tests/'
-				ext: '.js'				
+				]	
 
 		coffeelint:
 			app: [
 				'app/**/*.coffee'
 				'tests/**/*.coffee'
 			]
-		coffeelintOptions:
-			'no_tabs':
-				'level': 'ignore'
-			'indentation':
-				'level': 'ignore'
-			'no_trailing_whitespace':
-				'level': 'warn'
+			options:
+				'no_tabs':
+					'level': 'ignore'
+				'indentation':
+					'level': 'ignore'
+				'no_trailing_whitespace':
+					'level': 'warn'
 
 		watch: 
-			## Use later when watch can finally update single files
-			#app: 
-			#	files: [
-			#		'app/**/*.coffee'
-			#		'tests/directives/*.coffee'
-			#		'tests/services/*.coffee'
-			#		'tests/controllers/*.coffee'
-			#		'tests/filters/*.coffee'
-			#	]
-			#	tasks: 'compile'
-			#testacular:
-			#	files: [
-			#		'<%= meta.build %>app/**/*.js'
-			#		'<%= meta.build %>tests/**/*.js'
-			#	]
-			#	tasks: ['testacular:unit:run', 'concat']
 			concat:
 				files: [
 					'<%= meta.build %>app/**/*.js'
@@ -122,8 +92,10 @@ module.exports = (grunt) ->
 				tasks: 'compile'
 			phpunit:
 				files: '../**/*.php'
-				tasks: 'phpunit'
-
+				tasks: ['phpunit']
+			phpcs:
+				files: '../**/*.php'
+				tasks: ['phpcs']
 		
 		testacular: 
 			unit: 

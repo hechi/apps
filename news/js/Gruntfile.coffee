@@ -75,13 +75,13 @@ module.exports = (grunt) ->
 				'app/**/*.coffee'
 				'tests/**/*.coffee'
 			]
-		coffeelintOptions:
-			'no_tabs':
-				'level': 'ignore'
-			'indentation':
-				'level': 'ignore'
-			'no_trailing_whitespace':
-				'level': 'warn'
+			options:
+				'no_tabs':
+					'level': 'ignore'
+				'indentation':
+					'level': 'ignore'
+				'no_trailing_whitespace':
+					'level': 'warn'
 
 		watch: 
 			concat:

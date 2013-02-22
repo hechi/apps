@@ -53,6 +53,7 @@ test: deps compile
 	export PHANTOMJS_BIN=$(phantomjs) && \
 	$(grunt) --config $(CURDIR)/Gruntfile.coffee ci
 
+
 clean:
 	rm -rf $(CURDIR)/build
 	rm -rf $(CURDIR)/test-results.xml
