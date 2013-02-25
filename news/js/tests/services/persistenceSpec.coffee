@@ -33,5 +33,7 @@ describe '_Persistence', ->
 
 
 	it 'should should do a proper init request', =>
-		# TBD
+		loading = 
+			increase: jasmine.createSpy('loading')
+			decrease: jasmine.createSpy('finished loading')
 		

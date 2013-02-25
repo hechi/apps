@@ -1,19 +1,20 @@
-<? /*
-Twig includes
+<?php
+$_['api']->addScript('vendor/angular-1.0.4/angular');
+$_['api']->addScript('vendor/angular-ui-0.3.2/angular-ui');
+$_['api']->addScript('vendor/momentjs-2.0.0/moment');
+$_['api']->addScript('public/app', 'appframework');
+$_['api']->addScript('public/app');
+$_['api']->addScript('multiselect', 'core');
 
-{{ script('vendor/angular-1.0.4/angular') }}
-{{ script('vendor/angular-ui-0.3.2/angular-ui') }}
-{{ script('vendor/momentjs-2.0.0/moment') }}
-{{ script('multiselect', 'core') }}
-{{ script('public/app', 'appframework') }}
-{{ script('public/app') }}
+$_['api']->addStyle('owncloud');
+$_['api']->addStyle('addnew');
+$_['api']->addStyle('feeds');
+$_['api']->addStyle('items');
+$_['api']->addStyle('settings');
+$_['api']->addStyle('addnew');
+$_['api']->addStyle('showall');
 
-{{ style('addnew') }}
-{{ style('feeds') }}
-{{ style('items') }}
-{{ style('settings') }}
-{{ style('showall') }}
-*/?>
+?>
 
 <div id="app" ng-app="News">
 	<div id="left-content" ng-controller="FeedController">

@@ -54,21 +54,6 @@ class NewsController extends Controller {
 	 */
 	public function index($urlParams=array()){
 
-		$this->api->addScript('vendor/angular-1.0.4/angular');
-		$this->api->addScript('vendor/angular-ui-0.3.2/angular-ui');
-		$this->api->addScript('vendor/momentjs-2.0.0/moment');
-		$this->api->addScript('public/app', 'appframework');
-		$this->api->addScript('public/app');
-		$this->api->addScript('multiselect', 'core');
-
-		$this->api->addStyle('owncloud');
-		$this->api->addStyle('addnew');
-		$this->api->addStyle('feeds');
-		$this->api->addStyle('items');
-		$this->api->addStyle('settings');
-		$this->api->addStyle('addnew');
-		$this->api->addStyle('showall');
-
 		if(array_key_exists('feedid', $urlParams)){
 			$this->api->setUserValue('lastViewedFeed', $urlParams['feedid']);
 			$this->api->setUserValue('lastViewedFeedType', FeedType::FEED);
@@ -92,7 +77,7 @@ class NewsController extends Controller {
 			}
 		}
 
-		return $this->render('main');
+		return $this->render('main', array('api' => $this->api));
 	}
 
 
