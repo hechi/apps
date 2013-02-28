@@ -46,8 +46,8 @@ angular.module('News').factory '_Persistence', ->
 					@_loading.decrease()
 
 			
-			@_request.get('news_folders', {}, {}, @_triggerHideRead)
-			@_request.get('news_feeds', {}, {}, @_triggerHideRead)
+			@getAllFolders(@_triggerHideRead)
+			@getAllFeeds(@_triggerHideRead)
 			@userSettingsRead(@_triggerHideRead)
 			@_request.get('news_items_starred', {}, {}, @_triggerHideRead)
 			
@@ -100,8 +100,9 @@ angular.module('News').factory '_Persistence', ->
 		###
 			FOLDER CONTROLLER
 		###
-		getAllFolders: ->
-			@_request.get 'news_folders'
+		getAllFolders: (callback) ->
+			callback or= angular.noop
+			@_request.get 'news_folders', {}, {}, callback
 
 	
 		getFolderById: (folderId) ->
@@ -166,6 +167,19 @@ angular.module('News').factory '_Persistence', ->
 		###
 			FEED CONTROLLER
 		###
+		getAllFeeds: (callback) ->
+			callback or= angular.noop
+
+			@_request.get 'news_feeds', {}, {}, callback
+
+
+		getFeedById: (feedId) ->
+			url =
+				feedId: feedId
+
+			@_request.get 'news_feed', url
+
+
 		moveFeed: (feedId, folderId) ->
 			###
 			moves a feed to a new folder

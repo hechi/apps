@@ -57,6 +57,22 @@ describe '_Persistence', ->
 	###
 		FEED CONTROLLER
 	###
+	it 'should get all feeds', =>
+		pers = new @_Persistence(@req, @loading, @config, @active, @$rootScope)
+		pers.getAllFeeds()
+
+		expect(@req.get).toHaveBeenCalledWith('news_feeds', {}, {}, angular.noop)
+
+	it 'should get a feed by id', =>
+		url =
+			feedId: 1
+
+		pers = new @_Persistence(@req, @loading, @config, @active, @$rootScope)
+		pers.getFeedById(url.feedId)
+
+		expect(@req.get).toHaveBeenCalledWith('news_feed', url)
+
+
 	it 'create a correct request for moving a feed', =>
 		data =
 			folderId: 4
@@ -65,7 +81,6 @@ describe '_Persistence', ->
 
 		pers = new @_Persistence(@req, @loading, @config, @active, @$rootScope)
 		pers.moveFeed(url.feedId, data.folderId)
-
 
 		expect(@req.post).toHaveBeenCalledWith('news_move_feed', url, data)
 
@@ -100,7 +115,7 @@ describe '_Persistence', ->
 		pers = new @_Persistence(@req, @loading, @config, @active, @$rootScope)
 		pers.getAllFolders()
 
-		expect(@req.get).toHaveBeenCalledWith('news_folders')
+		expect(@req.get).toHaveBeenCalledWith('news_folders', {}, {}, angular.noop)
 
 
 	it 'should get a folder by id', =>

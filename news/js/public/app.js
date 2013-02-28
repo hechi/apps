@@ -486,8 +486,8 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
             return _this._loading.decrease();
           });
         });
-        this._request.get('news_folders', {}, {}, this._triggerHideRead);
-        this._request.get('news_feeds', {}, {}, this._triggerHideRead);
+        this.getAllFolders(this._triggerHideRead);
+        this.getAllFeeds(this._triggerHideRead);
         this.userSettingsRead(this._triggerHideRead);
         return this._request.get('news_items_starred', {}, {}, this._triggerHideRead);
       };
@@ -550,8 +550,9 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
       */
 
 
-      Persistence.prototype.getAllFolders = function() {
-        return this._request.get('news_folders');
+      Persistence.prototype.getAllFolders = function(callback) {
+        callback || (callback = angular.noop);
+        return this._request.get('news_folders', {}, {}, callback);
       };
 
       Persistence.prototype.getFolderById = function(folderId) {
@@ -637,6 +638,19 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
       			FEED CONTROLLER
       */
 
+
+      Persistence.prototype.getAllFeeds = function(callback) {
+        callback || (callback = angular.noop);
+        return this._request.get('news_feeds', {}, {}, callback);
+      };
+
+      Persistence.prototype.getFeedById = function(feedId) {
+        var url;
+        url = {
+          feedId: feedId
+        };
+        return this._request.get('news_feed', url);
+      };
 
       Persistence.prototype.moveFeed = function(feedId, folderId) {
         /*
