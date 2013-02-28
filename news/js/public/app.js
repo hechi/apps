@@ -488,8 +488,239 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
         });
         this._request.get('news_folders', {}, {}, this._triggerHideRead);
         this._request.get('news_feeds', {}, {}, this._triggerHideRead);
-        this._request.get('news_settings_read', this._triggerHideRead);
-        return this._request.get('news_items_starred', this._triggerHideRead);
+        this.userSettingsRead(this._triggerHideRead);
+        return this._request.get('news_items_starred', {}, {}, this._triggerHideRead);
+      };
+
+      /*
+      			ITEM CONTROLLER
+      */
+
+
+      Persistence.prototype.starItem = function(itemId) {
+        /*
+        			Stars an item
+        */
+
+        var url;
+        url = {
+          itemId: itemId
+        };
+        return this._request.post('news_star_item', url);
+      };
+
+      Persistence.prototype.unstarItem = function(itemId) {
+        /*
+        			Unstars an item
+        */
+
+        var url;
+        url = {
+          itemId: itemId
+        };
+        return this._request.post('news_unstar_item', url);
+      };
+
+      Persistence.prototype.readItem = function(itemId) {
+        /*
+        			Sets an item as read
+        */
+
+        var url;
+        url = {
+          itemId: itemId
+        };
+        return this._request.post('news_read_item', url);
+      };
+
+      Persistence.prototype.unreadItem = function(itemId) {
+        /*
+        			Sets an item as unread
+        */
+
+        var url;
+        url = {
+          itemId: itemId
+        };
+        return this._request.post('news_unread_item', url);
+      };
+
+      /*
+      			FOLDER CONTROLLER
+      */
+
+
+      Persistence.prototype.getAllFolders = function() {
+        return this._request.get('news_folders');
+      };
+
+      Persistence.prototype.getFolderById = function(folderId) {
+        var url;
+        url = {
+          folderId: folderId
+        };
+        return this._request.get('news_folder', url);
+      };
+
+      Persistence.prototype.openFolder = function(folderId) {
+        /*
+        			Save if a folder was opened
+        */
+
+        var url;
+        url = {
+          folderId: folderId
+        };
+        return this._request.post('news_open_folder', url);
+      };
+
+      Persistence.prototype.collapseFolder = function(folderId) {
+        /*
+        			Save if a folder was collapsed
+        */
+
+        var url;
+        url = {
+          folderId: folderId
+        };
+        return this._request.post('news_collapse_folder', url);
+      };
+
+      Persistence.prototype.createFolder = function(folderName, parentFolderId, onSuccess, onError) {
+        var data;
+        if (parentFolderId == null) {
+          parentFolderId = 0;
+        }
+        if (onSuccess == null) {
+          onSuccess = null;
+        }
+        if (onError == null) {
+          onError = null;
+        }
+        data = {
+          folderName: folderName,
+          parentFolderId: parentFolderId
+        };
+        onSuccess || (onSuccess = angular.noop);
+        onError || (onError = angular.noop);
+        return this._request.post('news_create_folder', {}, data, onSuccess, onError);
+      };
+
+      Persistence.prototype.deleteFolder = function(folderId) {
+        /*
+        			Save if a folder was collapsed
+        */
+
+        var url;
+        url = {
+          folderId: folderId
+        };
+        return this._request.post('news_delete_folder', url);
+      };
+
+      Persistence.prototype.renameFolder = function(folderId, folderName) {
+        /*
+        			Save if a folder was collapsed
+        */
+
+        var data, url;
+        url = {
+          folderId: folderId
+        };
+        data = {
+          folderName: folderName
+        };
+        return this._request.post('news_rename_folder', url, data);
+      };
+
+      /*
+      			FEED CONTROLLER
+      */
+
+
+      Persistence.prototype.moveFeed = function(feedId, folderId) {
+        /*
+        			moves a feed to a new folder
+        */
+
+        var data, url;
+        url = {
+          feedId: feedId
+        };
+        data = {
+          folderId: folderId
+        };
+        return this._request.post('news_move_feed', url, data);
+      };
+
+      Persistence.prototype.setFeedRead = function(feedId, highestItemId) {
+        /*
+        			sets all items of a feed as read
+        */
+
+        var data, url;
+        url = {
+          feedId: feedId
+        };
+        data = {
+          highestItemId: highestItemId
+        };
+        return this._request.post('news_set_feed_read', url, data);
+      };
+
+      Persistence.prototype.updateFeed = function(feedId) {
+        /*
+        			moves a feed to a new folder
+        */
+
+        var url;
+        url = {
+          feedId: feedId
+        };
+        return this._request.post('news_update_feed', url);
+      };
+
+      /*
+      			EXPORT CONTROLLER
+      */
+
+
+      Persistence.prototype.exportOPML = function() {
+        /*
+        			Prompts for an OPML download
+        */
+        return this._request.get('news_export_opml');
+      };
+
+      /*
+      			USERSETTINGS CONTROLLER
+      */
+
+
+      Persistence.prototype.userSettingsRead = function(callback) {
+        if (callback == null) {
+          callback = null;
+        }
+        /*
+        			Gets the configs for read settings
+        */
+
+        callback || (callback = angular.noop);
+        return this._request.get('news_user_settings_read', {}, {}, callback);
+      };
+
+      Persistence.prototype.userSettingsReadShow = function() {
+        /*
+        			Sets the reader mode to show all
+        */
+        return this._request.post('news_user_settings_read_show');
+      };
+
+      Persistence.prototype.userSettingsReadHide = function() {
+        /*
+        			Sets the reader mode to show only unread
+        */
+        return this._request.post('news_user_settings_read_hide');
       };
 
       Persistence.prototype._trigerHideRead = function() {
