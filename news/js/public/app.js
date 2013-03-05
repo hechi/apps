@@ -476,26 +476,54 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
         var _this = this;
         this._loading.increase();
         this.getActiveFeed(function() {
-          var data;
-          data = {
-            limit: _this._config.itemBatchSize,
-            type: _this._activeFeed.getType(),
-            id: _this._activeFeed.getId()
-          };
-          return _this._request.get('news_items', {}, data, function() {
+          return _this.getItems(_this._activeFeed.getType(), _this._activeFeed.getId(), null, function() {
             return _this._loading.decrease();
           });
         });
         this.getAllFolders(this._triggerHideRead);
         this.getAllFeeds(this._triggerHideRead);
         this.userSettingsRead(this._triggerHideRead);
-        return this._request.get('news_items_starred', {}, {}, this._triggerHideRead);
+        return this.getStarredItems(this._triggerHideRead);
       };
 
       /*
       			ITEM CONTROLLER
       */
 
+
+      Persistence.prototype.getItems = function(type, id, offset, onSuccess, updatedSince) {
+        var data;
+        if (updatedSince == null) {
+          updatedSince = null;
+        }
+        if (updatedSince !== null) {
+          data = {
+            updatedSince: updatedSince,
+            type: type,
+            id: id
+          };
+        } else {
+          data = {
+            limit: this._config.itemBatchSize,
+            offset: offset,
+            id: id,
+            type: type
+          };
+        }
+        return this._request.get('news_items', {}, data, onSuccess);
+      };
+
+      Persistence.prototype.getItemById = function(itemId) {
+        var url;
+        url = {
+          itemId: itemId
+        };
+        return this._request.get('news_item', url);
+      };
+
+      Persistence.prototype.getStarredItems = function(onSuccess) {
+        return this._request.get('news_starred_items', {}, {}, onSuccess);
+      };
 
       Persistence.prototype.starItem = function(itemId) {
         /*

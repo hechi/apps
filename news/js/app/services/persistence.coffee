@@ -37,24 +37,46 @@ angular.module('News').factory '_Persistence', ->
 
 			# items can only be loaded after the active feed is known
 			@getActiveFeed =>
-				data =
-					limit: @_config.itemBatchSize
-					type: @_activeFeed.getType()
-					id: @_activeFeed.getId()
-
-				@_request.get 'news_items', {}, data, =>
+				@getItems @_activeFeed.getType(), @_activeFeed.getId(), null, =>
 					@_loading.decrease()
-
 			
 			@getAllFolders(@_triggerHideRead)
 			@getAllFeeds(@_triggerHideRead)
 			@userSettingsRead(@_triggerHideRead)
-			@_request.get('news_items_starred', {}, {}, @_triggerHideRead)
+			@getStarredItems(@_triggerHideRead)
 			
 
 		###
 			ITEM CONTROLLER
 		###
+		getItems: (type, id, offset, onSuccess, updatedSince=null) ->
+			# TODO
+			if updatedSince != null
+				data =
+					updatedSince: updatedSince
+					type: type
+					id: id
+			else
+				data =
+					limit: @_config.itemBatchSize
+					offset: offset
+					id: id
+					type: type
+
+			@_request.get 'news_items', {}, data, onSuccess
+
+
+		getItemById: (itemId) ->
+			url =
+				itemId: itemId
+
+			@_request.get 'news_item', url
+
+
+		getStarredItems: (onSuccess) ->
+			@_request.get 'news_starred_items', {}, {}, onSuccess
+
+
 		starItem: (itemId) ->
 			###
 			Stars an item

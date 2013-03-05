@@ -223,6 +223,56 @@ describe '_Persistence', ->
 	###
 		ITEM CONTROLLER
 	###
+	it 'should send a autopaging request', =>
+		data =
+			type: 2
+			id: 5
+			limit: @config.itemBatchSize
+			offset: 3
+
+		success = angular.noop
+
+		pers = new @_Persistence(@req, @loading, @config, @active, @$rootScope)
+		pers.getItems(data.type, data.id, data.offset, success, null)
+
+		expect(@req.get).toHaveBeenCalledWith('news_items', {}, data, success)
+
+
+	it 'should send a load newest items request', =>
+		data =
+			type: 2
+			id: 5
+			updatedSince: 1333
+
+		success = angular.noop
+
+		pers = new @_Persistence(@req, @loading, @config, @active, @$rootScope)
+		pers.getItems(data.type, data.id, 0, success, data.updatedSince)
+
+		expect(@req.get).toHaveBeenCalledWith('news_items', {}, data, success)
+
+
+	it 'send a correct get item by id request', =>
+		url =
+			itemId: 5
+
+		pers = new @_Persistence(@req, @loading, @config, @active, @$rootScope)
+		pers.getItemById(url.itemId)
+
+		expect(@req.get).toHaveBeenCalledWith('news_item', url)
+
+
+
+	it 'send a correct get starred items request', =>
+		success = angular.noop
+
+		pers = new @_Persistence(@req, @loading, @config, @active, @$rootScope)
+		pers.getStarredItems(success)
+
+		expect(@req.get).toHaveBeenCalledWith('news_starred_items', {}, {},
+			success)
+
+
 	it 'send a correct star item request', =>
 		url =
 			itemId: 2
