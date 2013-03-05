@@ -475,7 +475,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
         var _this = this;
         this._loading.increase();
-        this._request.get('news_feeds_active', {}, {}, function() {
+        this.getActiveFeed(function() {
           var data;
           data = {
             limit: _this._config.itemBatchSize,
@@ -650,6 +650,27 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
           feedId: feedId
         };
         return this._request.get('news_feed', url);
+      };
+
+      Persistence.prototype.getActiveFeed = function(onSuccess) {
+        return this._request.get('news_active_feed', {}, {}, onSuccess);
+      };
+
+      Persistence.prototype.createFeed = function(url, parentFolderId, onSuccess, onError) {
+        var data;
+        data = {
+          parentFolderId: parentFolderId,
+          url: url
+        };
+        return this._request.post('news_create_feed', {}, data, onSuccess, onError);
+      };
+
+      Persistence.prototype.deleteFeed = function(feedId) {
+        var url;
+        url = {
+          feedId: feedId
+        };
+        return this._request.post('news_delete_feed', url);
       };
 
       Persistence.prototype.moveFeed = function(feedId, folderId) {

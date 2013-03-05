@@ -108,6 +108,41 @@ describe '_Persistence', ->
 		expect(@req.post).toHaveBeenCalledWith('news_update_feed', url)
 
 
+	it 'send a correct get active feed request', =>
+		succs = angular.noop
+
+		pers = new @_Persistence(@req, @loading, @config, @active, @$rootScope)
+		pers.getActiveFeed(succs)
+
+		expect(@req.get).toHaveBeenCalledWith('news_active_feed', {}, {}, succs)
+
+
+	it 'send a correct feed delete request', =>
+		url =
+			feedId: 3
+
+		pers = new @_Persistence(@req, @loading, @config, @active, @$rootScope)
+		pers.deleteFeed(url.feedId)
+
+		expect(@req.post).toHaveBeenCalledWith('news_delete_feed', url)
+
+
+	it 'send a correct feed create request', =>
+		data =
+			parentFolderId: 5
+			url: 'http://google.de'
+
+		onsuccess = angular.noop
+		onerror = angular.noop
+
+		pers = new @_Persistence(@req, @loading, @config, @active, @$rootScope)
+		pers.createFeed(data.url, data.parentFolderId, onsuccess, onerror)
+
+		expect(@req.post).toHaveBeenCalledWith('news_create_feed', {}, data,
+			onsuccess, onerror)
+
+
+
 	###
 		FOLDER CONTROLLER
 	###

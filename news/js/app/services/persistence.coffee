@@ -36,7 +36,7 @@ angular.module('News').factory '_Persistence', ->
 			@_loading.increase()
 
 			# items can only be loaded after the active feed is known
-			@_request.get 'news_feeds_active', {}, {}, =>
+			@getActiveFeed =>
 				data =
 					limit: @_config.itemBatchSize
 					type: @_activeFeed.getType()
@@ -178,6 +178,25 @@ angular.module('News').factory '_Persistence', ->
 				feedId: feedId
 
 			@_request.get 'news_feed', url
+
+
+		getActiveFeed: (onSuccess) ->
+			@_request.get 'news_active_feed', {}, {}, onSuccess
+
+
+		createFeed: (url, parentFolderId, onSuccess, onError) ->
+			data =
+				parentFolderId: parentFolderId
+				url: url
+
+			@_request.post 'news_create_feed', {}, data, onSuccess, onError
+
+
+		deleteFeed: (feedId) ->
+			url =
+				feedId: feedId
+
+			@_request.post 'news_delete_feed', url
 
 
 		moveFeed: (feedId, folderId) ->
