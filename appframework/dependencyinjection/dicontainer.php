@@ -112,6 +112,14 @@ class DIContainer extends \Pimple {
 			});
 		});
 
+		// enables the linkTo function as link_to() function in twig
+		$this['TwigLinkTo'] = $this->share(function($c){
+			$api = $c['API'];
+			return new \Twig_SimpleFunction('link_to', function () use ($api) {
+				return call_user_func_array(array($api, 'linkTo'), func_get_args());
+			});
+		});
+
 
 		$this['TwigLoader'] = $this->share(function($c){
 			return new \Twig_Loader_Filesystem($c['TwigTemplateDirectory']);
@@ -132,6 +140,7 @@ class DIContainer extends \Pimple {
 			$twig->addFunction($c['TwigAddScript']);
 			$twig->addFunction($c['TwigAddStyle']);
 			$twig->addFunction($c['TwigL10N']);
+			$twig->addFunction($c['TwigLinkTo']);
 			$twig->addFunction($c['TwigLinkToRoute']);
 			$twig->addFunction($c['TwigLinkToAbsoluteRoute']);
 			return $twig;

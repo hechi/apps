@@ -204,6 +204,19 @@ class API {
 
 
 	/**
+	 * Returns an URL for an image or file
+	 * @param string $file the name of the file
+	 * @param string $app the name of the app, defaults to the current one
+	 */
+	public function linkTo($file, $app=null){
+		if($appName === null){
+			$appName = $this->appName;
+		}
+		return \OC_Helper::linkTo($appName, $file);
+	} 
+
+
+	/**
 	 * Makes an URL absolute
 	 * @param string $url the url
 	 * @return string the absolute url
