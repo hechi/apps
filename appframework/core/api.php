@@ -213,7 +213,20 @@ class API {
 			$appName = $this->appName;
 		}
 		return \OC_Helper::linkTo($appName, $file);
-	} 
+	}
+
+
+	/**
+	 * Returns the link to an image, like link to but only with prepending img/
+	 * @param string $file the name of the file
+	 * @param string $appName the name of the app, defaults to the current one
+	 */
+	public function imagePath($file, $appName=null){
+		if($appName === null){
+			$appName = $this->appName;
+		}
+		return \OC_Helper::imagePath($appName, $file);
+	}
 
 
 	/**
