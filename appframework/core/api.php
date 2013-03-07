@@ -206,9 +206,9 @@ class API {
 	/**
 	 * Returns an URL for an image or file
 	 * @param string $file the name of the file
-	 * @param string $app the name of the app, defaults to the current one
+	 * @param string $appName the name of the app, defaults to the current one
 	 */
-	public function linkTo($file, $app=null){
+	public function linkTo($file, $appName=null){
 		if($appName === null){
 			$appName = $this->appName;
 		}
