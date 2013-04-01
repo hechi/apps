@@ -1,0 +1,229 @@
+<?php
+
+namespace OCA\Groupmanager\Controller;
+
+use \OCA\AppFramework\Controller\Controller;
+use \OCA\AppFramework\Db\DoesNotExistException;
+use \OCA\AppFramework\Core\API;
+use \OCA\AppFramework\Http\Request;
+
+use \OCA\Groupmanager\Controller\ItemController;
+
+use OCA\Groupmanager\Db\Item;
+
+class PageController extends Controller {
+
+    private $itemController;
+    private $itemMapper;
+
+    public function __construct($api, $request, $itemController){
+        parent::__construct($api, $request);
+        $this->itemController=$itemController;
+        $this->itemMapper=$this->itemController->getItemMapper();
+    }
+    
+    /**
+     * @CSRFExemption
+     * @IsAdminExemption
+     * @IsSubAdminExemption
+     *
+     * Redirects to the index page
+     */
+    public function redirectToIndex(){
+            $url = $this->api->linkToRoute('groupmanagerIndex');
+            return new RedirectResponse($url);
+    }
+
+
+    /**
+     * Prints the index page of Groupmanager
+     *
+     * @CSRFExemption
+     * @IsAdminExemption
+     * @IsSubAdminExemption
+     */
+    public function index(){
+        // loads the stylesheets from css directory
+		$this->api->addStyle('style'); //style = /css/style.css
+		$this->api->addStyle('animation'); //animation = /css/animation.css
+
+        // loads the script from the js directory
+		$this->api->addScript('app'); //app = /js/app.js
+        
+        //templateName is the name of the Template in /templates
+		$templateName = 'main';
+		// create a array with parameters if need
+		$params = array();		
+		// paint/render the the template with parameters on the website
+		return $this->render($templateName, $params);
+    }
+    
+	/**
+	 * Prints the right content of the index page
+	 * If 
+	 *   one clicks the new button it prints the new.php page and shows
+	 *   a table of a new group form
+	 * else
+	 *   one clicks an existing group entry from the left side, it prints
+	 *   the edit.php form with the entries from the database
+	 * 
+	 *
+	 * @CSRFExemption
+	 * @IsAdminExemption
+	 * @IsSubAdminExemption
+	 *
+	 * @brief renders the index page
+	 * @return an instance of a Response implementation
+	 */
+	public function getRightContent(){
+        // get the transfered parameters
+        // you must now the name of the parameter
+		$id = $this->params('id');
+		
+		//create an empty array
+		$params = array();
+		
+		if($id=='new'){
+    		//if the id is new, than we want to get the template new
+			$templateName = 'new';
+		}else{
+	        //if the id is not new (better a number) than we
+	        //want the edit template withe the group who is selected
+			$templateName = 'edit';
+
+            //greate a new item and get the Group from the database   
+            //getGroups is a Method from itemcontroller.php                     
+			$item = $this->getGroup($id);
+			//create an array with the all information of the group
+			$params = array('groupname'=>$item->getGroupname(),
+			                'members'=>$item->getMemberStr(),
+			                'groupadmin'=>$item->getGroupadminStr(),
+			                'description'=>$item->getDescription()
+			                );
+			
+		}
+		// paint/render the the template with parameters on the website
+		return $this->render($templateName, $params,'blank');
+	}
+	
+	/**
+	 * Saves the entries from the new.php form into the database
+	 * 
+	 * @CSRFExemption
+	 * @IsAdminExemption
+	 * @IsSubAdminExemption
+	 *
+	 * 
+	 * @return an instance of a Response implementation
+	 */
+	public function createGroup(){
+	        //create an array with all parameters from the website
+	        //createGroup is called from Save Button in the /js/app.js
+	        $row = array();
+            $row['groupname'] = $this->params('groupname');
+            $row['members'] = $this->params('members');
+            $row['groupadmin'] = $this->params('groupadmin');
+            $row['description'] = $this->params('description');
+            
+            //create a new Item with all information in the $row array
+            $item = new Item($row);
+            
+            //call the function from the itemMapper who save it into to
+            //database
+            $this->itemMapper->save($item);                
+            
+            //TODO print an sucessfull page
+            //print a blank page
+            return $this->render('new', array(),'blank');
+	}
+	
+	public function modifyGroup(){
+	    $templateName = 'edit';
+
+        //create an array with all parameters from the website
+        //createGroup is called from Save Button in the /js/app.js
+        $row = array();
+        $row['groupid'] = $this->params('id');
+        $row['groupname'] = $this->params('groupname');
+        $row['members'] = $this->params('members');
+        $row['groupadmin'] = $this->params('groupadmin');
+        $row['description'] = $this->params('description');
+	    
+	    $params = $row;
+	    $params['notification'] = 'modified';
+	    
+	    //create a new Item with all information in the $row array
+        $item = new Item($row);
+        
+        //call the function from the itemMapper who save it into to
+        //database
+        $this->itemMapper->update($item);
+	    
+	    return $this->render($templateName,$params,'blank');
+	
+	}
+	
+	public function deleteGroup(){
+	    $templateName = 'new';
+
+	    $this->itemMapper->deleteByGroupId($this->params('id'));
+	    
+	    $params = array();
+	    
+	    return $this->render($templateName,$params,'blank');
+	
+	}
+
+	/**
+	 * @CSRFExemption
+	 * @IsAdminExemption
+	 * @IsSubAdminExemption
+	 *
+	 * 
+	 * @return an instance of a Response implementation
+	 */
+	public function getGroups(){
+        try {
+            //get all Group from the database where the user is
+            //a member       
+			$entries = $this->itemMapper->findByUserId($this->api->getUserId());
+		} catch (DoesNotExistException $e) {
+                        //if there is no group where the user is a member
+                        //TODO create nothing or create a usergroup
+                        /*
+			$item = new Item();
+			$item->setGroupname($this->api->getUserId());
+			$item->addMember('admin');
+			$item->setGroupadmin('john');
+			$item->setDescription('empty');
+			$this->itemMapper->save($item);
+			*/
+		}
+		$array = array();
+		foreach($entries as $entry){
+		        $array[]=$entry->getProperties();
+		}
+		// give back a jason object that the /js/app.js use to create
+		// listItems in the leftcontent
+		return $this->renderJSON($array);	
+	}
+	
+	/**
+	 * @CSRFExemption
+	 * @IsAdminExemption
+	 * @IsSubAdminExemption
+	 *
+	 * 
+	 * @return an instance of a Response implementation
+	 */
+	public function getGroup(){
+        // get the transfered parameters
+        // you must now the name of the parameter
+        $id = $this->params('id');
+        // get group information from database, depending on the id
+		$item = $this->itemMapper->findByGroupId($id);
+		// give the item back to the /js/app.js 
+		// the script fills the edit.php form from the /templates/edit.php
+		return $item;	
+	}
+}
