@@ -31,6 +31,13 @@
         padding: 2em;
 }
 
+#rightcontent, .rightcontent { 
+    position:fixed; 
+    top:6.4em; 
+    left:26em; 
+    overflow:auto 
+}
+
 .heading {
         margin: 0 0 1em 0;
         font-size: 12pt;

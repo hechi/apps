@@ -2,7 +2,7 @@
 <info>
 	<id>groupmanager</id>
 	<name>Groupmanager</name>
-	<description>This app allow you to manage groups</description>
+	<description>This app allows you to manage groups</description>
 	<version>1.0</version>
 	<licence>AGPL</licence>
 	<author>Andreas Hechenberger</author>

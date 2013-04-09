@@ -1,6 +1,4 @@
 
-
-
 $(document).ready(function () {
     // be sure that all routes from /appinfo/routes.php are loaded
 	OC.Router.registerLoadedCallback(function(){
@@ -27,21 +25,29 @@ $(document).ready(function () {
                             // fill the rightcontent of the view with the result
                             // from the url
                             $('#rightcontent').html(result);
-                            // register a click action on the buttons
-                            $('#modify').click(function(){
-                                //TODO mod DB
-                                var url2 = OC.Router.generate('groupmanagerModifyGroup',{id:element.groupid});
-                                var post = $('#modForm').serialize();
-                                console.log('Stuff '+post);
-                                $.post(url2,post,function(result){
-                                    console.log('result from the post '+result['notification']);
-                                    $('#rightcontent').html(result);
-                                });
-                             });
+                            // get permissions field from the result
+                            var $permission = $('#permission').attr('value');
+                            // if the permission is false than the user 
+                            // do not have the permission to modify the
+                            // group
+                            if($permission==='false'){
+                                $('#modify').hide();
+                            }else{
+                                // register a click action on the buttons
+                                $('#modify').click(function(){
+                                    var url3 = OC.Router.generate('groupmanagerModifyGroup',{id:element.groupid});
+                                    var post = $('#modForm').serialize();
+                                    console.log('Stuff '+post);
+                                    $.post(url3,post,function(result){
+                                        console.log('print new content');
+                                        $('#rightcontent').html(result);
+                                    });
+                                 });
+                             }
                              $('#delete').click(function(){
                                 //TODO mod DB
-                                var url2 = OC.Router.generate('groupmanagerDeleteGroup',{id:element.groupid});
-                                $.post(url2,function(result){
+                                var url4 = OC.Router.generate('groupmanagerDeleteGroup',{id:element.groupid});
+                                $.post(url4,function(result){
                                     console.log('pushed the button delete');
                                     $('#rightcontent').html(result);
                                 });

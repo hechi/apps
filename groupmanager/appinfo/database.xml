@@ -15,15 +15,6 @@
     				<autoincrement>1</autoincrement>
 				<length>4</length>
 			</field>
-			<!-- TODO clean the groupadmin stuff to an extra table -->
-			<!--
-			<field>
-				<name>groupadmin</name>
-				<type>text</type>
-				<notnull>true</notnull>
-				<length>64</length>
-			</field>
-			-->
 			<field>
 				<name>groupname</name>
 				<type>text</type>
@@ -33,7 +24,6 @@
 			<field>
 				<name>description</name>
 				<type>text</type>
-				<notnull>true</notnull>
 				<length>360</length>
 			</field>
 		</declaration>
@@ -48,14 +38,14 @@
 				<default>0</default>
 				<notnull>true</notnull>
     				<autoincrement>1</autoincrement>
-				<length>4</length>
+				<length>64</length>
 			</field>
 			<field>
 				<name>groupid</name>
 				<type>integer</type>
 				<default>0</default>
 				<notnull>true</notnull>
-				<length>4</length>
+				<length>64</length>
 			</field>
 			<field>
 				<name>member</name>

@@ -6,5 +6,8 @@
 "Groupadmin" => "Gruppenleiter",
 "Description" => "Beschreibung",
 "Save" => "Speichern",
-"Delete" => "Löschen"
+"Delete" => "Löschen",
+"Unique groupidentifier" => "Eindeutige Gruppenkennung",
+"Yes" => "Ja",
+"Autocompletion" => "Autovervollständigung"
 );

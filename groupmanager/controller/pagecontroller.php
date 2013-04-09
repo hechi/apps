@@ -1,21 +1,51 @@
 <?php
 
+/**
+* @author Andreas Hechenberger
+* @copyright 2012 Andreas Hechenberger oc@hechenberger.me
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+* License as published by the Free Software Foundation; either
+* version 3 of the License, or any later version.
+*
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+*
+* You should have received a copy of the GNU Affero General Public
+* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+*
+* 
+* The pagecontroller is the connection between the javascript (app.js) and the
+* database (itemmapper).
+*/
+
 namespace OCA\Groupmanager\Controller;
 
+// import the AppFramwork classes
 use \OCA\AppFramework\Controller\Controller;
 use \OCA\AppFramework\Db\DoesNotExistException;
 use \OCA\AppFramework\Core\API;
 use \OCA\AppFramework\Http\Request;
 
+// import the ItemController to get the Itemmapper
 use \OCA\Groupmanager\Controller\ItemController;
 
+// import the Item, that represents the Entry in the database
 use OCA\Groupmanager\Db\Item;
 
 class PageController extends Controller {
 
+    /* Attribute */
     private $itemController;
     private $itemMapper;
 
+    /**
+     * Constructor of the PageController
+     * initialize the attribute
+     */
     public function __construct($api, $request, $itemController){
         parent::__construct($api, $request);
         $this->itemController=$itemController;
@@ -95,10 +125,15 @@ class PageController extends Controller {
             //getGroups is a Method from itemcontroller.php                     
 			$item = $this->getGroup($id);
 			//create an array with the all information of the group
+			//check if the user is a admin, write true in permission if 
+			//he is an admin, else write false
+			$permission = ($item->isAdmin($this->api->getUserId()))?'true':'false';
+			
 			$params = array('groupname'=>$item->getGroupname(),
 			                'members'=>$item->getMemberStr(),
 			                'groupadmin'=>$item->getGroupadminStr(),
-			                'description'=>$item->getDescription()
+			                'description'=>$item->getDescription(),
+			                'permission'=>$permission,
 			                );
 			
 		}
@@ -120,6 +155,7 @@ class PageController extends Controller {
 	        //create an array with all parameters from the website
 	        //createGroup is called from Save Button in the /js/app.js
 	        $row = array();
+			print($this->params('groupname'));
             $row['groupname'] = $this->params('groupname');
             $row['members'] = $this->params('members');
             $row['groupadmin'] = $this->params('groupadmin');
@@ -137,6 +173,16 @@ class PageController extends Controller {
             return $this->render('new', array(),'blank');
 	}
 	
+	/**
+	 * Modifie the entry with the passed id from the edit.php into the database
+	 * 
+	 * @CSRFExemption
+	 * @IsAdminExemption
+	 * @IsSubAdminExemption
+	 *
+	 * 
+	 * @return an instance of a Response implementation
+	 */
 	public function modifyGroup(){
 	    $templateName = 'edit';
 
@@ -158,11 +204,22 @@ class PageController extends Controller {
         //call the function from the itemMapper who save it into to
         //database
         $this->itemMapper->update($item);
-	    
+        
 	    return $this->render($templateName,$params,'blank');
 	
 	}
 	
+	/**
+	 * Delete the entry with the passed parameter from the app.js 
+	 * from the database
+	 * 
+	 * @CSRFExemption
+	 * @IsAdminExemption
+	 * @IsSubAdminExemption
+	 *
+	 * 
+	 * @return an instance of a Response implementation
+	 */
 	public function deleteGroup(){
 	    $templateName = 'new';
 
@@ -171,10 +228,11 @@ class PageController extends Controller {
 	    $params = array();
 	    
 	    return $this->render($templateName,$params,'blank');
-	
 	}
 
 	/**
+	 * Get all groups where the user is a member or admin
+	 * 
 	 * @CSRFExemption
 	 * @IsAdminExemption
 	 * @IsSubAdminExemption
@@ -188,9 +246,9 @@ class PageController extends Controller {
             //a member       
 			$entries = $this->itemMapper->findByUserId($this->api->getUserId());
 		} catch (DoesNotExistException $e) {
-                        //if there is no group where the user is a member
-                        //TODO create nothing or create a usergroup
-                        /*
+            //if there is no group where the user is a member
+            //TODO create nothing or create a usergroup
+            /*
 			$item = new Item();
 			$item->setGroupname($this->api->getUserId());
 			$item->addMember('admin');
@@ -200,6 +258,7 @@ class PageController extends Controller {
 			*/
 		}
 		$array = array();
+		// get all informations from the entries
 		foreach($entries as $entry){
 		        $array[]=$entry->getProperties();
 		}
@@ -209,12 +268,14 @@ class PageController extends Controller {
 	}
 	
 	/**
+	 * Get a single entry with the passed id from the app.js
+	 * 
 	 * @CSRFExemption
 	 * @IsAdminExemption
 	 * @IsSubAdminExemption
 	 *
 	 * 
-	 * @return an instance of a Response implementation
+	 * @return a single groupitem
 	 */
 	public function getGroup(){
         // get the transfered parameters
@@ -226,4 +287,30 @@ class PageController extends Controller {
 		// the script fills the edit.php form from the /templates/edit.php
 		return $item;	
 	}
+	
+	/************************************************************************** 
+	                ADMIN SETTINGS                 
+	 **************************************************************************/
+	
+	/**
+     * Creat an entry in the admin panel
+     *
+     * @CSRFExemption
+     */
+    public function adminSettings(){
+        // loads the stylesheets from css directory
+		$this->api->addStyle('style'); //style = /css/style.css
+		$this->api->addStyle('animation'); //animation = /css/animation.css
+
+        // loads the script from the js directory
+		//$this->api->addScript('settings'); //app = /js/settings.js
+        
+        //templateName is the name of the Template in /templates
+		$templateName = 'part.settings';
+		// create a array with parameters if need
+		$params = array();		
+		// paint/render the the template with parameters on the website
+		return $this->render($templateName, $params,'admin');
+    }
+	
 }

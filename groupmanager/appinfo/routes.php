@@ -42,7 +42,7 @@ $this->create('groupmanagerModifyGroup', '/modifyGroup/')->post()->action(
 	}
 );
 
-// Route to the modifyGroup Method from pagecontroller.php
+// Route to the deleteGroup Method from pagecontroller.php
 $this->create('groupmanagerDeleteGroup', '/deleteGroup/')->post()->action(
 	function($params){
 		App::main('PageController', 'deleteGroup', $params, new DIContainer());
@@ -62,3 +62,14 @@ $this->create('groupmanagerGetGroup', '/getGroup/')->post()->action(
 		App::main('PageController', 'getGroup', $params, new DIContainer());
 	}
 );
+
+/**
+ * Admin Routes
+ */
+ 
+$this->create('adminSettings', '/adminSettings/')->post()->action(
+	function($params){
+		App::main('PageController', 'adminSettings', $params, new DIContainer());
+	}
+);
+

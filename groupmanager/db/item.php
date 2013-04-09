@@ -2,8 +2,8 @@
 /**
 * ownCloud - App Template Example
 *
-* @author Bernhard Posselt
-* @copyright 2012 Bernhard Posselt nukeawhale@gmail.com
+* @author Andreas Hechenberger
+* @copyright 2012 Andreas Hechenberger oc@hechenberger.me
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -21,7 +21,6 @@
 */
 
 namespace OCA\Groupmanager\Db;
-
 
 class Item {
 
@@ -54,7 +53,7 @@ class Item {
 	        $this->groupid = $row['groupid'];
         }
 		$this->groupname = $row['groupname'];
-		//TODO check why i forget the reason
+		//TODO check why, i forget the reason
 		if(isset($row['members'])){
 	        $list = split(',',$row['members']);
 		    foreach( $list as $entry ){
@@ -91,6 +90,9 @@ class Item {
 		return $this->member;
 	}
 	
+	/**
+	 * 
+	 */	
 	public function getMemberStr(){
 	    $memberStr = '';
         foreach($this->member as $mem){
@@ -103,6 +105,9 @@ class Item {
 		return $this->groupadmin;
 	}
 	
+	/**
+	 *
+	 */
 	public function getGroupadminStr(){
 	    $admStr = '';
         foreach($this->groupadmin as $adm){
@@ -139,6 +144,28 @@ class Item {
     //TODO not good to set member better to add and remove members
 	public function setGroupmember($memberList){
 		$this->member = $memberList;
+	}
+	
+	public function isInGroup($user){
+	    return $this->isAdmin($user) || $this->isMember($user);
+	}
+	
+	public function isAdmin($user){
+	    return $this->isInArray($this->groupadmin,$user);
+	}
+	
+	public function isMember($user){
+	    return $this->isInArray($this->member,$user);
+	}
+	
+	private function isInArray(array $array,$search){
+	    $ret = false;
+	    foreach($array as $element){
+	        if($element === $search){
+	            $ret=true;
+	        }
+	    }
+	    return $ret;
 	}
 	
 	/**
