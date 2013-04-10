@@ -30,6 +30,7 @@ class Item {
 	private $member;
 	private $groupadmin;
 	private $description;
+	private $groupcreator;
 
     // contructor that initialized the attributes if there is no parameter
 	public function __construct($fromRow=null){
@@ -38,6 +39,7 @@ class Item {
 		$this->member = array();
 		$this->groupadmin = array();
 		$this->description = "non description";
+		$this->groupcreator = "";
 
 		if($fromRow){
 			$this->fromRow($fromRow);
@@ -75,6 +77,7 @@ class Item {
 		    }
 	    }
 		$this->description = $row['description'];
+		$this->groupcreator = $row['groupcreator'];
 	}
 
 // GETTER
@@ -88,6 +91,10 @@ class Item {
 
 	public function getMember(){
 		return $this->member;
+	}
+	
+	public function getGroupcreator(){
+	    return $this->groupcreator;
 	}
 	
 	/**
@@ -129,7 +136,8 @@ class Item {
 	                     'groupname' => $this->groupname,
 	                     'members' => $this->getMemberStr(),
 	                     'groupadmin' => $this->getGroupadminStr(),
-	                     'description'=> $this->description);	
+	                     'description'=> $this->description,
+	                     'groupcreator' => $this->groupcreator);	
 	}
 
 // SETTER
@@ -144,6 +152,10 @@ class Item {
     //TODO not good to set member better to add and remove members
 	public function setGroupmember($memberList){
 		$this->member = $memberList;
+	}
+	
+	public function setGroupcreator($creator){
+	    $this->groupcreator = $creator;
 	}
 	
 	public function isInGroup($user){

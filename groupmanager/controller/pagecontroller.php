@@ -136,6 +136,7 @@ class PageController extends Controller {
 			                'groupadmin'=>$item->getGroupadminStr(),
 			                'description'=>$item->getDescription(),
 			                'permission'=>$permission,
+			                'groupcreator'=>$item->getGroupcreator(),
 			                );
 			
 		}
@@ -162,6 +163,7 @@ class PageController extends Controller {
             $row['members'] = $this->params('members');
             $row['groupadmin'] = $this->params('groupadmin');
             $row['description'] = $this->params('description');
+            $row['groupcreator'] = $this->api->getUserId();
             
             //create a new Item with all information in the $row array
             $item = new Item($row);
@@ -196,6 +198,9 @@ class PageController extends Controller {
         $row['members'] = $this->params('members');
         $row['groupadmin'] = $this->params('groupadmin');
         $row['description'] = $this->params('description');
+        $row['groupcreator'] = $this->params('groupcreator');
+	    
+	    echo "aaaaaaaaaa ".$this->params('groupcreator')." aaaaaaaaaaaaaaaaa";
 	    
 	    $params = $row;
 	    $params['notification'] = 'modified';
@@ -301,10 +306,12 @@ class PageController extends Controller {
     private function initAdminSettings(){
         $unique = $this->getUniqueGroupIdSetting();
         $autocomp = $this->getAutocompletionSetting();
-        if(!$unique){
+        // check if the attributes are in the /config/config.php file
+        // if not set it to the default values
+        if($unique===''){
             $this->setUniqueGroupIdSetting(false);
         }
-        if(!$autocomp){
+        if($autocomp===''){
             $this->setAutocompletionSetting(true);
         }
     }

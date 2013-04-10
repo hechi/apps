@@ -10,10 +10,9 @@
 			<field>
 				<name>groupid</name>
 				<type>integer</type>
-				<default>0</default>
 				<notnull>true</notnull>
-    				<autoincrement>1</autoincrement>
-				<length>4</length>
+			    <autoincrement>true</autoincrement>
+			    <primary>true</primary>
 			</field>
 			<field>
 				<name>groupname</name>
@@ -26,6 +25,12 @@
 				<type>text</type>
 				<length>360</length>
 			</field>
+			<field>
+				<name>groupcreator</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
 		</declaration>
 	</table>
 
@@ -35,10 +40,9 @@
 	        <field>
 				<name>id</name>
 				<type>integer</type>
-				<default>0</default>
 				<notnull>true</notnull>
-    				<autoincrement>1</autoincrement>
-				<length>64</length>
+				<autoincrement>true</autoincrement>
+				<primary>true</primary>
 			</field>
 			<field>
 				<name>groupid</name>
@@ -62,10 +66,9 @@
 	        <field>
 				<name>id</name>
 				<type>integer</type>
-				<default>0</default>
 				<notnull>true</notnull>
-    				<autoincrement>1</autoincrement>
-				<length>4</length>
+				<autoincrement>true</autoincrement>
+				<primary>true</primary>
 			</field>
 			<field>
 				<name>groupid</name>

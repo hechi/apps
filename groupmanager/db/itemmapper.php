@@ -197,8 +197,8 @@ class ItemMapper extends Mapper {
 	 */
 	public function save($item){
         //TODO more sql magic to but it in the right tables
-		$sqlGroup = 'INSERT INTO `'. $this->tableName . '`(`groupname`, `description`)'.
-				' VALUES(?, ?)';
+		$sqlGroup = 'INSERT INTO `'. $this->tableName . '`(`groupname`, `description`,`groupcreator`)'.
+				' VALUES(?, ?, ?)';
 		$sqlGroupadmins = 'INSERT INTO `'. $this->tableAdmin . '`(`groupid`, `admin`)'.
 		        ' VALUES(?, ?)';
 		$sqlGroupmembers = 'INSERT INTO `'. $this->tableMember . '`(`groupid`, `member`)'.
@@ -206,7 +206,8 @@ class ItemMapper extends Mapper {
 		        
 		$paramsGroup = array(
 			$item->getGroupname(),
-			$item->getDescription()
+			$item->getDescription(),
+			$item->getGroupcreator()
 		);
 
 		$this->execute($sqlGroup, $paramsGroup);

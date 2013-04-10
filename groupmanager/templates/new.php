@@ -2,6 +2,7 @@
 <div id="notificationMod">{{notification}} </div>
 
 <form id="newForm">
+<div type="hidden" id="groupcreator" value="{{groupcreator}}"></div>
     <table border="0">
         <tr>
             <td><label for="groupname">{{trans('Groupname')}}</label></td>
