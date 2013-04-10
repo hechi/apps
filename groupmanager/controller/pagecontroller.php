@@ -198,9 +198,7 @@ class PageController extends Controller {
         $row['members'] = $this->params('members');
         $row['groupadmin'] = $this->params('groupadmin');
         $row['description'] = $this->params('description');
-        $row['groupcreator'] = $this->params('groupcreator');
-	    
-	    echo "aaaaaaaaaa ".$this->params('groupcreator')." aaaaaaaaaaaaaaaaa";
+        $row['groupcreator'] = $this->params('creator');
 	    
 	    $params = $row;
 	    $params['notification'] = 'modified';
@@ -440,6 +438,27 @@ class PageController extends Controller {
 		            'autocompCheck' => $autocomp,
 		            'notification'=>'saved');		
 		// give back all information to the website as an JSON Object
+		return $this->renderJSON($params);
+    }
+    
+    
+    /**
+     * returns the settings from the configuration file /config/config.php
+     *
+     * @CSRFExemption
+     */
+    public function getSettings(){
+        
+        // get system value from the /config/config.php file
+		$unique = $this->getUniqueGroupIdSetting();
+        $autocomp = $this->getAutocompletionSetting();
+        
+        // create a array with parameters if need
+		$params = array(
+		        'uniqueGroupIdCheck' => $unique,
+		        'autocompCheck' => $autocomp);
+		        
+        // give back all information to the website as an JSON Object
 		return $this->renderJSON($params);
     }
 	

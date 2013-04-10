@@ -240,6 +240,9 @@ class ItemMapper extends Mapper {
 	 * Method reads all informations from the parameter and 
 	 * Modifies the database
 	 * @param Item $item: the item to be updated
+	 * 
+	 * TODO: write these in BA
+	 * CAUTION: the creator can not be modified!
 	 */
 	public function update($item){
 		$sqlGroup = 'UPDATE `'. $this->tableName . '` SET

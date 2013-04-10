@@ -1,7 +1,21 @@
+function getSettings(){
+    var getUrl = OC.Router.generate('getSettings');
+    var ret = new Array();
+    $.post(getUrl,function(result){
+        if(result.status == 'success'){
+                ret["uniqueGroupIdCheck"]=(result.data.uniqueGroupIdCheck);
+                ret["autocompCheck"]=(result.data.autocompCheck);
+        }
+    },"json");
+    return ret;
+}
+
 
 $(document).ready(function () {
     // be sure that all routes from /appinfo/routes.php are loaded
 	OC.Router.registerLoadedCallback(function(){
+	    // load settings
+	    var settings = getSettings();
         // generate a url from the /appinfo/routes.php
         var url = OC.Router.generate('groupmanagerGetGroups');
         // get tha page from the url
@@ -13,8 +27,13 @@ $(document).ready(function () {
                 // create a loop for all data in the json object
                 data.forEach(function(element,index,array){
                     // create an listItem (li) for the left content and
-                    // fill it with the name of the groupe
-                    var li = $('<li>'+escapeHTML(element.groupname)+'</li>');
+                    if(settings["uniqueGroupIdCheck"]){
+                        // fill it with the name of the groupe and the creator
+                        var li = $('<li>'+escapeHTML(element.groupcreator+':'+element.groupname)+'</li>');
+                    }else{
+                        // fill it with the name of the groupe
+                        var li = $('<li>'+escapeHTML(element.groupname)+'</li>');
+                    }
                     // register a click action on the listItem
                     li.click(function(){
                         // generate a url from the /appinfo/routes.php and
@@ -35,7 +54,7 @@ $(document).ready(function () {
                             }else{
                                 // register a click action on the buttons
                                 $('#modify').click(function(){
-                                    var url3 = OC.Router.generate('groupmanagerModifyGroup',{id:element.groupid});
+                                    var url3 = OC.Router.generate('groupmanagerModifyGroup',{id:element.groupid,creator:element.groupcreator});
                                     var post = $('#modForm').serialize();
                                     console.log('Stuff '+post);
                                     $.post(url3,post,function(result){

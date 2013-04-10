@@ -63,19 +63,29 @@ $this->create('groupmanagerGetGroup', '/getGroup/')->post()->action(
 	}
 );
 
+
 /**
  * Admin Routes
  */
- 
+
+// Route to the adminSettings Method from pagecontroller.php 
 $this->create('adminSettings', '/adminSettings/')->post()->action(
 	function($params){
 		App::main('PageController', 'adminSettings', $params, new DIContainer());
 	}
 );
 
+// Route to the saveSettings Method from pagecontroller.php
 $this->create('saveSettings', '/saveSettings/')->post()->action(
 	function($params){
 		App::main('PageController', 'saveSettings', $params, new DIContainer());
+	}
+);
+
+// Route to the getSettings Method from pagecontroller.php
+$this->create('getSettings', '/getSettings/')->post()->action(
+	function($params){
+		App::main('PageController', 'getSettings', $params, new DIContainer());
 	}
 );
 
