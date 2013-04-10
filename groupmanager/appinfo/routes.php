@@ -73,3 +73,9 @@ $this->create('adminSettings', '/adminSettings/')->post()->action(
 	}
 );
 
+$this->create('saveSettings', '/saveSettings/')->post()->action(
+	function($params){
+		App::main('PageController', 'saveSettings', $params, new DIContainer());
+	}
+);
+

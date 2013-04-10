@@ -50,6 +50,8 @@ class PageController extends Controller {
         parent::__construct($api, $request);
         $this->itemController=$itemController;
         $this->itemMapper=$this->itemController->getItemMapper();
+        
+        $this->initAdminSettings();
     }
     
     /**
@@ -291,8 +293,78 @@ class PageController extends Controller {
 	/************************************************************************** 
 	                ADMIN SETTINGS                 
 	 **************************************************************************/
+	  
+    /**
+     * If there es no entry in the /config/config.php for the groupmanager
+     * admin setting. Then create some.
+     */
+    private function initAdminSettings(){
+        $unique = $this->getUniqueGroupIdSetting();
+        $autocomp = $this->getAutocompletionSetting();
+        if(!$unique){
+            $this->setUniqueGroupIdSetting(false);
+        }
+        if(!$autocomp){
+            $this->setAutocompletionSetting(true);
+        }
+    }
 	
-	/**
+    /**
+     * Get the value of the uniqueGroupId from the /config/config.php
+     * @return bool: Returns True if The Value is Yes, otherwise False
+     */
+    private function getUniqueGroupIdSetting(){
+        $value = $this->getSettingByName('groupmanagerUniqueGroupId');
+        return $value;
+    }
+    
+    /**
+     * Get the value of the autocompletionBox from the /config/config.php
+     * @return bool: Returns True if The Value is Yes, otherwise False
+     */
+    private function getAutocompletionSetting(){
+        $value = $this->getSettingByName('groupmanagerAutocompletionBox');
+        return $value;
+    }
+    
+    /**
+     * Get a value of the settingAttribute from the /config/config.php
+     * @param $key: settingAttribute in the /config/config.php
+     * @return string: Returns the string of the /config/config.php
+     */
+    private function getSettingByName($key){
+        return $this->api->getSystemValue($key);
+    }
+    
+    /**
+     * Set the settingAttribute of the uniqueGroupId into the /config/config.php
+     * file
+     * @param $value bool: set the attribute
+     */    
+    private function setUniqueGroupIdSetting($value){
+        $this->setSettingByName('groupmanagerUniqueGroupId',$value);
+    }
+    
+    /**
+     * Set the settingAttribute of the autocompletionBox into the /config/config.php
+     * file
+     * @param $value bool: set the attribute
+     */
+    private function setAutocompletionSetting($value){
+        $this->setSettingByName('groupmanagerAutocompletionBox',$value);
+    }
+    
+    /**
+     * Set value of the given settingAttribute into the /config/config.php
+     * file
+     * @param $key string: name of the attribute
+     * @param $value : value to set
+     */
+    private function setSettingByName($key,$value){
+         $this->api->setSystemValue($key,$value);
+    }
+    
+    /**
      * Creat an entry in the admin panel
      *
      * @CSRFExemption
@@ -302,15 +374,66 @@ class PageController extends Controller {
 		$this->api->addStyle('style'); //style = /css/style.css
 		$this->api->addStyle('animation'); //animation = /css/animation.css
 
-        // loads the script from the js directory
-		//$this->api->addScript('settings'); //app = /js/settings.js
-        
         //templateName is the name of the Template in /templates
 		$templateName = 'part.settings';
+		
+		// get system value from the /config/config.php file
+		$unique = $this->getUniqueGroupIdSetting();
+        $autocomp = $this->getAutocompletionSetting();
+        
+        // check if there is a Yes then but a checked in the variable
+        // otherwise do nothing in it
+        if($unique){
+            $unique = 'checked';
+        }else{
+            $unique = '';
+        }        
+        if($autocomp){
+            $autocomp = 'checked';
+        }else{
+            $autocomp = '';
+        }
+		
 		// create a array with parameters if need
-		$params = array();		
+		$params = array(
+		        'uniqueGroupIdCheck' => $unique,
+		        'autocompCheck' => $autocomp);
+	
 		// paint/render the the template with parameters on the website
 		return $this->render($templateName, $params,'admin');
+    }
+    
+	/**
+     * saves the settings to the configuration file /config/config.php
+     *
+     * @CSRFExemption
+     */
+    public function saveSettings(){
+		
+		$unique = '';
+		$autocomp = '';
+		
+		if($this->params('groupIdBox')==='on'){
+		    $this->setUniqueGroupIdSetting(true);
+		    $unique = 'checked';
+		}else{
+		    $this->setUniqueGroupIdSetting(false);
+		}
+		
+		if($this->params('autocompletionBox')==='on'){
+		    $this->setAutocompletionSetting(true);
+		    $autocomp = 'checked';
+		}else{
+		    $this->setAutocompletionSetting(false);
+		}
+		
+		// create a array with parameters if need
+		$params = array(
+		            'uniqueGroupIdCheck' => $unique,
+		            'autocompCheck' => $autocomp,
+		            'notification'=>'saved');		
+		// give back all information to the website as an JSON Object
+		return $this->renderJSON($params);
     }
 	
 }
