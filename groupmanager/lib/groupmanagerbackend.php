@@ -101,10 +101,21 @@ class GroupmanagerBackend implements \OCP\GroupInterface {
         $groups = $this->findByUserId($uid);
         //create an empty array
         $groupnames = array();
+        //check the SystemSettings for the uniqueGroupId flag
+        $withCreator=false;
+        if($this->getUniqueGroupIdSetting()){
+            $withCreator=true;
+        }
         //fill the array with all names of the groups
         foreach($groups as $item){
-            array_push($groupnames,$item->getGroupname());
-        }  
+            if($withCreator){
+                //if the uniqueGroupId is set then concat to the groupname also the groupcreator
+                array_push($groupnames,$item->getGroupname()." (".$item->getGroupcreator().") ");
+            }else{
+                //else give only the groupname back
+                array_push($groupnames,$item->getGroupname());
+            }
+        }   
         //return the names
         return $groupnames;  
     }
@@ -123,9 +134,20 @@ class GroupmanagerBackend implements \OCP\GroupInterface {
         $groups = $this->findAll();
         //create an empty array
         $groupnames = array();
+        //check the SystemSettings for the uniqueGroupId flag
+        $withCreator=false;
+        if($this->getUniqueGroupIdSetting()){
+            $withCreator=true;
+        }
         //fill the array with all names of the groups
         foreach($groups as $item){
-            array_push($groupnames,$item->getGroupname());
+            if($withCreator){
+                //if the uniqueGroupId is set then concat to the groupname also the groupcreator
+                array_push($groupnames,$item->getGroupname()." (".$item->getGroupcreator().") ");
+            }else{
+                //else give only the groupname back
+                array_push($groupnames,$item->getGroupname());
+            }
         }  
         //return the names
         return $groupnames;  
@@ -451,5 +473,34 @@ class GroupmanagerBackend implements \OCP\GroupInterface {
 	    $this->execute($sqlGroupadmin,$params);
 	    $this->execute($sqlGroupmember,$params);
 	}
+	
+	//TODO: make a better static Class for the settings
+	
+	/**
+     * Get the value of the uniqueGroupId from the /config/config.php
+     * @return bool: Returns True if The Value is Yes, otherwise False
+     */
+    private function getUniqueGroupIdSetting(){
+        $value = $this->getSettingByName('groupmanagerUniqueGroupId');
+        return $value;
+    }
+    
+    /**
+     * Get the value of the autocompletionBox from the /config/config.php
+     * @return bool: Returns True if The Value is Yes, otherwise False
+     */
+    private function getAutocompletionSetting(){
+        $value = $this->getSettingByName('groupmanagerAutocompletionBox');
+        return $value;
+    }
+    
+    /**
+     * Get a value of the settingAttribute from the /config/config.php
+     * @param $key: settingAttribute in the /config/config.php
+     * @return string: Returns the string of the /config/config.php
+     */
+    private function getSettingByName($key){
+        return \OCP\Config::getSystemValue($key, '');
+    }
     
 }

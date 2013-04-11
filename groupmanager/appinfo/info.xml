@@ -5,6 +5,7 @@
 	<description>This app allows you to manage groups</description>
 	<version>1.0</version>
 	<licence>AGPL</licence>
+	<shipped>true</shipped>
 	<author>Andreas Hechenberger</author>
 	<require>4</require>
 </info>
