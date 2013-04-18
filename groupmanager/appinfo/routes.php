@@ -89,3 +89,10 @@ $this->create('getSettings', '/getSettings/')->post()->action(
 	}
 );
 
+// Route to the getSettings Method from pagecontroller.php
+$this->create('getUsers', '/getUsers/')->post()->action(
+	function($params){
+		App::main('PageController', 'getUsers', $params, new DIContainer());
+	}
+);
+

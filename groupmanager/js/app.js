@@ -10,6 +10,55 @@ function getSettings(){
     return ret;
 }
 
+function initDropDown(tagName) {
+        console.log("init DropDown");
+        $(tagName).autocomplete({
+            minLength : 1,
+            source : function(search, response) {
+            console.log("was das: "+search.term);
+                var getUrl = OC.Router.generate('getUsers',{searchString:search.term});
+                var ret = new Array();
+                $.post(getUrl,function(result){
+                    if(result.status == 'success' && result.data.length > 0) {
+                       console.log(result.data);
+                       response(result.data);
+                    }                
+                });
+                                //$('#shareWith').appentTo("hihi");
+                //$('#shareWith').append($( "<li>" ).append($('<a>').text("hallo")));
+            },            
+            focus : function(event, focused) {
+                event.preventDefault();
+            },
+            select : function(event, selected) {
+                /*
+                var member = selected.item.value.shareWith;
+                $.post(OC.filePath('group_custom', 'ajax', 'addmember.php'), { member : member , group : OC.GroupCustom.groupSelected } , function ( jsondata ){
+                    if(jsondata.status == 'success' ) {
+                        $('#shareWith').val('');
+                        OC.GroupCustom.groupMember[OC.Share.SHARE_TYPE_USER].push(member);
+                        $('#rightcontent').html(jsondata.data.page);
+                        OC.GroupCustom.initDropDown() ;
+                    }else{
+                        OC.dialogs.alert( jsondata.data.message , jsondata.data.title ) ;
+                    }           
+                });                
+                */
+                //var selectedValue = selected.item.value.
+                return true;
+            },
+        
+        });    
+}
+
+function addMember(member){
+    $('#memberList').append($('<li>').append($('<a>').text(member)));
+}
+
+function addAdmin(admin){
+    $('#adminList').append($('<li>').append($('<a>').text(admin)));
+}
+
 
 $(document).ready(function () {
     // be sure that all routes from /appinfo/routes.php are loaded
@@ -91,8 +140,14 @@ $(document).ready(function () {
                             console.log("send saved");
                     },"json");
 		        });
+		        initDropDown('#searchMember');
+		        initDropDown('#searchAdmin');
 	        });
 	    });	
+	    
+	   // var appendTo = $("#findMember").data();
+	   // OC.Share.showDropDown('file', $('#users'), appendTo, false, OC.PERMISSION_READ);
+	   // console.log(appendTo);
 	});
 });
 

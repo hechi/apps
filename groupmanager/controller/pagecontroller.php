@@ -461,5 +461,39 @@ class PageController extends Controller {
         // give back all information to the website as an JSON Object
 		return $this->renderJSON($params);
     }
+    
+    /**
+     * returns a number of users
+     *
+     * @CSRFExemption
+ 	 * @IsAdminExemption
+	 * @IsSubAdminExemption
+     */
+    public function getUsers(){
+    
+        $searchString = $this->params('searchString');
+        
+        
+        //\OCP\User::getUsers($search = '', $limit = null, $offset = null);
+        $users = \OCP\User::getUsers($searchString, $limit=4, 4);
+        
+        // create a array with parameters if need
+		$params = array();
+		// check for usernames with the searchstring
+        foreach($users as $user){
+            array_push($params,$user);
+            /*
+            $data = array( 
+                    'label' => $user,
+                    'value' => array('shareType' => \OCP\Share::SHARE_TYPE_USER,
+                                     'shareWith' => $this->api->getUserId())
+                    );
+            array_push($params,$data);
+            */
+        }
+		        
+        // give back all information to the website as an JSON Object
+		return $this->renderJSON($params);
+    }
 	
 }
