@@ -44,17 +44,25 @@ function initDropDown(tagName) {
                     }           
                 });                
                 */
-                //var selectedValue = selected.item.value.
+                var selectedValue = selected.item.value;
+                if(event.target.id==='searchMember'){
+                    addMember(selectedValue);
+                }
+                if(event.target.id==='searchAdmin'){
+                    addAdmin(selectedValue);
+                }
                 return true;
             },
         
         });    
 }
 
+// add a new Member in the ui list of members
 function addMember(member){
     $('#memberList').append($('<li>').append($('<a>').text(member)));
 }
 
+// add a new admin in the ui list of members
 function addAdmin(admin){
     $('#adminList').append($('<li>').append($('<a>').text(admin)));
 }

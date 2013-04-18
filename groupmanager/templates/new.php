@@ -14,7 +14,7 @@
             <td><label for="members">{{trans('Members')}}</label></td>
             <td>
                 <input type="text" id="members" name="members" value="{{members}}"><br>
-                <input id="searchMember" class="ui-autocomplete-input" type="text" placeholder="Share with" autocomplete="on">
+                <input id="searchMember" class="ui-autocomplete-input" type="text" placeholder="search member" autocomplete="on">
                 <ul id="memberList"></ul>                   
             </td>
             <!--<td>
@@ -27,7 +27,7 @@
             <td><label for="groupadmin">{{trans('Groupadmin')}}</label></td>
             <td>
                 <input type="text" id="groupadmin" name="groupadmin" value="{{groupadmin}}"><br>
-                <input id="searchAdmin" class="ui-autocomplete-input" type="text" placeholder="Share with" autocomplete="on">
+                <input id="searchAdmin" class="ui-autocomplete-input" type="text" placeholder="search admin" autocomplete="on">
                 <ul id="adminList"></ul>     
             </td>
         </tr>

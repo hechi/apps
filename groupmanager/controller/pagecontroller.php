@@ -473,7 +473,6 @@ class PageController extends Controller {
     
         $searchString = $this->params('searchString');
         
-        
         //\OCP\User::getUsers($search = '', $limit = null, $offset = null);
         $users = \OCP\User::getUsers($searchString, $limit=4, 4);
         
@@ -481,15 +480,10 @@ class PageController extends Controller {
 		$params = array();
 		// check for usernames with the searchstring
         foreach($users as $user){
-            array_push($params,$user);
-            /*
-            $data = array( 
-                    'label' => $user,
-                    'value' => array('shareType' => \OCP\Share::SHARE_TYPE_USER,
-                                     'shareWith' => $this->api->getUserId())
-                    );
-            array_push($params,$data);
-            */
+            // check if the username contains the searchString
+            if(stripos($user,$searchString)!==false){
+                array_push($params,$user);
+            }
         }
 		        
         // give back all information to the website as an JSON Object
