@@ -159,8 +159,8 @@ class ItemMapper extends Mapper {
 			array_push($groupmembers, $row['member']);
 		}
 		$entity = new Item($group);
-		$entity->setGroupadmin($groupadmins);
-		$entity->setGroupmember($groupmembers);
+		$entity->setAdmin($groupadmins);
+		$entity->setMember($groupmembers);
 
 		return $entity;
 	}

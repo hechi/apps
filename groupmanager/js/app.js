@@ -67,6 +67,26 @@ function addAdmin(admin){
     $('#adminList').append($('<li>').append($('<a>').text(admin)));
 }
 
+function serializeListToJSON(tagName){
+    var serialized = '{';
+    var len = $('li', tagName).length - 1;
+    var delim;
+    
+    $('li', tagName).each(function(i) {
+        var $li = $(this);
+        var $text = $li.text();
+        delim = (i < len) ? ',' : '';
+        var name = $li[0].tagName.toLowerCase();
+        serialized += '"'+ i + '":' + '"' + $text + '"' + delim;
+
+    });
+
+    serialized += '}';    
+    console.log(serialized);
+    
+    return serialized;
+}
+
 
 $(document).ready(function () {
     // be sure that all routes from /appinfo/routes.php are loaded
@@ -143,8 +163,15 @@ $(document).ready(function () {
                 $('#save').click(function(){
                     var url2 = OC.Router.generate('groupmanagerCreateGroup');
                     var post = $('#newForm').serialize();
+                    
+                    var memberList = serializeListToJSON('#memberList');
+                    var adminList = serializeListToJSON('#adminList');
+                   
+                    post+="&memberList="+memberList;
+                    post+="&adminList="+adminList;
+                    
                     console.log(post);
-                    $.post(url2,post,function(){
+                    $.post(url2,post,function(result){
                             console.log("send saved");
                     },"json");
 		        });
@@ -152,10 +179,6 @@ $(document).ready(function () {
 		        initDropDown('#searchAdmin');
 	        });
 	    });	
-	    
-	   // var appendTo = $("#findMember").data();
-	   // OC.Share.showDropDown('file', $('#users'), appendTo, false, OC.PERMISSION_READ);
-	   // console.log(appendTo);
-	});
+    });
 });
 

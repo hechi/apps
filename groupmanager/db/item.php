@@ -62,7 +62,7 @@ class Item {
 		        //echo "eintries ".$entry."\n";
 		        //check if the entry is an empty string
 		        if(!(trim($entry)==='')){
-		            $this->addGroupmember($entry);
+		            $this->addMember($entry);
 		        }
 		    }
         }
@@ -72,7 +72,7 @@ class Item {
 		        //echo "eintries ".$entry."\n";
 		        //check if the entry is an empty string
 		        if(!(trim($entry)==='')){
-		            $this->addGroupadmin($entry);
+		            $this->addAdmin($entry);
 	            }
 		    }
 	    }
@@ -150,7 +150,7 @@ class Item {
 	}
 
     //TODO not good to set member better to add and remove members
-	public function setGroupmember($memberList){
+	public function setMember($memberList){
 		$this->member = $memberList;
 	}
 	
@@ -184,7 +184,7 @@ class Item {
 	 * Add a userid as a member to the group
 	 * @param $user userid which want to be a member of the group
 	 */
-	public function addGroupmember($user){
+	public function addMember($user){
 	        array_push($this->member,$user);
 	}
 	
@@ -192,14 +192,14 @@ class Item {
 	 * Remove a userid from the members array
 	 * @param $user userid which should be remove from the list
 	 */	
-	public function removeGroupmember($user){
+	public function removeMember($user){
 	       //TODO remove from members array
 	       //cautious there should be always the groupadmin in the members
 	       //array
 	}
 	
     //TODO not goot to set groupadmin better to add and remove groupadmins
-	public function setGroupadmin($groupAdminList){
+	public function setAdmin($groupAdminList){
 		$this->groupadmin = $groupAdminList;
 	}
 
@@ -207,7 +207,7 @@ class Item {
 	 * Add a userid as a admin to the group
 	 * @param $user userid which should be a member of the group
 	 */	
-	public function addGroupadmin($user){
+	public function addAdmin($user){
 	        array_push($this->groupadmin,$user);
 	}
 	
@@ -215,7 +215,7 @@ class Item {
 	 * Remove a userid from the groupadmin array
 	 * @param $user userid which should be remove from the list
 	 */
-	public function removeGroupdamin($user){
+	public function removeAdmin($user){
 	        //TODO remove $groupadmin from groupadmin array
 	        //cautious there schould be ever at least one groupadmin
 	}

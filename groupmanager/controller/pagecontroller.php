@@ -158,7 +158,18 @@ class PageController extends Controller {
 	        //create an array with all parameters from the website
 	        //createGroup is called from Save Button in the /js/app.js
 	        $row = array();
-			print($this->params('groupname'));
+			$memStr = $this->params('memberList');
+			$admStr = $this->params('adminList');
+
+			// the first parameter is the memberList as string
+			// the second parameter says that the result will be an 
+			// associative array
+			$memberList = json_decode($memStr,TRUE);
+            $adminList = json_decode($admStr,TRUE);
+            
+			//echo "inhalt:".$memStr."\ndump:".var_dump($memberList)."\n";
+			//echo "inhalt:".$admStr."\ndump:".var_dump($adminList);
+			
             $row['groupname'] = $this->params('groupname');
             $row['members'] = $this->params('members');
             $row['groupadmin'] = $this->params('groupadmin');
@@ -168,10 +179,24 @@ class PageController extends Controller {
             //create a new Item with all information in the $row array
             $item = new Item($row);
             
+            //add all members and admins to the item
+            foreach($memberList as $mem){
+			    $item->addMember($mem);
+			}
+			
+			foreach($adminList as $adm){
+			    $item->addAdmin($adm);
+			}
+            
             //call the function from the itemMapper who save it into to
             //database
-            $this->itemMapper->save($item);                
+            $this->itemMapper->save($item);    
             
+            //send a notification back
+            $params = array(
+                        'notification' => 'saved',
+                        );
+                        
             //TODO print an sucessfull page
             //print a blank page
             return $this->render('new', array(),'blank');
@@ -470,7 +495,8 @@ class PageController extends Controller {
 	 * @IsSubAdminExemption
      */
     public function getUsers(){
-    
+        // get the given searchString from the url
+        // send by js/app.js
         $searchString = $this->params('searchString');
         
         //\OCP\User::getUsers($search = '', $limit = null, $offset = null);
@@ -482,6 +508,7 @@ class PageController extends Controller {
         foreach($users as $user){
             // check if the username contains the searchString
             if(stripos($user,$searchString)!==false){
+                // push the user in the return array
                 array_push($params,$user);
             }
         }
