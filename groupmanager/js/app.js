@@ -173,12 +173,13 @@ $(document).ready(function () {
                 // create a loop for all data in the json object
                 data.forEach(function(element,index,array){
                     // create an listItem (li) for the left content and
+                    var li;
                     if(settings["uniqueGroupIdCheck"]){
                         // fill it with the name of the groupe and the creator
-                        var li = $('<li>'+escapeHTML(element.groupcreator+':'+element.groupname)+'</li>');
+                        li = $('<li>'+escapeHTML(element.groupcreator+':'+element.groupname)+'</li>');
                     }else{
                         // fill it with the name of the groupe
-                        var li = $('<li>'+escapeHTML(element.groupname)+'</li>');
+                        li = $('<li>'+escapeHTML(element.groupname)+'</li>');
                     }
                     // register a click action on the listItem
                     li.click(function(){
@@ -246,6 +247,9 @@ $(document).ready(function () {
                                     console.log('pushed the button delete');
                                     $('#rightcontent').html(result);
                                 });
+                                // removes the li element on the leftside
+                                // if we click delete
+                                li.remove();
                              });
                         });    
                     });
