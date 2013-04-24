@@ -129,7 +129,7 @@ class PageController extends Controller {
 			//create an array with the all information of the group
 			//check if the user is a admin, write true in permission if 
 			//he is an admin, else write false
-			$permission = ($item->isAdmin($this->api->getUserId()))?'true':'false';
+			$permission=($item->isAdmin($this->api->getUserId()))?'true':'false';
 			
 			$params = array('groupname'=>$item->getGroupname(),
 			                'members'=>$item->getMemberStr(),
@@ -137,6 +137,8 @@ class PageController extends Controller {
 			                'description'=>$item->getDescription(),
 			                'permission'=>$permission,
 			                'groupcreator'=>$item->getGroupcreator(),
+			                'memberJSON'=>json_encode($item->getMemberArray()),
+			                'adminJSON'=>json_encode($item->getAdminArray()),
 			                );
 			
 		}
@@ -158,6 +160,9 @@ class PageController extends Controller {
 	        //create an array with all parameters from the website
 	        //createGroup is called from Save Button in the /js/app.js
 	        $row = array();
+	        
+	        // get the parameter from the website
+	        // will be sended by the js/app.js
 			$memStr = $this->params('memberList');
 			$admStr = $this->params('adminList');
 
@@ -171,8 +176,8 @@ class PageController extends Controller {
 			//echo "inhalt:".$admStr."\ndump:".var_dump($adminList);
 			
             $row['groupname'] = $this->params('groupname');
-            $row['members'] = $this->params('members');
-            $row['groupadmin'] = $this->params('groupadmin');
+            //$row['members'] = $this->params('members');
+            //$row['groupadmin'] = $this->params('groupadmin');
             $row['description'] = $this->params('description');
             $row['groupcreator'] = $this->api->getUserId();
             
@@ -220,16 +225,38 @@ class PageController extends Controller {
         $row = array();
         $row['groupid'] = $this->params('id');
         $row['groupname'] = $this->params('groupname');
-        $row['members'] = $this->params('members');
-        $row['groupadmin'] = $this->params('groupadmin');
+        //$row['members'] = $this->params('members');
+        //$row['groupadmin'] = $this->params('groupadmin');
         $row['description'] = $this->params('description');
         $row['groupcreator'] = $this->params('creator');
+        
+        // get the parameter from the website
+        // will be sended by the js/app.js
+        $memStr = $this->params('memberList');
+		$admStr = $this->params('adminList');
+
+		// the first parameter is the memberList as string
+		// the second parameter says that the result will be an 
+		// associative array
+		$memberList = json_decode($memStr,TRUE);
+        $adminList = json_decode($admStr,TRUE);
 	    
 	    $params = $row;
 	    $params['notification'] = 'modified';
 	    
 	    //create a new Item with all information in the $row array
         $item = new Item($row);
+        
+        //add all members and admins to the item
+        foreach($memberList as $mem){
+		    $item->addMember($mem);
+		    echo "memberadd: ".$mem;
+		}
+		
+		foreach($adminList as $adm){
+		    $item->addAdmin($adm);
+		    echo "adminadd: ".$adm;
+		}
         
         //call the function from the itemMapper who save it into to
         //database

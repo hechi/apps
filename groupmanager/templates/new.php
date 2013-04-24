@@ -1,8 +1,6 @@
 <div type="hidden" id="permission" value="{{permission}}"></div>
 <div id="notificationMod">{{notification}} </div>
 
-
-
 <form id="newForm">
     <div type="hidden" id="groupcreator" value="{{groupcreator}}"></div>
     <table border="0">
@@ -39,7 +37,3 @@
 <button id="save" >{{trans('Save')}}</button>
 <button id="cancel" >{{trans('Cancel')}}</button>
 
-
-<!-- <input id="shareWith" class="ui-autocomplete-input" type="text" placeholder="Share with" autocomplete="off">
-                <span class="ui-helper-hidden-accessible" role="status" aria-live="polite">[object Object]</span>
--->

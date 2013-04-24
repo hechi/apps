@@ -89,7 +89,7 @@ class Item {
 		return $this->groupname;
 	}
 
-	public function getMember(){
+	public function getMemberArray(){
 		return $this->member;
 	}
 	
@@ -108,7 +108,7 @@ class Item {
         return $memberStr;
 	}
 
-	public function getGroupadmin(){
+	public function getAdminArray(){
 		return $this->groupadmin;
 	}
 	

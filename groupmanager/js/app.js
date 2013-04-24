@@ -1,3 +1,6 @@
+var memberList = new Array();
+var adminList = new Array();
+
 function getSettings(){
     var getUrl = OC.Router.generate('getSettings');
     var ret = new Array();
@@ -24,8 +27,6 @@ function initDropDown(tagName) {
                        response(result.data);
                     }                
                 });
-                                //$('#shareWith').appentTo("hihi");
-                //$('#shareWith').append($( "<li>" ).append($('<a>').text("hallo")));
             },            
             focus : function(event, focused) {
                 event.preventDefault();
@@ -57,16 +58,84 @@ function initDropDown(tagName) {
         });    
 }
 
-// add a new Member in the ui list of members
+// add a new Member in the ul list of members
 function addMember(member){
-    $('#memberList').append($('<li>').append($('<a>').text(member)));
+    console.log("In list? "+inMemberList(member));
+    if(inMemberList(member)==false){
+        var li = $('<li>').append($('<a>').text(member));
+        
+        // create delete button for each li element
+        var button = $('<a></a>');
+        var pic = $('<img></img>');
+        var picFile = OC.imagePath('core', 'actions/delete.svg');
+        pic.attr('src',picFile);
+        button.append(pic);
+        console.log(pic);
+        console.log(button);
+        
+        // register a delete action for the li element
+        // delete the actual li element
+        button.click(function () {
+             $(this).parent().remove();
+        });        
+        
+        // add button to li element
+        li.append(button);
+        console.log(li);
+        $('#memberList').append(li);
+        memberList.push(member);
+    }
 }
 
-// add a new admin in the ui list of members
+// add a new admin in the ul list of members
 function addAdmin(admin){
-    $('#adminList').append($('<li>').append($('<a>').text(admin)));
+    if(inAdminList(admin)==false){
+        var li = $('<li>').append($('<a>').text(admin));
+        
+        // create delete button for each li element
+        var button = $('<a></a>');
+        var pic = $('<img></img>');
+        var picFile = OC.imagePath('core', 'actions/delete.svg');
+        pic.attr('src',picFile);
+        button.append(pic);
+        console.log(pic);
+        console.log(button);
+        
+        // register a delete action for the li element
+        // delete the actual li element
+        button.click(function () {
+             $(this).parent().remove();
+        }); 
+        
+        // add button to li element
+        li.append(button);
+        console.log(li);
+        $('#adminList').append(li);
+        adminList.push(admin);
+    }
 }
 
+function inMemberList(member){
+    for(var i in memberList){
+        if(memberList[i]==member){
+            return true; 
+        }
+    }
+    return false;
+}
+
+function inAdminList(admin){
+    for(adm in adminList){
+        if(adm==admin){
+            return true; 
+        }
+    }
+    return false;
+}
+
+
+// searialize a list to a jsonstring
+// this jsonstring can be used in an php document to parse it into an array
 function serializeListToJSON(tagName){
     var serialized = '{';
     var len = $('li', tagName).length - 1;
@@ -82,7 +151,7 @@ function serializeListToJSON(tagName){
     });
 
     serialized += '}';    
-    console.log(serialized);
+    //console.log(serialized);
     
     return serialized;
 }
@@ -121,6 +190,29 @@ $(document).ready(function () {
                             // fill the rightcontent of the view with the result
                             // from the url
                             $('#rightcontent').html(result);
+                            // get the memberList as a json string and parse it
+                            // to a json object/array
+                            var getMemberList = $.parseJSON($('#memberJSON').attr('value'));
+                            // clear list because if some one clicks twice
+                            memberList = new Array();
+                            // add all members from the list to the page
+                            $.each(getMemberList, function(i, member) {
+                                addMember(member);
+                            });
+                            
+                            // get the adminList as a json string and parse it
+                            // to a json object/array
+                            var getAdminList = $.parseJSON($('#adminJSON').attr('value'));
+                            // clear list because if some one clicks twice
+                            adminList = new Array();
+                            // add all admins from the list to the page
+                            $.each(getAdminList, function(i, admin) {
+                                addAdmin(admin);
+                            });
+
+            		        initDropDown('#searchMember');
+		                    initDropDown('#searchAdmin');
+
                             // get permissions field from the result
                             var $permission = $('#permission').attr('value');
                             // if the permission is false than the user 
@@ -133,11 +225,18 @@ $(document).ready(function () {
                                 $('#modify').click(function(){
                                     var url3 = OC.Router.generate('groupmanagerModifyGroup',{id:element.groupid,creator:element.groupcreator});
                                     var post = $('#modForm').serialize();
+                                    
+                                    var memberList = serializeListToJSON('#memberList');
+                                    var adminList = serializeListToJSON('#adminList');
+                   
+                                    post+="&memberList="+memberList;
+                                    post+="&adminList="+adminList;
+                                    
                                     console.log('Stuff '+post);
                                     $.post(url3,post,function(result){
                                         console.log('print new content');
                                         $('#rightcontent').html(result);
-                                    });
+                                    },"json");
                                  });
                              }
                              $('#delete').click(function(){

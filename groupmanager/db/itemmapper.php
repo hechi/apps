@@ -213,7 +213,7 @@ class ItemMapper extends Mapper {
 		$this->execute($sqlGroup, $paramsGroup);
 		$item->setGroupid($this->api->getInsertId($this->tableName));
 
-		foreach( $item->getGroupadmin() as $admin){
+		foreach( $item->getAdminArray() as $admin){
 	        //create parameter list
 	        $paramsGroupadmin = array(
 	            $item->getGroupid(),
@@ -222,7 +222,7 @@ class ItemMapper extends Mapper {
 	        // fire sql query to the database
 	        $this->execute($sqlGroupadmins,$paramsGroupadmin);
 	    }
-	    foreach( $item->getMember() as $member){
+	    foreach( $item->getMemberArray() as $member){
 	        //create parameter list
 	        //echo ' members ->'.$member;
 	        $paramsGroupmembers = array(
@@ -276,7 +276,7 @@ class ItemMapper extends Mapper {
 		$sqlGroupmembers = 'INSERT INTO `'. $this->tableMember . '`(`groupid`, `member`)'.
 		        ' VALUES(?, ?)';
 	    
-	    foreach( $item->getGroupadmin() as $admin){
+	    foreach( $item->getAdminArray() as $admin){
 	        //create parameter list
 	        $paramsGroupadmin = array(
 	            $item->getGroupid(),
@@ -285,7 +285,7 @@ class ItemMapper extends Mapper {
 	        // fire sql query to the database
 	        $this->execute($sqlGroupadmins,$paramsGroupadmin);
 	    }
-	    foreach( $item->getMember() as $member){
+	    foreach( $item->getMemberArray() as $member){
 	        //create parameter list
 	        //echo ' members ->'.$member;
 	        $paramsGroupmembers = array(

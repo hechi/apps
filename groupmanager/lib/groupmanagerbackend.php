@@ -173,7 +173,7 @@ class GroupmanagerBackend implements \OCP\GroupInterface {
     public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0){
         $item = $this->findGroupByName($gid);
         $users = $item->getMember();
-        foreach($item->getGroupadmin() as $admin){
+        foreach($item->getAdminArray() as $admin){
             if(!in_array($admin,$users)){
                 array_push($users,$admin);
             }
@@ -326,8 +326,8 @@ class GroupmanagerBackend implements \OCP\GroupInterface {
 			array_push($groupmembers, $row['member']);
 		}
 		$entity = new Item($group);
-		$entity->setGroupadmin($groupadmins);
-		$entity->setGroupmember($groupmembers);
+		$entity->setAdmin($groupadmins);
+		$entity->setMember($groupmembers);
 
 		return $entity;
 	}
