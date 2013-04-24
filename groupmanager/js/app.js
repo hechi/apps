@@ -277,6 +277,22 @@ $(document).ready(function () {
                     $.post(url2,post,function(result){
                             console.log("send saved");
                     },"json");
+                    
+                    // create an listItem (li) for the left content and
+                    var li;
+                    if(settings["uniqueGroupIdCheck"]){
+                        // fill it with the name of the groupe and the creator
+                        //li = $('<li>'+escapeHTML(element.groupcreator+':'+element.groupname)+'</li>');
+                        var groupname = $('#groupname');
+                        var user = $('#groupcreator');
+                        li = $('<li>'+escapeHTML(user.attr('value')+':'+groupname.val())+'</li>');
+                    }else{
+                        // fill it with the name of the groupe
+                        var groupname = $('#groupname');
+                        li = $('<li>'+escapeHTML(groupname.val())+'</li>');
+                    }
+                    
+                    $('#leftcontent').append(li);
 		        });
 		        initDropDown('#searchMember');
 		        initDropDown('#searchAdmin');

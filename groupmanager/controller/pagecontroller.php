@@ -118,6 +118,10 @@ class PageController extends Controller {
 		if($id=='new'){
     		//if the id is new, than we want to get the template new
 			$templateName = 'new';
+			
+			$params = array('groupcreator'=>$this->api->getUserId(),
+			               );
+			
 		}else{
 	        //if the id is not new (better a number) than we
 	        //want the edit template withe the group who is selected
