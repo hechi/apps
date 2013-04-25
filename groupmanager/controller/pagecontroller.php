@@ -2,7 +2,7 @@
 
 /**
 * @author Andreas Hechenberger
-* @copyright 2012 Andreas Hechenberger oc@hechenberger.me
+* @copyright 2013 Andreas Hechenberger oc@hechenberger.me
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -203,12 +203,13 @@ class PageController extends Controller {
             
             //send a notification back
             $params = array(
+                        'groupid'=>$item->getGroupid(),
                         'notification' => 'saved',
                         );
                         
             //TODO print an sucessfull page
             //print a blank page
-            return $this->render('new', array(),'blank');
+            return $this->render('new', $params,'blank');
 	}
 	
 	/**

@@ -70,8 +70,8 @@ function addMember(member){
         var picFile = OC.imagePath('core', 'actions/delete.svg');
         pic.attr('src',picFile);
         button.append(pic);
-        console.log(pic);
-        console.log(button);
+        //console.log(pic);
+        //console.log(button);
         
         // register a delete action for the li element
         // delete the actual li element
@@ -81,7 +81,7 @@ function addMember(member){
         
         // add button to li element
         li.append(button);
-        console.log(li);
+        //console.log(li);
         $('#memberList').append(li);
         memberList.push(member);
     }
@@ -98,8 +98,8 @@ function addAdmin(admin){
         var picFile = OC.imagePath('core', 'actions/delete.svg');
         pic.attr('src',picFile);
         button.append(pic);
-        console.log(pic);
-        console.log(button);
+        //console.log(pic);
+        //console.log(button);
         
         // register a delete action for the li element
         // delete the actual li element
@@ -109,7 +109,7 @@ function addAdmin(admin){
         
         // add button to li element
         li.append(button);
-        console.log(li);
+        //console.log(li);
         $('#adminList').append(li);
         adminList.push(admin);
     }
@@ -263,20 +263,25 @@ $(document).ready(function () {
 	        var url=OC.Router.generate('groupmanagerGetRightContent', {id:'new'});
 	        $.get(url,function(result){
                 $('#rightcontent').html(result);
+                var groupId;
+                var groupCreator;
                 $('#save').click(function(){
                     var url2 = OC.Router.generate('groupmanagerCreateGroup');
                     var post = $('#newForm').serialize();
                     
-                    var memberList = serializeListToJSON('#memberList');
-                    var adminList = serializeListToJSON('#adminList');
+                    var memberListTMP = serializeListToJSON('#memberList');
+                    var adminListTMP = serializeListToJSON('#adminList');
                    
-                    post+="&memberList="+memberList;
-                    post+="&adminList="+adminList;
+                    post+="&memberList="+memberListTMP;
+                    post+="&adminList="+adminListTMP;
                     
                     console.log(post);
                     $.post(url2,post,function(result){
                             console.log("send saved");
-                    },"json");
+                            $('#rightcontent').html(result);
+                            groupId=$('#groupid').attr('value');
+                            groupCreator=$('#groupcreator').attr('value');
+                    });
                     
                     // create an listItem (li) for the left content and
                     var li;
@@ -291,7 +296,78 @@ $(document).ready(function () {
                         var groupname = $('#groupname');
                         li = $('<li>'+escapeHTML(groupname.val())+'</li>');
                     }
-                    
+                    li.click(function(){
+                    // generate a url from the /appinfo/routes.php and
+                        // take the groupid as id as an parameter for the link
+                        console.log("Klick");
+                        var url=OC.Router.generate('groupmanagerGetRightContent', {id:groupId});
+                        // get the page from the url
+                        $.get(url,function(result){
+                            // fill the rightcontent of the view with the result
+                            // from the url
+                            $('#rightcontent').html(result);
+                            // get the memberList as a json string and parse it
+                            // to a json object/array
+                            var getMemberList = $.parseJSON($('#memberJSON').attr('value'));
+                            // clear list because if some one clicks twice
+                            memberList = new Array();
+                            // add all members from the list to the page
+                            $.each(getMemberList, function(i, member) {
+                                addMember(member);
+                            });
+                            
+                            // get the adminList as a json string and parse it
+                            // to a json object/array
+                            var getAdminList = $.parseJSON($('#adminJSON').attr('value'));
+                            // clear list because if some one clicks twice
+                            adminList = new Array();
+                            // add all admins from the list to the page
+                            $.each(getAdminList, function(i, admin) {
+                                addAdmin(admin);
+                            });
+
+            		        initDropDown('#searchMember');
+		                    initDropDown('#searchAdmin');
+
+                            // get permissions field from the result
+                            var $permission = $('#permission').attr('value');
+                            // if the permission is false than the user 
+                            // do not have the permission to modify the
+                            // group
+                            if($permission==='false'){
+                                $('#modify').hide();
+                            }else{
+                                // register a click action on the buttons
+                                $('#modify').click(function(){
+                                    var url3 = OC.Router.generate('groupmanagerModifyGroup',{id:groupId,creator:groupCreator});
+                                    var post = $('#modForm').serialize();
+                                    
+                                    var memberListTMP = serializeListToJSON('#memberList');
+                                    var adminListTMP = serializeListToJSON('#adminList');
+                   
+                                    post+="&memberList="+memberListTMP;
+                                    post+="&adminList="+adminListTMP;
+                                    
+                                    console.log('Stuff '+post);
+                                    $.post(url3,post,function(result){
+                                        console.log('print new content');
+                                        $('#rightcontent').html(result);
+                                    },"json");
+                                 });
+                             }
+                             $('#delete').click(function(){
+                                //TODO mod DB
+                                var url4 = OC.Router.generate('groupmanagerDeleteGroup',{id:groupId});
+                                $.post(url4,function(result){
+                                    console.log('pushed the button delete');
+                                    $('#rightcontent').html(result);
+                                });
+                                // removes the li element on the leftside
+                                // if we click delete
+                                li.remove();
+                             });
+                        });  
+                      });  
                     $('#leftcontent').append(li);
 		        });
 		        initDropDown('#searchMember');

@@ -1,4 +1,5 @@
 <div type="hidden" id="permission" value="{{permission}}"></div>
+<div type="hidden" id="groupid" value="{{groupid}}"></div>
 <div id="notificationMod">{{notification}} </div>
 
 <form id="newForm">
