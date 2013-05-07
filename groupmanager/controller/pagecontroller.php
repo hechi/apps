@@ -538,9 +538,18 @@ class PageController extends Controller {
 		$params = array();
 		// check for usernames with the searchstring
         foreach($users as $user){
-            // check if the username contains the searchString
-            if(stripos($user,$searchString)!==false){
-                // push the user in the return array
+            // check if autocompletion is true, than we are allow to search
+            // in the username for characters, else it must be the whole
+            // username
+            if($this->getAutocompletionSetting()===true){
+                // check if the username contains the searchString
+                if(stripos($user,$searchString)!==false){
+                    // push the user in the return array
+                    array_push($params,$user);
+                }
+            }else if($searchString===$user){
+                // only push the username in the array if it is the same as
+                // the searchsSring
                 array_push($params,$user);
             }
         }
