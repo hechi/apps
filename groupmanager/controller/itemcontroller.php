@@ -1,7 +1,7 @@
 <?php
 
 /**
-* ownCloud - App Template Example
+* ownCloud - Groupmanager App
 *
 * @author Andreas Hechenberger
 * @copyright 2012 Andreas Hechenberger oc@hechenberger.me

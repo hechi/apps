@@ -1,10 +1,10 @@
 <?php
 
 /**
-* ownCloud – groupmanager backend
+* ownCloud - Groupmanager App
 *
 * @author Andreas Hechenberger
-* @copyright 2012 Andreas Hechenberger oc@hechenberger.me
+* @copyright 2013 Andreas Hechenberger oc@hechenberger.me
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -13,11 +13,11 @@
 *
 * This library is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
 *
 * You should have received a copy of the GNU Affero General Public
-* License along with this library. If not, see <http://www.gnu.org/licenses/>.
+* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 *
 */
 

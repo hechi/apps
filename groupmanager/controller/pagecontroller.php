@@ -1,6 +1,8 @@
 <?php
 
 /**
+* ownCloud - Groupmanager App
+*
 * @author Andreas Hechenberger
 * @copyright 2013 Andreas Hechenberger oc@hechenberger.me
 *

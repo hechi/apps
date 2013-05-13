@@ -1,9 +1,9 @@
 <?php
 /**
-* ownCloud - App Template Example
+* ownCloud - Groupmanager App
 *
 * @author Andreas Hechenberger
-* @copyright 2012 Andreas Hechenberger oc@hechenberger.me
+* @copyright 2013 Andreas Hechenberger oc@hechenberger.me
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
